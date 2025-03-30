@@ -2,8 +2,10 @@ package services;
 
 import services.panels.PacientiPanel;
 import services.services.PacientiServices;
+import services.panels.AngajatiPanel;
 import javax.swing.*;
 import java.awt.*;
+import java.lang.management.ManagementFactory;
 
 //clasa Home extinde clasa JFrame
 //se va face o noua fereastra din care vom avea mai multe optiuni
@@ -40,6 +42,10 @@ public class Home extends JFrame
         PacientiPanel pacientiPanel = new PacientiPanel(pacientiService, cardLayout, mainPanel);
         mainPanel.add(pacientiPanel, "PacientiPanel");
 
+        //panoul pentru administrarea angajatilor din sistem
+        AngajatiPanel angajatiPanel = new AngajatiPanel(cardLayout,mainPanel);
+        mainPanel.add(angajatiPanel, "AngajatiPanel");
+
         add(mainPanel);
         setVisible(true);
     }
@@ -58,15 +64,16 @@ public class Home extends JFrame
         panel.add(menuLabel);
 
         // Buton pentru navigarea către panoul de Administrare al pacienților
-        JButton adminPacientiButton = new JButton("Administrează Pacienți");
+        JButton adminPacientiButton = new JButton("Administreaza Pacienti");
         adminPacientiButton.setBounds(175, 150, 250, 40);  // Setăm poziția și dimensiunea butonului
         adminPacientiButton.addActionListener(e -> cardLayout.show(mainPanel, "PacientiPanel"));
         panel.add(adminPacientiButton);
 
         // Poți adăuga mai multe butoane similare
-        JButton altButon = new JButton("Alt Buton");
-        altButon.setBounds(175, 220, 250, 40);  // Setăm poziția și dimensiunea acestui buton
-        panel.add(altButon);
+        JButton adminAngajatiButton = new JButton("Administreaza Angajati");
+        adminAngajatiButton.setBounds(175, 220, 250, 40);  // Setăm poziția și dimensiunea acestui buton
+        adminAngajatiButton.addActionListener(e-> cardLayout.show(mainPanel,"AngajatiPanel"));
+        panel.add(adminAngajatiButton);
 
         return panel;  // Returnăm panoul creat
     }

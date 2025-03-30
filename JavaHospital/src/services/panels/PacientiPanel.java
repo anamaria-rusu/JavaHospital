@@ -35,6 +35,8 @@ public class PacientiPanel extends JPanel
         adaugaPacientButton.addActionListener(e -> cardLayout.show(mainPanel, "AdaugaPacienti"));
         add(adaugaPacientButton);
 
+
+        //"Home" trebuie să fie numele unui panou adăugat anterior în mainPanel folosind mainPanel.add(homePanel, "Home").
         JButton homePanelButton = new JButton("Înapoi");
         homePanelButton.setBounds(175, 220, 250, 40);
         homePanelButton.addActionListener(e -> cardLayout.show(mainPanel, "Home"));
