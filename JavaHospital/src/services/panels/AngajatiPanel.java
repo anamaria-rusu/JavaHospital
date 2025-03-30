@@ -3,6 +3,9 @@ package services.panels;
 import javax.swing.*;
 import java.awt.*;
 
+// panel ce va contine meniul pentru angajatii spitalului
+// angajatii sunt medici si asistene
+
 
 public class AngajatiPanel extends JPanel {
 
@@ -12,6 +15,8 @@ public class AngajatiPanel extends JPanel {
     public AngajatiPanel(CardLayout cardLayout, JPanel mainPanel){
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
+
+        //configurarea UI
 
         setBackground(Color.decode("#89CFF0"));
         setLayout(null);
@@ -36,8 +41,10 @@ public class AngajatiPanel extends JPanel {
         homePanelButton.addActionListener(e->cardLayout.show(mainPanel,"Home"));
         add(homePanelButton);
 
-//        mainPanel.add(new MediciPanel(cardLayout,mainPanel),"MediciPanel");
-//        mainPanel.add(new AsistentePanel(cardLayout,mainPanel),"MediciPanel");
+
+        //Legaturi cu MediciPanel si AsistentePanel
+        mainPanel.add(new MediciPanel(cardLayout,mainPanel),"MediciPanel");
+//      mainPanel.add(new AsistentePanel(cardLayout,mainPanel),"MediciPanel");
     }
 
 }

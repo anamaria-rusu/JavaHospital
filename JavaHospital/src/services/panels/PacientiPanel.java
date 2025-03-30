@@ -4,6 +4,8 @@ import services.services.PacientiServices;
 import javax.swing.*;
 import java.awt.*;
 
+// PacientiPanel ofera functionalitatile pentru gestiunea pacientilor
+
 public class PacientiPanel extends JPanel
 {
     private CardLayout cardLayout;
@@ -44,7 +46,6 @@ public class PacientiPanel extends JPanel
 
         // Înregistrează panoul de pacienți cu un nume corect
         // mainPanel.add(this, "PacientiPanel");
-
         // Adaugă celelalte panouri în mainPanel
         mainPanel.add(new PacientiAddPanel(service, cardLayout, mainPanel), "AdaugaPacienti");
         mainPanel.add(new PacientiListPanel(service, cardLayout, mainPanel), "AfiseazaPacienti");
