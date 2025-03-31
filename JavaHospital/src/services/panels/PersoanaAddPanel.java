@@ -87,7 +87,7 @@ public abstract class PersoanaAddPanel extends JPanel {
     }
 
     // formatarea datei calendaristice
-    protected LocalDate getSelectedDate() {
+    protected LocalDate getSelectedDate(JDateChooser dateChooser) {
         java.util.Date dataSelectata = dateChooser.getDate();
         if (dataSelectata != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

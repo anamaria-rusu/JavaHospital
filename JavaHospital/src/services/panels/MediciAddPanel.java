@@ -42,9 +42,8 @@ public class MediciAddPanel extends PersoanaAddPanel {
         // extragerea informatiilor din Label-uri
         String nume = numeField.getText();
         String prenume = prenumeField.getText();
-        LocalDate dataNasterii = getSelectedDate();
-        //LocalDate dataAngajarii = getSelectedDate(dateAngajareChooser);
-        LocalDate dataAngajarii = getSelectedDate();
+        LocalDate dataNasterii = getSelectedDate(dateChooser);  // Data nașterii
+        LocalDate dataAngajarii = getSelectedDate(dateAngajareChooser);  // Data angajării
         String telefon = telefonField.getText();
         String email = emailField.getText();
 

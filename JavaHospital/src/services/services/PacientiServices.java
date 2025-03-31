@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacientiServices {
+public class PacientiServices implements PersoanaServices<Pacient> {
 
     private List<Pacient> pacienti = new ArrayList<>();
 
@@ -14,7 +14,9 @@ public class PacientiServices {
         pacienti.add(new Pacient(nume,prenume,dataNasterii,telefon,email));
     }
 
-    public List<Pacient> getPacienti() {
+    public List<Pacient> getPersoane() {
         return new ArrayList<>(pacienti);
     }
 }
+
+

@@ -46,7 +46,7 @@ public class MediciPanel extends JPanel{
 
         //legatura cu AdaugaMedici si AfiseazaMedici
         parentPanel.add(new MediciAddPanel(mediciService, cardLayout, parentPanel), "AdaugaMedici");
-        //parentPanel.add(new MediciListPanel(mediciService, cardLayout, parentPanel), "AfiseazaMedici");
+        parentPanel.add(new MediciListPanel(mediciService, cardLayout, parentPanel), "AfiseazaMedici");
 
     }
 }
