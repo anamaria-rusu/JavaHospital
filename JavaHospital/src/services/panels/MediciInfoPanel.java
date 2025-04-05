@@ -26,6 +26,14 @@ public class MediciInfoPanel extends PersoanaInfoPanel {
         dataAngajariiPersoana.setBounds(160, 270, 200, 30);
         add(dataAngajariiPersoana);
 
-        backButton.setBounds(50, 320, 100, 30);
+        JLabel departamentLabel = new JLabel("Departament:");
+        departamentLabel.setBounds(50, 310, 100, 30);
+        add(departamentLabel);
+
+        JLabel departamentPersoana = new JLabel(medic.getDepartamentMedical());
+        departamentPersoana.setBounds(160, 310, 200, 30);
+        add(departamentPersoana);
+
+        backButton.setBounds(50, 360, 100, 30);
     }
 }

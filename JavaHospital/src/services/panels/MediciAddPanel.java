@@ -5,18 +5,23 @@ import java.awt.*;
 import javax.swing.*;
 import java.time.LocalDate;
 import com.toedter.calendar.JDateChooser;
+import services.services.Services;
+
+import java.util.*;
 
 // MediciAddPanel adauga un nou medic
 // Ea extinde clasa PersoanaAddPanel care contine campuri generale pentru un individ
 // Astfel, se ilustreaza reutilizarea codului
 
 public class MediciAddPanel extends PersoanaAddPanel {
-    private MediciServices service;
+    private Services services;
     private JDateChooser dateAngajareChooser;
+    private JComboBox departamentComboBox;
 
-    public MediciAddPanel(MediciServices service, CardLayout cardLayout, JPanel parentPanel) {
+
+    public MediciAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel) {
         super(cardLayout, parentPanel, "Adauga Medic");
-        this.service = service;
+        this.services = services;
 
         // Campul pentru data angajarii
         JLabel dataAngajariiLabel = new JLabel("Data angajarii:");
@@ -28,9 +33,21 @@ public class MediciAddPanel extends PersoanaAddPanel {
         dateAngajareChooser.setBounds(150, 270, 200, 30);
         add(dateAngajareChooser);
 
+
+        JLabel departamentLabel = new JLabel("Departament:");
+        departamentLabel.setBounds(50, 310, 100, 30);
+        add(departamentLabel);
+
+
+        departamentComboBox = new JComboBox<>();
+        departamentComboBox.setBounds(150, 310, 200, 30);
+        add(departamentComboBox);
+
+        getDepartamente();
+
         // Reajustam butoanele pentru a nu se suprapune
-        adaugaButton.setBounds(150, 320, 150, 30);
-        backButton.setBounds(150, 360, 150, 30);
+        adaugaButton.setBounds(150, 360, 150, 30);
+        backButton.setBounds(150, 410, 150, 30);
 
         // Setam butonul de back sa ne duca inapoi in MediciPanel
         setBackButton("MediciPanel");
@@ -46,10 +63,11 @@ public class MediciAddPanel extends PersoanaAddPanel {
         LocalDate dataAngajarii = getSelectedDate(dateAngajareChooser);  // Data angajării
         String telefon = telefonField.getText();
         String email = emailField.getText();
+        String departament = (String) departamentComboBox.getSelectedItem();
 
         // verificare datelor
-        if (!nume.isEmpty() && !prenume.isEmpty() && dataNasterii != null && dataAngajarii != null && !telefon.isEmpty() && !email.isEmpty()) {
-            service.adaugaMedic(nume, prenume, dataNasterii, email,telefon, dataAngajarii ,"");
+        if (!nume.isEmpty() && !prenume.isEmpty() && dataNasterii != null && dataAngajarii != null && !telefon.isEmpty() && !email.isEmpty() && departament != null) {
+            services.getMediciServices().adaugaMedic(nume, prenume, dataNasterii, email,telefon, dataAngajarii ,departament);
             JOptionPane.showMessageDialog(this, "Medic adăugat cu succes!");
             clearFields();
 
@@ -58,21 +76,29 @@ public class MediciAddPanel extends PersoanaAddPanel {
         }
     }
 
-//    private LocalDate getSelectedDateFromChooser(JDateChooser chooser) {
-//        java.util.Date dataSelectata = chooser.getDate();
-//        if (dataSelectata != null) {
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//            String dataFormatata = dateFormat.format(dataSelectata);
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//            return LocalDate.parse(dataFormatata, formatter);
-//        }
-//        return null;
-//    }
+    private void getDepartamente() {
+        //departamentComboBox.removeAllItems();
+
+        // Inițializăm un Set cu departamente predefinite
+        Set<String> departamente = new LinkedHashSet<>();
+        departamente.add("Cardiologie");
+        departamente.add("Neurologie");
+        departamente.add("Chirurgie");
+        departamente.add("Pediatrie");
+        departamente.add("Ortopedie");
+
+        // Adăugăm toate departamentele unice în JComboBox
+        for (String departament : departamente) {
+            departamentComboBox.addItem(departament);
+        }
+    }
+
 
     @Override
     protected void clearFields(){
         super.clearFields();
         dateAngajareChooser.setDate(null);
+        departamentComboBox.setSelectedIndex(-1);
     }
 
 }

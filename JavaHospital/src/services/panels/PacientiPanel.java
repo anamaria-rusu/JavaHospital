@@ -1,6 +1,8 @@
 package services.panels;
 
 import services.services.PacientiServices;
+import services.services.Services;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,9 +12,9 @@ public class PacientiPanel extends JPanel
 {
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private PacientiServices service;
+    private Services service;
 
-    public PacientiPanel(PacientiServices service, CardLayout cardLayout, JPanel mainPanel)
+    public PacientiPanel(Services service, CardLayout cardLayout, JPanel mainPanel)
     {
         this.service = service;
         this.cardLayout = cardLayout;

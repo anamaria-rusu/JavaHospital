@@ -2,13 +2,15 @@ package services.panels;
 
 import entities.Medic;
 import services.services.MediciServices;
+import services.services.Services;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MediciListPanel extends PersoanaListPanel<Medic> {
 
-    public MediciListPanel(MediciServices service, CardLayout cardLayout, JPanel parentPanel) {
-        super(service, cardLayout, parentPanel, "Lista Medicii");
+    public MediciListPanel(Services service, CardLayout cardLayout, JPanel parentPanel) {
+        super(service.getMediciServices(), cardLayout, parentPanel, "Lista Medicii");
         setBackButton("MediciPanel");
     }
 

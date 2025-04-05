@@ -3,6 +3,9 @@ package services;
 import services.panels.PacientiPanel;
 import services.services.PacientiServices;
 import services.panels.AngajatiPanel;
+import services.panels.ConsultatiePanel;
+import services.services.Services;
+
 import javax.swing.*;
 import java.awt.*;
 import java.lang.management.ManagementFactory;
@@ -17,7 +20,7 @@ public class Home extends JFrame
 {
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private PacientiServices pacientiService;
+    private Services services;
 
     public Home()
     {
@@ -29,9 +32,9 @@ public class Home extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        pacientiService = new PacientiServices(); //serviciile disponibile pentru pacienti
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout); // panoul se va organiza folosind card-uri ( la un momennt, doar un card e vizibil in panel)
+        services = new Services();
 
         //panoul Home
         JPanel homePanel = createHomePanel();
@@ -39,12 +42,17 @@ public class Home extends JFrame
         mainPanel.add(homePanel, "Home");
 
         //panoul pentru administrarea pacientilor
-        PacientiPanel pacientiPanel = new PacientiPanel(pacientiService, cardLayout, mainPanel);
+        PacientiPanel pacientiPanel = new PacientiPanel(services, cardLayout, mainPanel);
         mainPanel.add(pacientiPanel, "PacientiPanel");
 
         //panoul pentru administrarea angajatilor din sistem
-        AngajatiPanel angajatiPanel = new AngajatiPanel(cardLayout,mainPanel);
+        AngajatiPanel angajatiPanel = new AngajatiPanel(services, cardLayout,mainPanel);
         mainPanel.add(angajatiPanel, "AngajatiPanel");
+
+        // panoul pentru consulatii
+        ConsultatiePanel consultatiePanel = new ConsultatiePanel(cardLayout,mainPanel,services);
+        mainPanel.add(consultatiePanel, "ConsultatiePanel");
+
 
         add(mainPanel);
         setVisible(true);
@@ -69,11 +77,18 @@ public class Home extends JFrame
         adminPacientiButton.addActionListener(e -> cardLayout.show(mainPanel, "PacientiPanel"));
         panel.add(adminPacientiButton);
 
-        // Poți adăuga mai multe butoane similare
+        // Buton pentru navigarea către panoul de Administrare al angajatilor
         JButton adminAngajatiButton = new JButton("Administreaza Angajati");
         adminAngajatiButton.setBounds(175, 220, 250, 40);  // Setăm poziția și dimensiunea acestui buton
         adminAngajatiButton.addActionListener(e-> cardLayout.show(mainPanel,"AngajatiPanel"));
         panel.add(adminAngajatiButton);
+
+
+        //  Buton pentru navigarea către panoul de consultatii
+        JButton consulatieButton = new JButton("Consultatii");
+        consulatieButton.setBounds(175, 290, 250, 40);  // Setăm poziția și dimensiunea acestui buton
+        consulatieButton.addActionListener(e-> cardLayout.show(mainPanel,"ConsultatiePanel"));
+        panel.add(consulatieButton);
 
         return panel;  // Returnăm panoul creat
     }
@@ -86,107 +101,3 @@ public class Home extends JFrame
 
 
 
-
-
-
-//package services;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//
-//
-//public class Home extends JFrame implements ActionListener {
-//
-//    private JPanel homePanel;
-//    private CardLayout cardLayout; //pentru a gestiona mai multe componente ntr-un singur container/ la un moment dat doar un sigur card este vizibil
-//
-//    private JButton admPacentiBtn;
-//    private JButton admPersonalBtn;
-//
-//    public Home()
-//    {
-//        //configurari frame Home
-//        setTitle("Home Page");
-//        setSize(800,600);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setLocationRelativeTo(null);
-//
-//        pacientiService = new PacientiService();
-//
-//        cardLayout = new CardLayout();
-//        homePanel = new JPanel(cardLayout); // JPanel care foloseste "CardLayout" pentru gestionarea aspectului
-//
-//        //adaugarea card-urilor
-//        homePanel.add(createHomePanel(), "Home");
-//        homePanel.add(createAdminPanel("Administrare Pacienti"), "Pacienti");
-//        homePanel.add(createAdminPanel("Administrare Personal"), "Personal");
-//
-//        //adaugam homePanel in frame
-//        add(homePanel);
-//        setVisible(true);
-//
-//    }
-//
-//
-//    private JPanel createHomePanel()
-//    {
-//        JPanel homePanel = new JPanel();
-//        homePanel.setLayout(new FlowLayout());
-//        homePanel.add(createButtonPanel());
-//        return homePanel;
-//    }
-//
-//    private JPanel createButtonPanel()
-//    {
-//        JPanel buttonPanel = new JPanel(new FlowLayout());
-//
-//        admPacentiBtn = new JButton("Administreaza Pacienti");
-//        admPacentiBtn.addActionListener(this);
-//
-//        admPersonalBtn = new JButton("Administreaza Personal");
-//        admPersonalBtn.addActionListener(this);
-//
-//        buttonPanel.add(admPacentiBtn);
-//        buttonPanel.add(admPersonalBtn);
-//
-//        return buttonPanel;
-//
-//    }
-//
-//    private JPanel createAdminPanel(String title)
-//    {
-//        JPanel panel = new JPanel(new BorderLayout());
-//        JLabel label = new JLabel(title, JLabel.CENTER);
-//        panel.add(label, BorderLayout.CENTER);
-//        panel.add(createBackButton(), BorderLayout.SOUTH);
-//        return panel;
-//    }
-//
-//    private JButton createBackButton()
-//    {
-//        JButton backButton = new JButton("Inapoi");
-//        backButton.addActionListener(e -> switchPanel("Home"));
-//        return backButton;
-//    }
-//
-//    private void switchPanel(String panelName) {
-//        cardLayout.show(homePanel, panelName);
-//    }
-//
-//    @Override
-//    public void actionPerformed(ActionEvent e)
-//    {
-//        if (e.getSource() == admPacentiBtn) {
-//            switchPanel("Pacienti");
-//        } else if (e.getSource() == admPersonalBtn) {
-//            switchPanel("Medici");
-//        }
-//    }
-//
-//
-//    public static void main(String[] args) {
-//        new Home();
-//    }
-//}

@@ -1,5 +1,6 @@
 package services.panels;
 import services.services.MediciServices;
+import services.services.Services;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +10,12 @@ import java.awt.*;
 public class MediciPanel extends JPanel{
     private CardLayout cardLayout;
     private JPanel parentPanel;
-    private MediciServices mediciService;
+    private Services services;
 
-    public MediciPanel(CardLayout cardLayout, JPanel parentPanel) {
+    public MediciPanel(Services services,CardLayout cardLayout, JPanel parentPanel) {
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
-        mediciService = new MediciServices();
+        this.services = services;
 
 
         //configurare UI
@@ -28,15 +29,15 @@ public class MediciPanel extends JPanel{
         menuLabel.setBounds(100, 30, 400, 40);
         add(menuLabel);
 
-        JButton veziPacientiButton = new JButton("Vezi Medici");
-        veziPacientiButton.setBounds(175, 100, 250, 40);
-        veziPacientiButton.addActionListener(e -> cardLayout.show(parentPanel, "AfiseazaMedici"));
-        add(veziPacientiButton);
+        JButton veziMediciButton = new JButton("Vezi Medici");
+        veziMediciButton.setBounds(175, 100, 250, 40);
+        veziMediciButton.addActionListener(e -> cardLayout.show(parentPanel, "AfiseazaMedici"));
+        add(veziMediciButton);
 
-        JButton adaugaPacientButton = new JButton("Adaugă Medic");
-        adaugaPacientButton.setBounds(175, 160, 250, 40);
-        adaugaPacientButton.addActionListener(e -> cardLayout.show(parentPanel, "AdaugaMedici"));
-        add(adaugaPacientButton);
+        JButton adaugaMedicButton = new JButton("Adaugă Medic");
+        adaugaMedicButton.setBounds(175, 160, 250, 40);
+        adaugaMedicButton.addActionListener(e -> cardLayout.show(parentPanel, "AdaugaMedici"));
+        add(adaugaMedicButton);
 
         JButton homePanelButton = new JButton("Înapoi");
         homePanelButton.setBounds(175, 220, 250, 40);
@@ -45,8 +46,8 @@ public class MediciPanel extends JPanel{
 
 
         //legatura cu AdaugaMedici si AfiseazaMedici
-        parentPanel.add(new MediciAddPanel(mediciService, cardLayout, parentPanel), "AdaugaMedici");
-        parentPanel.add(new MediciListPanel(mediciService, cardLayout, parentPanel), "AfiseazaMedici");
+        parentPanel.add(new MediciAddPanel(services, cardLayout, parentPanel), "AdaugaMedici");
+        parentPanel.add(new MediciListPanel(services, cardLayout, parentPanel), "AfiseazaMedici");
 
     }
 }

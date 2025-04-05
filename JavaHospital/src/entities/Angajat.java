@@ -17,7 +17,7 @@ public abstract class Angajat extends Persoana{
 
     public Angajat() {
         super();
-        this.dataAngajarii = LocalDate.of(0,0,0);
+        this.dataAngajarii = LocalDate.of(1970,1,1);
     }
 
     public Angajat(String nume, String prenume, LocalDate dataNasterii, String email, String telefon, LocalDate dataAngajarii) {

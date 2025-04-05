@@ -1,6 +1,8 @@
 package services.panels;
 
 import services.services.PacientiServices;
+import services.services.Services;
+
 import java.awt.*;
 import javax.swing.*;
 import java.time.LocalDate;
@@ -10,9 +12,9 @@ import java.time.LocalDate;
 // Astfel, se ilustreaza reutilizarea codului
 
 public class PacientiAddPanel extends PersoanaAddPanel {
-    private PacientiServices service;
+    private Services service;
 
-    public PacientiAddPanel(PacientiServices service, CardLayout cardLayout, JPanel parentPanel)
+    public PacientiAddPanel(Services service, CardLayout cardLayout, JPanel parentPanel)
     {
         super(cardLayout, parentPanel, "Adaugă Pacient");
         this.service = service;
@@ -33,7 +35,7 @@ public class PacientiAddPanel extends PersoanaAddPanel {
 
         // verificare datelor
         if (!nume.isEmpty() && !prenume.isEmpty() && dataNasterii != null && !telefon.isEmpty() && !email.isEmpty()) {
-            service.adaugaPacient(nume, prenume, dataNasterii, telefon, email);
+            service.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, telefon, email);
             JOptionPane.showMessageDialog(this, "Pacient adăugat cu succes!");
             clearFields();
         } else {

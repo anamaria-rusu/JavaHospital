@@ -7,10 +7,10 @@ import java.awt.*;
 public class PacientiInfoPanel extends PersoanaInfoPanel {
     private Pacient pacient;
 
-    public PacientiInfoPanel(Pacient pacient) {
+    public PacientiInfoPanel(Pacient pacient, String backPanel) {
         super(pacient, "Informații Pacient");
         this.pacient = pacient;
-        setBackButton("AfiseazaPacienti");
+        setBackButton(backPanel);
     }
 
     @Override

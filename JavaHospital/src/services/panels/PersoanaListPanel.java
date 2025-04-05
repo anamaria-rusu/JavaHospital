@@ -2,6 +2,7 @@ package services.panels;
 
 import entities.Persoana;
 import services.services.PersoanaServices;
+import services.services.Services;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public abstract class PersoanaListPanel<T extends Persoana> extends JPanel {
     private JPanel parentPanel;
     protected JButton backButton;
 
-    public PersoanaListPanel(PersoanaServices<T> service, CardLayout cardLayout, JPanel parentPanel, String titlu) {
+    public PersoanaListPanel(PersoanaServices<T>  service, CardLayout cardLayout, JPanel parentPanel, String titlu) {
         this.service = service;
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;

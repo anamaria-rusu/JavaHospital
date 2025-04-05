@@ -1,5 +1,7 @@
 package services.panels;
 
+import services.services.Services;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,10 +13,12 @@ public class AngajatiPanel extends JPanel {
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private Services services;
 
-    public AngajatiPanel(CardLayout cardLayout, JPanel mainPanel){
+    public AngajatiPanel(Services services,CardLayout cardLayout, JPanel mainPanel){
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
+        this.services=services;
 
         //configurarea UI
 
@@ -43,7 +47,7 @@ public class AngajatiPanel extends JPanel {
 
 
         //Legaturi cu MediciPanel si AsistentePanel
-        mainPanel.add(new MediciPanel(cardLayout,mainPanel),"MediciPanel");
+        mainPanel.add(new MediciPanel(services,cardLayout,mainPanel),"MediciPanel");
 //      mainPanel.add(new AsistentePanel(cardLayout,mainPanel),"MediciPanel");
     }
 

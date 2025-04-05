@@ -12,7 +12,7 @@ public abstract class Persoana {
     public Persoana() {
         this.nume = "";
         this.prenume = "";
-        this.dataNasterii = LocalDate.of(0,0,0);
+        this.dataNasterii = LocalDate.of(1970,1,1);
         this.email = "";
         this.telefon = "";
     }
