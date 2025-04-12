@@ -77,15 +77,9 @@ public class MediciAddPanel extends PersoanaAddPanel {
     }
 
     private void getDepartamente() {
-        //departamentComboBox.removeAllItems();
 
         // Inițializăm un Set cu departamente predefinite
-        Set<String> departamente = new LinkedHashSet<>();
-        departamente.add("Cardiologie");
-        departamente.add("Neurologie");
-        departamente.add("Chirurgie");
-        departamente.add("Pediatrie");
-        departamente.add("Ortopedie");
+        Set<String> departamente = services.getDepartamente();
 
         // Adăugăm toate departamentele unice în JComboBox
         for (String departament : departamente) {

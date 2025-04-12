@@ -12,10 +12,14 @@ import java.util.List;
 
 public abstract class PersoanaListPanel<T extends Persoana> extends JPanel {
     private JList<T> listaPersoane;
-    private PersoanaServices<T> service;
+    protected PersoanaServices<T> service;
     private CardLayout cardLayout;
     private JPanel parentPanel;
     protected JButton backButton;
+    protected JButton cautaButton;
+
+    protected JTextField numeField;
+    protected JTextField prenumeField;
 
     public PersoanaListPanel(PersoanaServices<T>  service, CardLayout cardLayout, JPanel parentPanel, String titlu) {
         this.service = service;
@@ -37,7 +41,7 @@ public abstract class PersoanaListPanel<T extends Persoana> extends JPanel {
         listaPersoane = new JList<>();
         JScrollPane scrollPane = new JScrollPane(listaPersoane);
         scrollPane.setBackground(Color.decode("#B0E0E6"));
-        scrollPane.setBounds(50, 60, 500, 500);
+        scrollPane.setBounds(50, 60, 500, 400);
         add(scrollPane);
 
         // Detectăm click-urile pe listă
@@ -56,17 +60,43 @@ public abstract class PersoanaListPanel<T extends Persoana> extends JPanel {
         // Buton pentru actualizare
         JButton refreshButton = new JButton("Actualizează");
         refreshButton.addActionListener(e -> incarcaPersoane());
-        refreshButton.setBounds(125, 570, 150, 30);
+        refreshButton.setBounds(125, 500, 150, 30);
         add(refreshButton);
 
         // Buton pentru întoarcere
         backButton = new JButton("Înapoi");
         //backButton.addActionListener(e -> cardLayout.show(parentPanel, "PersoanePanel"));
-        backButton.setBounds(325, 570, 150, 30);
+        backButton.setBounds(325, 500, 150, 30);
         add(backButton);
 
         // Încărcăm persoanele la inițializare
         incarcaPersoane();
+
+
+
+
+
+
+
+
+        //motor cautare
+
+        numeField = new JTextField();
+        numeField.setBounds(150, 550, 150, 30);
+        add(numeField);
+
+        prenumeField = new JTextField();
+        prenumeField.setBounds(350, 550, 150, 30);
+        add(prenumeField);
+
+
+        cautaButton = new JButton("cauta");
+        cautaButton.addActionListener(e -> cautaPersoane(numeField.getText(),prenumeField.getText()));
+        cautaButton.setBounds(125, 530, 150, 30);
+        add(cautaButton);
+
+
+
     }
 
     protected void setBackButton(String panelName)
@@ -83,6 +113,11 @@ public abstract class PersoanaListPanel<T extends Persoana> extends JPanel {
 
     private void incarcaPersoane() {
         List<T> persoane = service.getPersoane();
+        listaPersoane.setListData(persoane.toArray((T[]) new Persoana[0]));
+    }
+
+    private void cautaPersoane(String nume, String prenume){
+        List<T> persoane = service.cautaPersoane(nume,prenume);
         listaPersoane.setListData(persoane.toArray((T[]) new Persoana[0]));
     }
 

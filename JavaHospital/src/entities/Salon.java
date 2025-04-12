@@ -2,29 +2,29 @@ package entities;
 import java.util.*;
 
 public class Salon {
+    private static int nrSaloane = 100;
+    private final int idSalon;
     private String locatie;
     private int capacitateMaxima;
-    private List<Pacient> pacientiInternati;
+    private int capacitateCurenta;
+    private List<Internare> pacientiInternati;
 
-    public Salon(List<Pacient> pacientiInternati, String locatie, int capacitateMaxima) {
-        this.pacientiInternati = pacientiInternati;
+
+    public Salon(String locatie, int capacitateMaxima) {
+        this.idSalon = ++ nrSaloane;
         this.locatie = locatie;
         this.capacitateMaxima = capacitateMaxima;
+        this.capacitateCurenta = 0;
+        this.pacientiInternati = new ArrayList<>();
     }
 
     public Salon()
     {
-        this.pacientiInternati = new ArrayList<>();
+        this.idSalon = ++ nrSaloane;
         this.locatie = "";
         this.capacitateMaxima = 0;
-    }
-
-    public List<Pacient> getPacientiInternati() {
-        return pacientiInternati;
-    }
-
-    public void setPacientiInternati(List<Pacient> pacientiInternati) {
-        this.pacientiInternati = pacientiInternati;
+        this.capacitateCurenta = 0;
+        this.pacientiInternati = new ArrayList<>();
     }
 
     public String getLocatie() {
@@ -41,5 +41,25 @@ public class Salon {
 
     public void setCapacitateMaxima(int capacitateMaxima) {
         this.capacitateMaxima = capacitateMaxima;
+    }
+
+    public int getCapacitateCurenta() {
+        return capacitateCurenta;
+    }
+
+    public void setCapacitateCurenta(int capacitateCurenta) {
+        this.capacitateCurenta = capacitateCurenta;
+    }
+
+    public List<Internare> getPacientiInternati() {
+        return pacientiInternati;
+    }
+
+    public void setPacientiInternati(List<Internare> pacientiInternati) {
+        this.pacientiInternati = pacientiInternati;
+    }
+
+    public int getIdSalon() {
+        return idSalon;
     }
 }

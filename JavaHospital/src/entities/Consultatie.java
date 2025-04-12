@@ -3,7 +3,7 @@ package entities;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Consultatie {
+public class Consultatie implements ServiciuMedical {
     private Medic medic;
     private Pacient pacient;
     private String departament;
@@ -48,7 +48,7 @@ public class Consultatie {
         this.pacient = pacient;
     }
 
-    public LocalDate getDataProgramare() {
+    public LocalDate getData() {
         return dataProgramare;
     }
 
@@ -56,7 +56,7 @@ public class Consultatie {
         this.dataProgramare = dataProgramare;
     }
 
-    public String getMotiv() {
+    public String getDescriere() {
         return motiv;
     }
 
@@ -80,11 +80,12 @@ public class Consultatie {
         this.oraProgramare = oraProgramare;
     }
 
-    public String getDepartament() {
+    @Override
+    public String getDepartamentMedical() {
         return departament;
     }
 
-    public void setDepartament(String departament) {
+    public void setDepartamentMedical(String departament) {
         this.departament = departament;
     }
 }

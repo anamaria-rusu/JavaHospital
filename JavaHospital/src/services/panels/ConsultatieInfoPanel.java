@@ -49,7 +49,7 @@ public class ConsultatieInfoPanel extends JPanel{
         dataLabel.setBounds(50, 150, 100, 30);
         add(dataLabel);
 
-        JLabel data = new JLabel(consultatie.getDataProgramare().toString());
+        JLabel data = new JLabel(consultatie.getData().toString());
         data.setBounds(160, 150, 200, 30);
         add(data);
 
@@ -76,7 +76,7 @@ public class ConsultatieInfoPanel extends JPanel{
         motivLabel.setBounds(50, 270, 100, 30);
         add(motivLabel);
 
-        JLabel motiv = new JLabel(consultatie.getMotiv());
+        JLabel motiv = new JLabel(consultatie.getDescriere());
         motiv.setBounds(160, 270, 200, 30);
         add(motiv);
 

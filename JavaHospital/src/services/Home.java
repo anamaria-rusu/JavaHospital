@@ -1,7 +1,7 @@
 package services;
 
+import services.panels.InternarePanel;
 import services.panels.PacientiPanel;
-import services.services.PacientiServices;
 import services.panels.AngajatiPanel;
 import services.panels.ConsultatiePanel;
 import services.services.Services;
@@ -53,6 +53,10 @@ public class Home extends JFrame
         ConsultatiePanel consultatiePanel = new ConsultatiePanel(cardLayout,mainPanel,services);
         mainPanel.add(consultatiePanel, "ConsultatiePanel");
 
+        // panoul pentru internari
+        InternarePanel internarePanel = new InternarePanel(services, cardLayout, mainPanel);
+        mainPanel.add(internarePanel, "InternarePanel");
+
 
         add(mainPanel);
         setVisible(true);
@@ -89,6 +93,13 @@ public class Home extends JFrame
         consulatieButton.setBounds(175, 290, 250, 40);  // Setăm poziția și dimensiunea acestui buton
         consulatieButton.addActionListener(e-> cardLayout.show(mainPanel,"ConsultatiePanel"));
         panel.add(consulatieButton);
+
+
+        //  Buton pentru navigarea către panoul de internari
+        JButton internareButton = new JButton("Internari");
+        internareButton.setBounds(175, 360, 250, 40);  // Setăm poziția și dimensiunea acestui buton
+        internareButton.addActionListener(e-> cardLayout.show(mainPanel,"InternarePanel"));
+        panel.add(internareButton);
 
         return panel;  // Returnăm panoul creat
     }

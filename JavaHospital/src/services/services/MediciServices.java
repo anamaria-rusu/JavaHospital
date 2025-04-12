@@ -2,6 +2,7 @@ package services.services;
 
 import entities.Medic;
 import entities.Pacient;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 public class MediciServices implements PersoanaServices<Medic>{
 
     private List<Medic> medici = new ArrayList<>();
+    private LevenshteinDistance motorCautare = new LevenshteinDistance();
 
 
     public MediciServices() {
@@ -25,6 +27,28 @@ public class MediciServices implements PersoanaServices<Medic>{
 
     public List<Medic> getPersoane() {
         return new ArrayList<>(medici);
+    }
+
+
+    public List<Medic> cautaPersoane(String nume, String prenume){
+        List<Medic> mediciCautati = new ArrayList<>();
+        int distantaLevenshteinNume = 0;
+        int distantaLevenshteinPrenume = 0;
+
+        for(Medic medic : medici){
+
+            if(!nume.isEmpty())
+                distantaLevenshteinNume =  motorCautare.apply(nume,medic.getNume());
+            if(!prenume.isEmpty())
+                distantaLevenshteinPrenume =  motorCautare.apply(nume,medic.getPrenume());
+
+            if (distantaLevenshteinPrenume <=2 || distantaLevenshteinNume<=2)
+                mediciCautati.add(medic);
+
+            distantaLevenshteinNume = 0;
+            distantaLevenshteinPrenume = 0;
+        }
+        return mediciCautati;
     }
 
 }

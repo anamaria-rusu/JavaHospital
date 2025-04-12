@@ -40,7 +40,7 @@ public class ConsultatieService {
             programari.add(new Consultatie(medic, null, departament, data, LocalTime.of(8, 0), 0, "")); // Începutul zilei
 
             for (Consultatie c : consultatii) {
-                if (c.getMedic().equals(medic) && c.getDataProgramare().equals(data)) {
+                if (c.getMedic().equals(medic) && c.getData().equals(data)) {
                     programari.add(c);
                 }
             }
@@ -96,11 +96,15 @@ public class ConsultatieService {
 
     public void adaugaConsultatie(Medic medic, Pacient pacient, String departament, LocalDate dataProgramare, LocalTime oraProgramare, int durataConsultatie, String motiv)
     {
-        consultatii.add(new Consultatie(medic,pacient,departament,dataProgramare,oraProgramare,durataConsultatie,motiv));
+        Consultatie consultatie = new Consultatie(medic,pacient,departament,dataProgramare,oraProgramare,durataConsultatie,motiv);
+        consultatii.add(consultatie);
+        pacient.adaugaIstoric(consultatie);
     }
 
     public List<Consultatie> getConsultatii() {
         return new ArrayList<>(consultatii);
     }
+
+
 
 }

@@ -90,7 +90,7 @@ public class ConsultatieAddPanel extends JPanel {
 
 
         detaliiPacient.addActionListener(e->{
-            PacientiInfoPanel pacientInfoPanel = new PacientiInfoPanel(pacient, "ConsultatieAddPanel");
+            PacientiInfoPanel pacientInfoPanel = new PacientiInfoPanel(pacient, "ConsultatieAddPanel", cardLayout, parentPanel, services);
             pacientInfoPanel.setBackButton("AdaugaConsultatie");
             parentPanel.add(pacientInfoPanel, "PacientiInfoPanel");
             cardLayout.show(parentPanel, "PacientiInfoPanel");
@@ -259,9 +259,6 @@ public class ConsultatieAddPanel extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Introduceți toate datele!");
         }
-
-
-
     }
 
     public void clearFields() {
@@ -286,13 +283,7 @@ public class ConsultatieAddPanel extends JPanel {
     }
 
     private void getDepartamente() {
-        Set<String> departamente = new LinkedHashSet<>();
-        departamente.add("Cardiologie");
-        departamente.add("Neurologie");
-        departamente.add("Chirurgie");
-        departamente.add("Pediatrie");
-        departamente.add("Ortopedie");
-
+        Set<String> departamente = services.getDepartamente() ;
         for (String departament : departamente) {
             departamentComboBox.addItem(departament);
         }
