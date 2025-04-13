@@ -1,6 +1,5 @@
 package services.panels;
 
-import services.services.PacientiServices;
 import services.services.Services;
 
 import javax.swing.*;
@@ -16,39 +15,39 @@ public class PacientiPanel extends JPanel
 
     public PacientiPanel(Services service, CardLayout cardLayout, JPanel mainPanel)
     {
+        int y = 30;
+
         this.service = service;
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
 
-        setBackground(Color.decode("#89CFF0"));
-        setLayout(null); // Folosim null layout pentru a controla poziția exactă a componentelor
+        setBackground(Color.decode("#b0e1e6"));
+        setLayout(null);
 
         JLabel menuLabel = new JLabel("Administrare Pacienți");
-        menuLabel.setForeground(Color.WHITE);
-        menuLabel.setFont(new Font("AvantGarde", Font.BOLD, 38));
-        menuLabel.setBounds(100, 30, 400, 40);
+        menuLabel.setForeground(Color.BLACK);
+        menuLabel.setFont(new Font("AvantGarde", Font.PLAIN, 38));
+        menuLabel.setBounds(140, y, 400, 40);
         add(menuLabel);
 
-        JButton veziPacientiButton = new JButton("Vezi Pacienți");
-        veziPacientiButton.setBounds(175, 100, 250, 40);
+        y+=70;
+        JButton veziPacientiButton = new JButton("Vezi Pacienti");
+        veziPacientiButton.setBounds(175, y, 250, 40);
         veziPacientiButton.addActionListener(e -> cardLayout.show(mainPanel, "AfiseazaPacienti"));
         add(veziPacientiButton);
 
-        JButton adaugaPacientButton = new JButton("Adaugă Pacient");
-        adaugaPacientButton.setBounds(175, 160, 250, 40);
+        y+=60;
+        JButton adaugaPacientButton = new JButton("Adauga Pacient");
+        adaugaPacientButton.setBounds(175, y, 250, 40);
         adaugaPacientButton.addActionListener(e -> cardLayout.show(mainPanel, "AdaugaPacienti"));
         add(adaugaPacientButton);
 
-
-        //"Home" trebuie să fie numele unui panou adăugat anterior în mainPanel folosind mainPanel.add(homePanel, "Home").
-        JButton homePanelButton = new JButton("Înapoi");
-        homePanelButton.setBounds(175, 220, 250, 40);
+        y+=60;
+        JButton homePanelButton = new JButton("Inapoi");
+        homePanelButton.setBounds(175, y, 250, 40);
         homePanelButton.addActionListener(e -> cardLayout.show(mainPanel, "Home"));
         add(homePanelButton);
 
-        // Înregistrează panoul de pacienți cu un nume corect
-        // mainPanel.add(this, "PacientiPanel");
-        // Adaugă celelalte panouri în mainPanel
         mainPanel.add(new PacientiAddPanel(service, cardLayout, mainPanel), "AdaugaPacienti");
         mainPanel.add(new PacientiListPanel(service, cardLayout, mainPanel), "AfiseazaPacienti");
     }

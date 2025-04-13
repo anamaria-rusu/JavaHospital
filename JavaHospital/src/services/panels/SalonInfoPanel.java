@@ -17,53 +17,63 @@ public class SalonInfoPanel extends JPanel {
     JPanel parentPanel;
     JList<Internare> listaPacienti;
 
-    public SalonInfoPanel(Salon salon, CardLayout cardLayout, JPanel parentPanel,Services services) {
+    public SalonInfoPanel(Salon salon, CardLayout cardLayout, JPanel parentPanel, Services services) {
         this.services = services;
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
 
-        setBackground(Color.decode("#9E9765"));
+        setBackground(Color.decode("#e6e2b0"));
         setLayout(null);
 
         // Titlu
-        JLabel titleLabel = new JLabel("Informatii Salon");
+        JLabel titleLabel = new JLabel("Informații Salon");
         titleLabel.setForeground(Color.BLACK);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setBounds(50, 20, 300, 30);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
+        titleLabel.setBounds(180, 20, 300, 40);
         add(titleLabel);
 
         // Locatie
-        JLabel locatieLabel = new JLabel("Locatie:");
-        locatieLabel.setBounds(50, 70, 100, 30);
+        JLabel locatieLabel = new JLabel("Locație:");
+        locatieLabel.setBounds(50, 80, 100, 25);
         add(locatieLabel);
 
         JLabel locatie = new JLabel(salon.getLocatie());
-        locatie.setBounds(160, 70, 200, 30);
+        locatie.setBounds(160, 80, 300, 25);
         add(locatie);
 
-        // capacitate
+        // Capacitate
         JLabel capacitateLabel = new JLabel("Capacitate:");
-        capacitateLabel.setBounds(50, 110, 100, 30);
+        capacitateLabel.setBounds(50, 120, 100, 25);
         add(capacitateLabel);
 
-        JLabel capacitate = new JLabel(salon.getCapacitateMaxima()+ "/"+ salon.getCapacitateCurenta());
-        capacitate.setBounds(160, 110, 200, 30);
+        JLabel capacitate = new JLabel(salon.getCapacitateCurenta() + " / " + salon.getCapacitateMaxima());
+        capacitate.setBounds(160, 120, 200, 25);
         add(capacitate);
 
+        // Etichetă pacienți
+        JLabel pacientiLabel = new JLabel("Fișe medicale pacienți internați:");
+        pacientiLabel.setBounds(50, 160, 300, 25);
+        add(pacientiLabel);
 
-        // pacienti
-        JLabel pacienti = new JLabel("Fise Medicale Pacienti");
-        capacitateLabel.setBounds(50, 120, 100, 30);
-        add(capacitateLabel);
-
-
+        // Listă pacienți
         listaPacienti = new JList<>();
+
+        listaPacienti.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
+            String textAfisat = value.getPacient().getId() + " - " + value.getPacient().getNume() + " " + value.getPacient().getPrenume();
+            JLabel label = new JLabel(textAfisat);
+            if (isSelected) {
+                label.setBackground(list.getSelectionBackground());
+                label.setForeground(list.getSelectionForeground());
+                label.setOpaque(true);
+            }
+            return label;
+        });
+
         JScrollPane scrollPane = new JScrollPane(listaPacienti);
-        scrollPane.setBackground(Color.decode("#B0E0E6"));
-        scrollPane.setBounds(100,150 , 400, 400);
+        scrollPane.setBounds(50, 200, 500, 300);
         add(scrollPane);
 
-
+        // Mouse click pe listă
         listaPacienti.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -76,23 +86,24 @@ public class SalonInfoPanel extends JPanel {
             }
         });
 
-        // Buton pentru actualizare
+        // Buton actualizare
         JButton refreshButton = new JButton("Actualizează");
-        refreshButton.addActionListener(e -> incarcaPacienti(salon));
-        refreshButton.setBounds(125, 570, 150, 30);
+        refreshButton.setBounds(130, 530, 150, 35);
         add(refreshButton);
+        refreshButton.addActionListener(e -> incarcaPacienti(salon));
 
-        JButton backButton = new JButton("Inapoi");
-        backButton.addActionListener(e -> cardLayout.show(parentPanel, "SaloanePanel"));
-        backButton.setBounds(325, 570, 150, 30);
+        // Buton înapoi
+        JButton backButton = new JButton("Înapoi");
+        backButton.setBounds(310, 530, 150, 35);
         add(backButton);
+        backButton.addActionListener(e -> cardLayout.show(parentPanel, "SaloanePanel"));
 
         incarcaPacienti(salon);
     }
 
 
     private void incarcaPacienti(Salon salon) {
-        List<Internare> persoane = salon.getPacientiInternati();
+        List<Internare> persoane = services.getInternareServices().getPacientiInternati(salon);
         listaPacienti.setListData(persoane.toArray((Internare[]) new Internare[0]));
     }
 

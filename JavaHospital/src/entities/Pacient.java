@@ -2,7 +2,7 @@ package entities;
 import java.time.LocalDate;
 
 public class Pacient extends Persoana {
-    private static int nrPacienti = 0;
+    private static int nrPacienti = 1000;
     private final int idPacient;
     private IstoricPacient istoricMedical;
 
@@ -19,7 +19,8 @@ public class Pacient extends Persoana {
         this.istoricMedical = new IstoricPacient();
     }
 
-    public int getIdPacient() {
+    @Override
+    public int getId() {
         return idPacient;
     }
 

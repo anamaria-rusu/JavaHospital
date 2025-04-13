@@ -14,12 +14,13 @@ public class InternareInfoPanel extends PacientiInfoPanel {
     public InternareInfoPanel(Internare internare, String backPanel, CardLayout cardLayout, JPanel parentPanel, Services services) {
         super(internare.getPacient() ,"Informații Pacient Internat",cardLayout,parentPanel,services);
         this.internare = internare;
-        afiseazaInformatiiSpecifice();
+        System.out.println(internare);
+        afiseazaInformatiiInternare();
         setBackButton(backPanel);
     }
 
-    @Override
-    protected void afiseazaInformatiiSpecifice() {
+
+    protected void afiseazaInformatiiInternare() {
         JLabel dataInternariiLabel = new JLabel("Data internarii:");
         dataInternariiLabel.setBounds(50, 270, 100, 30);
         add(dataInternariiLabel);
@@ -45,6 +46,8 @@ public class InternareInfoPanel extends PacientiInfoPanel {
         add(departamentPersoana);
 
         backButton.setBounds(50, 400, 100, 30);
+        istoricButton.setBounds(50,450,100,30);
+
     }
 
 }

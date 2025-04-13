@@ -20,20 +20,40 @@ public class SalonPanel extends JPanel{
         this.cardLayout=cardLayout;
         this.parentPanel=parentPanel;
 
-        setBackground(Color.decode("#9E9765"));
+        setBackground(Color.decode("#e6e2b0"));
         setLayout(null);
 
         JLabel menuLabel = new JLabel("Saloane");
-        menuLabel.setForeground(Color.WHITE);
+        menuLabel.setForeground(Color.BLACK);
         menuLabel.setFont(new Font("AvantGarde", Font.BOLD, 38));
         menuLabel.setBounds(100, 30, 400, 40);
         add(menuLabel);
 
 
-        listaSaloane= new JList<>();
+        listaSaloane = new JList<>();
+        listaSaloane.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
+            String textAfisat = value.getIdSalon()+ " - " + " locatie: " + value.getLocatie();
+            JLabel label = new JLabel(textAfisat);
+            if (isSelected) {
+                label.setBackground(list.getSelectionBackground());
+                label.setForeground(list.getSelectionForeground());
+                label.setOpaque(true);
+            }
+            return label;
+        });
+
+        /*
+        list: lista în sine (JList)
+        value: obiectul curent din listă (probabil un obiect de tip Salon)
+        index: indexul elementului în listă
+        isSelected: true dacă elementul este selectat
+        cellHasFocus: true dacă elementul are focus
+         */
+
+
+
         JScrollPane scrollPane = new JScrollPane(listaSaloane);
-        scrollPane.setBackground(Color.decode("#B0E0E6"));
-        scrollPane.setBounds(50, 60, 500, 500);
+        scrollPane.setBounds(50, 100, 500, 400);
         add(scrollPane);
 
 

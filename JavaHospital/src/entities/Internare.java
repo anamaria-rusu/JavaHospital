@@ -9,13 +9,15 @@ public class Internare implements ServiciuMedical{
     private LocalDate dataInternare;
     private String diagnostic;
     private String departamentMedical;
+    private Salon salon;
 
-    public Internare(Pacient pacient,String diagnostic, String departamentMedical) {
+    public Internare(Pacient pacient,Salon salon,String diagnostic, String departamentMedical) {
         this.pacient = pacient;
         this.dataInternare = LocalDate.now();
         this.diagnostic = diagnostic;
         idInternare = ++ nrInternari;
         this.departamentMedical=departamentMedical;
+        this.salon=salon;
 
     }
 
@@ -24,8 +26,9 @@ public class Internare implements ServiciuMedical{
         this.diagnostic = "";
         this.dataInternare = LocalDate.now();
         this.pacient = new Pacient();
-        idInternare = ++ nrInternari;
+        this.idInternare = ++ nrInternari;
         this.departamentMedical = "";
+        this.salon= new Salon();
     }
 
     public Pacient getPacient() {
@@ -59,5 +62,19 @@ public class Internare implements ServiciuMedical{
 
     public void setDepartamentMedical(String departamentMedical) {
         this.departamentMedical = departamentMedical;
+    }
+
+    @Override
+    public int getId() {
+        return idInternare;
+    }
+
+
+    public Salon getSalon() {
+        return salon;
+    }
+
+    public void setSalon(Salon salon) {
+        this.salon = salon;
     }
 }

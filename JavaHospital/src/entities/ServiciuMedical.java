@@ -6,4 +6,5 @@ public interface ServiciuMedical {
     String getDepartamentMedical();
     LocalDate getData();
     String getDescriere();
+    int getId();
 }

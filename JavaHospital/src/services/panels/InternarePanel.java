@@ -15,13 +15,13 @@ public class InternarePanel extends JPanel {
         this.cardLayout=cardLayout;
         this.parentPanel=parentPanel;
 
-        setBackground(Color.decode("#9E9765"));
+        setBackground(Color.decode("#e6e2b0"));
         setLayout(null);
 
         JLabel menuLabel = new JLabel("Internari");
-        menuLabel.setForeground(Color.WHITE);
-        menuLabel.setFont(new Font("AvantGarde", Font.BOLD, 38));
-        menuLabel.setBounds(100, 30, 400, 40);
+        menuLabel.setForeground(Color.BLACK);
+        menuLabel.setFont(new Font("AvantGarde", Font.PLAIN, 38));
+        menuLabel.setBounds(200, 30, 400, 40);
         add(menuLabel);
 
         JButton saloanebutton = new JButton("Saloane");

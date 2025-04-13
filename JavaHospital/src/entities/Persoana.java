@@ -65,4 +65,6 @@ public abstract class Persoana {
         this.telefon = telefon;
     }
 
+    public abstract int getId();
+
 }

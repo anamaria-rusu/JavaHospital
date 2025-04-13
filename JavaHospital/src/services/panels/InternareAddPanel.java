@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.Date;
 import java.util.Set;
 
+
 public class InternareAddPanel extends JPanel {
     private Services services;
     private CardLayout cardLayout;
@@ -21,43 +22,45 @@ public class InternareAddPanel extends JPanel {
     private JDateChooser dateAngajareChooser;
     private JComboBox departamentComboBox;
 
-
-    public InternareAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel) {
+    public InternareAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    {
         this.services = services;
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
 
-        setBackground(Color.decode("#9E9765"));
+        setBackground(Color.decode("#e6e2b0"));
         setLayout(null);
 
-        // Titlu
+        // Dimensiuni utile pentru controlul layout-ului
+        int labelX = 80;
+        int fieldX = 250;
+        int rightX = 470;
+        int fullWidth = 200;
+        int height = 30;
+        int spacing = 50;
+
+        int y = 40;
+
+// Titlu centrat
         JLabel titleLabel = new JLabel("Internare");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setBounds(120, 20, 300, 30);
+        titleLabel.setBounds(200, y, 200, 30);
         add(titleLabel);
 
-        int y = 80;
+        y += 60;
 
-        // Selectare pacient
-        JLabel pacientLabel = new JLabel("Selecteaza pacient (ID):");
-        pacientLabel.setBounds(50, y, 150, 30);
+// Selectare pacient
+        JLabel pacientLabel = new JLabel("Selectează pacient (ID):");
+        pacientLabel.setBounds(labelX, y, 180, height);
         add(pacientLabel);
 
         idPacient = new JTextField();
-        idPacient.setBounds(230, y, 100, 30);
+        idPacient.setBounds(fieldX, y, fullWidth, height);
         add(idPacient);
 
         JButton cautaButton = new JButton("Caută");
-        cautaButton.setBounds(340, y, 100, 30);
+        cautaButton.setBounds(rightX, y, 100, height);
         add(cautaButton);
-
-        pacientInfoLabel = new JLabel("Detalii pacient: ");
-        pacientInfoLabel.setBounds(50, y + 40, 400, 30);
-        add(pacientInfoLabel);
-
-        JButton detaliiPacient = new JButton("Detalii");
-        detaliiPacient.setBounds(450,y,100,30);
-        add(detaliiPacient);
 
         // Eveniment pentru butonul „Caută”
         cautaButton.addActionListener(e -> {
@@ -74,86 +77,90 @@ public class InternareAddPanel extends JPanel {
             }
         });
 
-        y+=50;
+        y += spacing;
 
+        pacientInfoLabel = new JLabel("Detalii pacient: ");
+        pacientInfoLabel.setBounds(labelX, y, 350, height);
+        add(pacientInfoLabel);
 
+        JButton detaliiPacient = new JButton("Detalii");
+        detaliiPacient.setBounds(rightX, y, 100, height);
+        add(detaliiPacient);
+
+        y += spacing;
+
+// Departament
         JLabel departamentLabel = new JLabel("Departament:");
-        departamentLabel.setBounds(50, 310, 100, 30);
+        departamentLabel.setBounds(labelX, y, 150, height);
         add(departamentLabel);
 
-
         departamentComboBox = new JComboBox<>();
-        departamentComboBox.setBounds(150, 310, 200, 30);
+        departamentComboBox.setBounds(fieldX, y, fullWidth, height);
         add(departamentComboBox);
 
         getDepartamente();
 
-        y+=50;
+        y += spacing;
 
-        // diagnostic
-        JLabel diagnosticLabel = new JLabel("Diagnostic");
-        diagnosticLabel.setBounds(50, y, 150, 30);
+// Diagnostic
+        JLabel diagnosticLabel = new JLabel("Diagnostic:");
+        diagnosticLabel.setBounds(labelX, y, 150, height);
         add(diagnosticLabel);
 
         diagnosticField = new JTextField();
-        diagnosticField.setBounds(230, y, 200, 30);
+        diagnosticField.setBounds(fieldX, y, fullWidth, height);
         add(diagnosticField);
 
-        y+=50;
+        y += spacing;
 
-
-        // salon
-        JLabel salonLabel = new JLabel("Diagnostic");
-        salonLabel.setBounds(50, y, 150, 30);
+// Salon
+        JLabel salonLabel = new JLabel("Salon:");
+        salonLabel.setBounds(labelX, y, 150, height);
         add(salonLabel);
 
         salonField = new JLabel();
-        salonField.setBounds(230, y, 200, 30);
+        salonField.setBounds(fieldX, y, fullWidth, height);
         add(salonField);
 
-        y+=50;
-        // Buton verificare disponibilitate
+        y += spacing;
+
+// Verificare disponibilitate
         JButton refreshButton = new JButton("Verifică Disponibilitate");
+        refreshButton.setBounds(fieldX, y, fullWidth, height);
         refreshButton.addActionListener(e -> verificaDisponibilitate());
-        refreshButton.setBounds(125, y, 200, 30);
         add(refreshButton);
 
-        y += 50;
+        y += spacing;
 
-        // Buton de adăugare consultație
+// Adaugă Internare
         JButton adaugaButton = new JButton("Adaugă Internare");
-        adaugaButton.setBounds(125, y, 200, 30);
+        adaugaButton.setBounds(fieldX, y, fullWidth, height);
         adaugaButton.addActionListener(e -> adaugaInternare());
-
         add(adaugaButton);
 
-        y+=50;
+        y += spacing;
 
-        JButton backButton = new JButton("Inapoi");
-        backButton.setBounds(125, y, 200, 30);
+// Înapoi
+        JButton backButton = new JButton("Înapoi");
+        backButton.setBounds(fieldX, y, fullWidth, height);
         backButton.addActionListener(e -> cardLayout.show(parentPanel, "InternarePanel"));
         add(backButton);
-
     }
-    private void verificaDisponibilitate()
-    {
-        //salonul disponibil care are cei mai putini pacienti
+
+    private void verificaDisponibilitate() {
+        // salonul disponibil care are cei mai puțini pacienți
         salon = services.getSalonServices().verificaDisponibilitate();
         salonField.setText(String.valueOf(salon.getIdSalon()));
     }
 
-
-    public void adaugaInternare()
-    {
-        String diagnostic = (String) diagnosticField.getText();
+    public void adaugaInternare() {
+        String diagnostic = diagnosticField.getText();
         String departament = (String) departamentComboBox.getSelectedItem();
 
-        if (!diagnostic.isEmpty() && !idPacient.getText().isEmpty() && salon!=null && departament != null){
-             Internare internareNoua = services.getInternareServices().internarePacient(pacient,diagnostic,departament);
-             services.getSalonServices().internarePacient(internareNoua,salon);
-            JOptionPane.showMessageDialog(this, "Consultatie adăugata cu succes!");
+        if (!diagnostic.isEmpty() && !idPacient.getText().isEmpty() && salon != null && departament != null) {
+            Internare internareNoua = services.getInternareServices().internarePacient(pacient, salon, diagnostic, departament);
+            JOptionPane.showMessageDialog(this, "Internare adăugată cu succes!");
             clearFields();
-
         } else {
             JOptionPane.showMessageDialog(this, "Introduceți toate datele!");
         }
@@ -161,15 +168,13 @@ public class InternareAddPanel extends JPanel {
 
     public void clearFields() {
         salonField.setText("");
-        diagnosticField.setText(""); // Setează câmpul de motiv la gol
+        diagnosticField.setText(""); // Setează câmpul de diagnostic la gol
         pacientInfoLabel.setText("");
         idPacient.setText("");
         departamentComboBox.setSelectedIndex(-1);
-
     }
 
     private void getDepartamente() {
-
         // Inițializăm un Set cu departamente predefinite
         Set<String> departamente = services.getDepartamente();
 
@@ -178,5 +183,4 @@ public class InternareAddPanel extends JPanel {
             departamentComboBox.addItem(departament);
         }
     }
-
 }

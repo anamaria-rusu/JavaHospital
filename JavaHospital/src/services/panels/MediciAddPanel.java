@@ -21,33 +21,36 @@ public class MediciAddPanel extends PersoanaAddPanel {
 
     public MediciAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel) {
         super(cardLayout, parentPanel, "Adauga Medic");
+        setBackground(Color.decode("#b0e6de"));
         this.services = services;
 
+        int y=280;
         // Campul pentru data angajarii
         JLabel dataAngajariiLabel = new JLabel("Data angajarii:");
-        dataAngajariiLabel.setBounds(50, 270, 100, 30);
+        dataAngajariiLabel.setBounds(50, y, 100, 30);
         add(dataAngajariiLabel);
 
         dateAngajareChooser = new JDateChooser();
         dateAngajareChooser.setDateFormatString("dd-MM-yyyy");
-        dateAngajareChooser.setBounds(150, 270, 200, 30);
+        dateAngajareChooser.setBounds(150, y, 200, 30);
         add(dateAngajareChooser);
 
-
+        y+=40;
         JLabel departamentLabel = new JLabel("Departament:");
-        departamentLabel.setBounds(50, 310, 100, 30);
+        departamentLabel.setBounds(50, y, 100, 30);
         add(departamentLabel);
 
 
         departamentComboBox = new JComboBox<>();
-        departamentComboBox.setBounds(150, 310, 200, 30);
+        departamentComboBox.setBounds(150, y, 200, 30);
         add(departamentComboBox);
 
         getDepartamente();
-
+        y+=50;
         // Reajustam butoanele pentru a nu se suprapune
-        adaugaButton.setBounds(150, 360, 150, 30);
-        backButton.setBounds(150, 410, 150, 30);
+        adaugaButton.setBounds(150, y, 150, 30);
+        y+=50;
+        backButton.setBounds(150, y, 150, 30);
 
         // Setam butonul de back sa ne duca inapoi in MediciPanel
         setBackButton("MediciPanel");

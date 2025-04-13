@@ -11,15 +11,15 @@ import java.time.LocalDate;
 // Ea extinde clasa PersoanaAddPanel care contine campuri generale pentru un individ
 // Astfel, se ilustreaza reutilizarea codului
 
-public class PacientiAddPanel extends PersoanaAddPanel {
+public class PacientiAddPanel extends PersoanaAddPanel
+{
     private Services service;
 
     public PacientiAddPanel(Services service, CardLayout cardLayout, JPanel parentPanel)
     {
         super(cardLayout, parentPanel, "Adaugă Pacient");
         this.service = service;
-
-        // Setam butonul de back sa ne duca inapoi in MediciPanel
+        setBackground(Color.decode("#b0e1e6"));
         setBackButton("PacientiPanel");
     }
 
@@ -34,11 +34,14 @@ public class PacientiAddPanel extends PersoanaAddPanel {
         String email = emailField.getText();
 
         // verificare datelor
-        if (!nume.isEmpty() && !prenume.isEmpty() && dataNasterii != null && !telefon.isEmpty() && !email.isEmpty()) {
+        if (!nume.isEmpty() && !prenume.isEmpty() && dataNasterii != null && !telefon.isEmpty() && !email.isEmpty())
+        {
             service.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, telefon, email);
             JOptionPane.showMessageDialog(this, "Pacient adăugat cu succes!");
             clearFields();
-        } else {
+        }
+        else
+        {
             JOptionPane.showMessageDialog(this, "Introduceți toate datele!");
         }
     }

@@ -36,7 +36,7 @@ public class PacientiServices implements PersoanaServices<Pacient> {
 
     public Pacient cautaPacient(int id) {
         for (Pacient p : pacienti) {
-            if (p.getIdPacient() == id) {
+            if (p.getId() == id) {
                 return p;
             }
         }

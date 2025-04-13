@@ -24,7 +24,7 @@ public class ConsultatieListPanel extends JPanel{
         this.cardLayout=cardLayout;
         this.parentPanel=parentPanel;
 
-        setBackground(Color.decode("#B0E0E6"));
+        setBackground(Color.decode("#c1e6b0"));
         setLayout(null);
 
         // Titlu
@@ -36,8 +36,20 @@ public class ConsultatieListPanel extends JPanel{
         add(titleLabel);
 
         listaConsultatie = new JList<>();
+        listaConsultatie.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
+            String textAfisat = value.getId()+ " - " + " pacienti: " + value.getPacient().getId() + " medic: " + value.getMedic().getId();
+            JLabel label = new JLabel(textAfisat);
+            if (isSelected) {
+                label.setBackground(list.getSelectionBackground());
+                label.setForeground(list.getSelectionForeground());
+                label.setOpaque(true);
+            }
+            return label;
+        });
+
+
+
         JScrollPane scrollPane = new JScrollPane(listaConsultatie);
-        scrollPane.setBackground(Color.decode("#B0E0E6"));
         scrollPane.setBounds(50, 60, 500, 500);
         add(scrollPane);
 

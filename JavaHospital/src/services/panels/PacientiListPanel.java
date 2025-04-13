@@ -1,7 +1,6 @@
 package services.panels;
 
 import entities.Pacient;
-import services.services.PacientiServices;
 import services.services.Services;
 
 import javax.swing.*;
@@ -14,6 +13,7 @@ public class PacientiListPanel extends PersoanaListPanel<Pacient> {
 
         super(service.getPacientiServices(), cardLayout, parentPanel, "Lista Pacienți");
         this.services = service;
+        setBackground(Color.decode("#b0e1e6"));
         setBackButton("PacientiPanel");
     }
 

@@ -12,40 +12,41 @@ public class MediciPanel extends JPanel{
     private JPanel parentPanel;
     private Services services;
 
-    public MediciPanel(Services services,CardLayout cardLayout, JPanel parentPanel) {
+    public MediciPanel(Services services,CardLayout cardLayout, JPanel parentPanel)
+    {
+        int y = 30;
+
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
         this.services = services;
 
-
-        //configurare UI
-
-        setBackground(Color.decode("#B0E0E6"));
+        setBackground(Color.decode("#b0e6de"));
         setLayout(null);
 
         JLabel menuLabel = new JLabel("Administrare Medici");
-        menuLabel.setForeground(Color.WHITE);
-        menuLabel.setFont(new Font("AvantGarde", Font.BOLD, 38));
-        menuLabel.setBounds(100, 30, 400, 40);
+        menuLabel.setForeground(Color.BLACK);
+        menuLabel.setFont(new Font("AvantGarde", Font.PLAIN, 38));
+        menuLabel.setBounds(100, y, 400, 40);
         add(menuLabel);
 
+        y+=70;
         JButton veziMediciButton = new JButton("Vezi Medici");
-        veziMediciButton.setBounds(175, 100, 250, 40);
+        veziMediciButton.setBounds(175, y, 250, 40);
         veziMediciButton.addActionListener(e -> cardLayout.show(parentPanel, "AfiseazaMedici"));
         add(veziMediciButton);
 
+        y+=60;
         JButton adaugaMedicButton = new JButton("Adaugă Medic");
-        adaugaMedicButton.setBounds(175, 160, 250, 40);
+        adaugaMedicButton.setBounds(175, y, 250, 40);
         adaugaMedicButton.addActionListener(e -> cardLayout.show(parentPanel, "AdaugaMedici"));
         add(adaugaMedicButton);
 
+        y+=60;
         JButton homePanelButton = new JButton("Înapoi");
-        homePanelButton.setBounds(175, 220, 250, 40);
+        homePanelButton.setBounds(175, y, 250, 40);
         homePanelButton.addActionListener(e -> cardLayout.show(parentPanel, "AngajatiPanel"));
         add(homePanelButton);
 
-
-        //legatura cu AdaugaMedici si AfiseazaMedici
         parentPanel.add(new MediciAddPanel(services, cardLayout, parentPanel), "AdaugaMedici");
         parentPanel.add(new MediciListPanel(services, cardLayout, parentPanel), "AfiseazaMedici");
 

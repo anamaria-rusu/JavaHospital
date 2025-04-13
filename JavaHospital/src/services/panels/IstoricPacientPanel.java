@@ -1,69 +1,78 @@
 package services.panels;
 
 import entities.Pacient;
-import entities.Salon;
 import services.services.Services;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class IstoricPacientPanel extends JPanel{
+public class IstoricPacientPanel extends JPanel {
     private Services services;
     private CardLayout cardLayout;
     private JPanel parentPanel;
 
     public IstoricPacientPanel(Pacient pacient, CardLayout cardLayout, JPanel parentPanel, Services service) {
-        this.services = services;
+        this.services = service;
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
 
-        setBackground(Color.decode("#9E9765"));
+        setBackground(Color.decode("#ccdee3"));
         setLayout(null);
 
+        int panelWidth = 600;
+        int paddingX = 50;
+        int labelWidth = panelWidth - 2 * paddingX;
         int y = 30;
+        int labelHeight = 30;
+        int verticalSpacing = 40;
+
+        // Titlu
         JLabel menuLabel = new JLabel("Istoric");
-        menuLabel.setForeground(Color.WHITE);
+        menuLabel.setForeground(Color.BLACK);
         menuLabel.setFont(new Font("AvantGarde", Font.BOLD, 38));
-        menuLabel.setBounds(100, y, 400, 40);
+        menuLabel.setBounds(paddingX, y, labelWidth, labelHeight + 10);
         add(menuLabel);
 
-        y+=60;
+        y += labelHeight + verticalSpacing;
 
-        JLabel numarServicii = new JLabel ("Numar servicii medicale: " + service.getIstoricMedicalService().getNrServicii(pacient.getIstoricMedical()));
-        numarServicii.setForeground(Color.WHITE);
-        numarServicii.setBounds(100, y, 400, 40);
+        // Numar servicii medicale
+        JLabel numarServicii = new JLabel("Numar servicii medicale: " +
+                service.getIstoricMedicalService().getNrServicii(pacient.getIstoricMedical()));
+        numarServicii.setForeground(Color.BLACK);
+        numarServicii.setBounds(paddingX, y, labelWidth, labelHeight);
         add(numarServicii);
 
-        y+=50;
+        y += labelHeight + 10;
 
-        JLabel durataMedieServicii = new JLabel ("Drata medie intre consultatii: " + service.getIstoricMedicalService().timpMediuIntreConsultatii(pacient.getIstoricMedical()));
-        durataMedieServicii.setForeground(Color.WHITE);
-        durataMedieServicii.setBounds(100, y, 400, 40);
+        // Durata medie între consultatii
+        JLabel durataMedieServicii = new JLabel("Durata medie intre consultatii: " +
+                service.getIstoricMedicalService().timpMediuIntreConsultatii(pacient.getIstoricMedical()));
+        durataMedieServicii.setForeground(Color.BLACK);
+        durataMedieServicii.setBounds(paddingX, y, labelWidth, labelHeight);
         add(durataMedieServicii);
 
-        y+=50;
+        y += labelHeight + 10;
 
-        JLabel afectiuniFrecvente = new JLabel (service.getIstoricMedicalService().celeMaiFrecventeAfectiuni(pacient.getIstoricMedical()));
-        afectiuniFrecvente.setForeground(Color.WHITE);
-        afectiuniFrecvente.setBounds(100, y, 400, 40);
+        // Afectiuni frecvente
+        JLabel afectiuniFrecvente = new JLabel(
+                "Afectiuni frecvente: " +
+                        service.getIstoricMedicalService().celeMaiFrecventeAfectiuni(pacient.getIstoricMedical()));
+        afectiuniFrecvente.setForeground(Color.BLACK);
+        afectiuniFrecvente.setBounds(paddingX, y, labelWidth, labelHeight);
         add(afectiuniFrecvente);
 
-        y+=50;
+        y += labelHeight + 20;
 
+        // Tabel cu istoric servicii
         JTable tabel = new JTable(service.getIstoricMedicalService().istoricServicii(pacient.getIstoricMedical()));
         JScrollPane scrollPane = new JScrollPane(tabel);
-        scrollPane.setBackground(Color.decode("#B0E0E6"));
-        scrollPane.setBounds(50, y, 500, 400);
+        scrollPane.setBounds(paddingX, y, labelWidth, 250); // înălțime ajustată să nu iasă din panou
         add(scrollPane);
 
-        y = 550;
-       JButton backButton = new JButton("Inapoi");
-       backButton.setBounds(100,y,100,30);
-       backButton.addActionListener(e->cardLayout.show(parentPanel,"PacientiInfoPanel"));
-       add(backButton);
-
-
-
-
+        // Buton înapoi
+        JButton backButton = new JButton("Inapoi");
+        backButton.setBounds(paddingX, 500, 100, 30);
+        backButton.addActionListener(e -> cardLayout.show(parentPanel, "PacientiInfoPanel"));
+        add(backButton);
     }
 }

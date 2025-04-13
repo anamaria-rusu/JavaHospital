@@ -1,25 +1,14 @@
 package services.panels;
 
 import entities.Medic;
-import entities.Persoana;
 import entities.SugestieProgramare;
-
 import entities.Pacient;
-import services.services.ConsultatieService;
-import services.services.PacientiServices;
-
 import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 import services.services.Services;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.*;
@@ -41,7 +30,7 @@ public class ConsultatieAddPanel extends JPanel {
     public ConsultatieAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel) {
         this.services = services;
 
-        setBackground(Color.decode("#93C4A4"));
+        setBackground(Color.decode("#c1e6b0"));
         setLayout(null);
 
         // Titlu
@@ -162,6 +151,18 @@ public class ConsultatieAddPanel extends JPanel {
 
         // Listă medici disponibili
         listaMedici = new JList<>();
+        listaMedici.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
+            String textAfisat = "Dr. "+ value.medic().getNume() + value.medic().getPrenume()+ " data: " + value.data()+ " ora: "+value.ora();
+            JLabel label = new JLabel(textAfisat);
+            if (isSelected) {
+                label.setBackground(list.getSelectionBackground());
+                label.setForeground(list.getSelectionForeground());
+                label.setOpaque(true);
+            }
+            return label;
+        });
+
+
         scrollPane = new JScrollPane(listaMedici);
         scrollPane.setBounds(50, y, 400, 100);
         add(scrollPane);
@@ -262,24 +263,15 @@ public class ConsultatieAddPanel extends JPanel {
     }
 
     public void clearFields() {
-        // Resetarea ComboBox pentru departament
-        departamentComboBox.setSelectedIndex(0); // Setează la valoarea implicită (presupunând că index 0 este valoarea default)
 
-        // Resetarea datei
-        dateChooser.setDate(null); // Șterge data selectată
-
-        // Resetarea orei
-        timeSpinner.setValue(new java.util.Date()); // Setează ora la valoarea implicită (ora curentă, de exemplu)
-
-        // Resetarea câmpului de durată consultatie
-        durataField.setText(""); // Setează câmpul text la gol
-
-        // Resetarea câmpului de motiv
-        motivField.setText(""); // Setează câmpul de motiv la gol
+        departamentComboBox.setSelectedIndex(0);
+        dateChooser.setDate(null);
+        timeSpinner.setValue(new java.util.Date());
+        durataField.setText("");
+        motivField.setText("");
         pacientInfoLabel.setText("");
         idPacient.setText("");
         listaMedici.setListData(new SugestieProgramare[0]);
-
     }
 
     private void getDepartamente() {

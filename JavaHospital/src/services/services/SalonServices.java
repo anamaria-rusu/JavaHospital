@@ -1,32 +1,38 @@
 package services.services;
 
 import entities.Internare;
-import entities.Medic;
-import entities.Pacient;
 import entities.Salon;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class SalonServices {
-
+// Servicii (functionalitati) pentru entitatea Salon
+public class SalonServices
+{
+    // Lista saloanelor din spital
     private List<Salon> saloane = new ArrayList<>();
 
     public SalonServices()
     {
-        Salon salon2 = new Salon("etaj 2", 3);
-        saloane.add(salon2);
+        // Se considera ca saloanele sunt locatii fizice, preexistente
+        Salon salon;
+        salon = new Salon("Etaj 1", 3); saloane.add(salon);
+        salon = new Salon("Etaj 1", 5); saloane.add(salon);
+        salon = new Salon("Etaj 2", 6); saloane.add(salon);
+        salon = new Salon("Etaj 2", 2); saloane.add(salon);
+
     }
 
+    // preluarea listei de saloane
     public List<Salon> getSaloane() {
         return new ArrayList<>(saloane);
     }
 
-    public Salon verificaDisponibilitate(){
+    // se verifica cel mai bun salon disponibil pentru internarea unui pacient
+    public Salon verificaDisponibilitate()
+    {
         if (saloane == null || saloane.isEmpty()) {
-            return null; // Sau arunca o excepție, dacă vrei
+            return null;
         }
 
         Salon salonCuCeiMaiPutiniPacienti = saloane.get(0); // Începem cu primul salon
@@ -38,17 +44,5 @@ public class SalonServices {
         return salonCuCeiMaiPutiniPacienti;
     }
 
-    public void internarePacient(Internare internare, Salon salon) {
-        Salon salonGasit = null;
-        for (Salon s : saloane) {
-            if (s.getIdSalon() == salon.getIdSalon()) {
-                salonGasit = s;
-                break;
-            }
-        }
-        if (salonGasit != null) {
-            salonGasit.getPacientiInternati().add(internare);
-        }
-    }
 
 }

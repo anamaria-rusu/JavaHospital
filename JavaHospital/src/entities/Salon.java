@@ -7,7 +7,6 @@ public class Salon {
     private String locatie;
     private int capacitateMaxima;
     private int capacitateCurenta;
-    private List<Internare> pacientiInternati;
 
 
     public Salon(String locatie, int capacitateMaxima) {
@@ -15,7 +14,6 @@ public class Salon {
         this.locatie = locatie;
         this.capacitateMaxima = capacitateMaxima;
         this.capacitateCurenta = 0;
-        this.pacientiInternati = new ArrayList<>();
     }
 
     public Salon()
@@ -24,7 +22,6 @@ public class Salon {
         this.locatie = "";
         this.capacitateMaxima = 0;
         this.capacitateCurenta = 0;
-        this.pacientiInternati = new ArrayList<>();
     }
 
     public String getLocatie() {
@@ -49,14 +46,6 @@ public class Salon {
 
     public void setCapacitateCurenta(int capacitateCurenta) {
         this.capacitateCurenta = capacitateCurenta;
-    }
-
-    public List<Internare> getPacientiInternati() {
-        return pacientiInternati;
-    }
-
-    public void setPacientiInternati(List<Internare> pacientiInternati) {
-        this.pacientiInternati = pacientiInternati;
     }
 
     public int getIdSalon() {

@@ -20,33 +20,29 @@ public class AngajatiPanel extends JPanel {
         this.mainPanel = mainPanel;
         this.services=services;
 
-        //configurarea UI
-
-        setBackground(Color.decode("#89CFF0"));
+        setBackground(Color.decode("#b0e6de"));
         setLayout(null);
 
         JLabel menuLabel = new JLabel("Administrare Angajati");
-        menuLabel.setFont(new Font("AvantGarde", Font.BOLD, 38));
+        menuLabel.setFont(new Font("AvantGarde", Font.PLAIN, 38));
         menuLabel.setBounds(100, 30, 400, 40);
         add(menuLabel);
 
         JButton mediciButton = new JButton("Medici");
-        mediciButton.setBounds(175, 100, 250, 40);
+        mediciButton.setBounds(175, 110, 250, 40);
         mediciButton.addActionListener(e->cardLayout.show(mainPanel, "MediciPanel"));
         add(mediciButton);
 
         JButton asistenteButton = new JButton("Asistente");
-        asistenteButton.setBounds(175, 160, 250, 40);
+        asistenteButton.setBounds(175, 170, 250, 40);
         asistenteButton.addActionListener(e->cardLayout.show(mainPanel, "AsistentePanel"));
         add(asistenteButton);
 
         JButton homePanelButton = new JButton("Inapoi");
-        homePanelButton.setBounds(175,220,250,40);
+        homePanelButton.setBounds(175,230,250,40);
         homePanelButton.addActionListener(e->cardLayout.show(mainPanel,"Home"));
         add(homePanelButton);
 
-
-        //Legaturi cu MediciPanel si AsistentePanel
         mainPanel.add(new MediciPanel(services,cardLayout,mainPanel),"MediciPanel");
 //      mainPanel.add(new AsistentePanel(cardLayout,mainPanel),"MediciPanel");
     }

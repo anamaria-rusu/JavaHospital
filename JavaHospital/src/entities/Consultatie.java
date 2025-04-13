@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Consultatie implements ServiciuMedical {
+    private static int nrConsultatie = 0;
+    private final int idConsultatie;
     private Medic medic;
     private Pacient pacient;
     private String departament;
@@ -20,6 +22,7 @@ public class Consultatie implements ServiciuMedical {
         this.oraProgramare = oraProgramare;
         this.durataConsultatie = durataConsultatie;
         this.motiv = motiv;
+        this.idConsultatie = ++nrConsultatie;
     }
 
     public Consultatie() {
@@ -30,6 +33,7 @@ public class Consultatie implements ServiciuMedical {
         this.motiv = motiv;
         this.durataConsultatie = 0;
         this.departament = "";
+        this.idConsultatie = ++nrConsultatie;
     }
 
     public Medic getMedic() {
@@ -83,6 +87,11 @@ public class Consultatie implements ServiciuMedical {
     @Override
     public String getDepartamentMedical() {
         return departament;
+    }
+
+    @Override
+    public int getId() {
+        return idConsultatie;
     }
 
     public void setDepartamentMedical(String departament) {
