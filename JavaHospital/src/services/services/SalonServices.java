@@ -1,6 +1,5 @@
 package services.services;
 
-import entities.Internare;
 import entities.Salon;
 
 import java.util.ArrayList;
@@ -35,14 +34,15 @@ public class SalonServices
             return null;
         }
 
-        Salon salonCuCeiMaiPutiniPacienti = saloane.get(0); // Începem cu primul salon
+        Salon salonCuCeiMaiPutiniPacienti = saloane.get(0);
         for (Salon salon : saloane) {
             if (salon.getCapacitateCurenta() < salonCuCeiMaiPutiniPacienti.getCapacitateCurenta() && salon.getCapacitateCurenta()<salon.getCapacitateMaxima()) {
                 salonCuCeiMaiPutiniPacienti = salon;
             }
         }
+        if (salonCuCeiMaiPutiniPacienti.getCapacitateCurenta() == salonCuCeiMaiPutiniPacienti.getCapacitateMaxima()-1)
+            return null;
         return salonCuCeiMaiPutiniPacienti;
     }
-
 
 }

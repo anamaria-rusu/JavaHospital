@@ -1,21 +1,17 @@
 package services.panels;
-import services.services.MediciServices;
-import services.services.Services;
 
+import services.services.Services;
 import javax.swing.*;
 import java.awt.*;
 
-// MediciPanel ofera functionalitatile pentru gestiunea medicilor
+public class MediciPanel extends JPanel
+{
+    private final CardLayout cardLayout;
+    private final JPanel parentPanel;
+    private final Services services;
 
-public class MediciPanel extends JPanel{
-    private CardLayout cardLayout;
-    private JPanel parentPanel;
-    private Services services;
-
-    public MediciPanel(Services services,CardLayout cardLayout, JPanel parentPanel)
+    public MediciPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
     {
-        int y = 30;
-
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
         this.services = services;
@@ -23,32 +19,46 @@ public class MediciPanel extends JPanel{
         setBackground(Color.decode("#b0e6de"));
         setLayout(null);
 
-        JLabel menuLabel = new JLabel("Administrare Medici");
-        menuLabel.setForeground(Color.BLACK);
-        menuLabel.setFont(new Font("AvantGarde", Font.PLAIN, 38));
-        menuLabel.setBounds(100, y, 400, 40);
-        add(menuLabel);
+        initUI();
+        initPanels();
+    }
 
-        y+=70;
-        JButton veziMediciButton = new JButton("Vezi Medici");
-        veziMediciButton.setBounds(175, y, 250, 40);
-        veziMediciButton.addActionListener(e -> cardLayout.show(parentPanel, "AfiseazaMedici"));
-        add(veziMediciButton);
+    private void initUI() {
+        int y = 30;
 
-        y+=60;
-        JButton adaugaMedicButton = new JButton("Adaugă Medic");
-        adaugaMedicButton.setBounds(175, y, 250, 40);
-        adaugaMedicButton.addActionListener(e -> cardLayout.show(parentPanel, "AdaugaMedici"));
-        add(adaugaMedicButton);
+        JLabel titleLabel = createTitleLabel("Administrare Medici", y);
+        add(titleLabel);
 
-        y+=60;
-        JButton homePanelButton = new JButton("Înapoi");
-        homePanelButton.setBounds(175, y, 250, 40);
-        homePanelButton.addActionListener(e -> cardLayout.show(parentPanel, "AngajatiPanel"));
-        add(homePanelButton);
+        y += 70;
+        addButton("Vezi Medici", y, "AfiseazaMedici");
 
+        y += 60;
+        addButton("Adaugă Medic", y, "AdaugaMedici");
+
+        y += 60;
+        addButton("Înapoi", y, "AngajatiPanel");
+    }
+
+    private JLabel createTitleLabel(String text, int y)
+    {
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.BLACK);
+        label.setFont(new Font("AvantGarde", Font.PLAIN, 38));
+        label.setBounds(100, y, 400, 40);
+        return label;
+    }
+
+    private void addButton(String text, int y, String targetPanel)
+    {
+        JButton button = new JButton(text);
+        button.setBounds(175, y, 250, 40);
+        button.addActionListener(e -> cardLayout.show(parentPanel, targetPanel));
+        add(button);
+    }
+
+    private void initPanels()
+    {
         parentPanel.add(new MediciAddPanel(services, cardLayout, parentPanel), "AdaugaMedici");
         parentPanel.add(new MediciListPanel(services, cardLayout, parentPanel), "AfiseazaMedici");
-
     }
 }

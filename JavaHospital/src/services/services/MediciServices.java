@@ -1,7 +1,6 @@
 package services.services;
 
 import entities.Medic;
-import entities.Pacient;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
 import java.time.LocalDate;
@@ -15,7 +14,7 @@ public class MediciServices implements PersoanaServices<Medic>{
 
 
     public MediciServices() {
-        // Adăugăm un medic inițial în listă
+        // adaugam initial un medic pentru test
         Medic medic = new Medic("Andrei", "Ionescu", LocalDate.of(1975, 10, 25), "andrei.ionescu@email.com", "0745123456", LocalDate.of(2005, 6, 10), "Cardiologie");
         medici.add(medic);
     }
@@ -40,9 +39,9 @@ public class MediciServices implements PersoanaServices<Medic>{
             if(!nume.isEmpty())
                 distantaLevenshteinNume =  motorCautare.apply(nume,medic.getNume());
             if(!prenume.isEmpty())
-                distantaLevenshteinPrenume =  motorCautare.apply(nume,medic.getPrenume());
+                distantaLevenshteinPrenume =  motorCautare.apply(prenume,medic.getPrenume());
 
-            if (distantaLevenshteinPrenume <=2 || distantaLevenshteinNume<=2)
+            if (distantaLevenshteinPrenume <=2 && distantaLevenshteinNume<=2)
                 mediciCautati.add(medic);
 
             distantaLevenshteinNume = 0;

@@ -175,10 +175,8 @@ public class InternareAddPanel extends JPanel {
     }
 
     private void getDepartamente() {
-        // Inițializăm un Set cu departamente predefinite
-        Set<String> departamente = services.getDepartamente();
 
-        // Adăugăm toate departamentele unice în JComboBox
+        Set<String> departamente = services.getDepartamente();
         for (String departament : departamente) {
             departamentComboBox.addItem(departament);
         }

@@ -15,7 +15,6 @@ public class IstoricMedicalService {
         return istoricPacient.getServiciiMedicale().size();
     }
 
-
     public String timpMediuIntreConsultatii(IstoricPacient istoricPacient){
         List<ServiciuMedical> serviciiMedicale = istoricPacient.getServiciiMedicale();
         List<Consultatie> consultatii = new ArrayList<>();
@@ -39,7 +38,7 @@ public class IstoricMedicalService {
         }
 
         if (consultatii.size()==1)
-            return "prea putine date";
+            return "Prea putine date pentru calculul statisticilor";
 
         mediaZile = timpTotal / (consultatii.size() - 1);
 
@@ -61,7 +60,7 @@ public class IstoricMedicalService {
     public String celeMaiFrecventeAfectiuni(IstoricPacient istoricPacient) {
         Map<String, Integer> frecventa = new HashMap<>();
         List<ServiciuMedical> serviciiMedicale = istoricPacient.getServiciiMedicale();
-        // Parcurg lista și număr câte servicii are fiecare departament
+
         for (ServiciuMedical serviciu : serviciiMedicale) {
             String departament = serviciu.getDepartamentMedical();
             if (frecventa.containsKey(departament)) {
@@ -71,7 +70,7 @@ public class IstoricMedicalService {
             }
         }
 
-        // Găsesc frecvența maximă
+
         int max = 0;
         for (String departament : frecventa.keySet()) {
             if (frecventa.get(departament) > max) {
@@ -79,7 +78,7 @@ public class IstoricMedicalService {
             }
         }
 
-        // Construiesc răspunsul doar cu cele mai frecvente (max sau max - 1)
+
         String rezultat = "Frecvente afecțiuni: ";
         for (String departament : frecventa.keySet()) {
             int valoare = frecventa.get(departament);
@@ -88,7 +87,6 @@ public class IstoricMedicalService {
             }
         }
 
-        // Elimin ultima virgulă și spațiu, dacă e cazul
         if (rezultat.endsWith(", ")) {
             rezultat = rezultat.substring(0, rezultat.length() - 2);
         }
@@ -112,10 +110,5 @@ public class IstoricMedicalService {
 
        return model;
     }
-
-
-
-
-
 
 }

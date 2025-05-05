@@ -37,37 +37,63 @@ public abstract class PersoanaListPanel<T extends Persoana> extends JPanel
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setBounds(210, y, 200, 30);
         add(titleLabel);
-        y += 50;
+
 
         // Secțiune căutare
+        y += 50;
+        createSearchSection(y);
+
+        // Lista de persoane
+        y+= 50;
+        createPersonList(y);
+
+
+        // Butoane pentru actualizare / back
+        y+=420;
+        JButton refreshButton = new JButton("Actualizeaza");
+        refreshButton.addActionListener(e -> incarcaPersoane());
+        refreshButton.setBounds(125, y, 150, 30);
+        add(refreshButton);
+
+        backButton = new JButton("Inapoi");
+        backButton.setBounds(325, y, 150, 30);
+        add(backButton);
+
+        incarcaPersoane();
+    }
+
+
+    private void createSearchSection(int y) {
         JLabel cautareLabel = new JLabel("Căutare:");
         cautareLabel.setBounds(50, y, 70, 30);
         add(cautareLabel);
 
+        // Nume
         JLabel numeLabel = new JLabel("Nume:");
         numeLabel.setBounds(130, y, 50, 30);
         add(numeLabel);
-
         numeField = new JTextField();
         numeField.setBounds(180, y, 100, 30);
         add(numeField);
 
+        // Prenume
         JLabel prenumeLabel = new JLabel("Prenume:");
         prenumeLabel.setBounds(290, y, 70, 30);
         add(prenumeLabel);
-
         prenumeField = new JTextField();
         prenumeField.setBounds(360, y, 100, 30);
         add(prenumeField);
 
-        cautaButton = new JButton("Caută");
+        // Buton cautare
+        cautaButton = new JButton("Cauta");
         cautaButton.setBounds(470, y, 80, 30);
         cautaButton.addActionListener(e -> cautaPersoane(numeField.getText(), prenumeField.getText()));
         add(cautaButton);
+    }
 
-        y+= 50;
 
-        // Lista de persoane
+    protected void createPersonList(int y)
+    {
         listaPersoane = new JList<>();
 
         listaPersoane.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
@@ -82,10 +108,8 @@ public abstract class PersoanaListPanel<T extends Persoana> extends JPanel
         });
 
         JScrollPane scrollPane = new JScrollPane(listaPersoane);
-        scrollPane.setBackground(Color.decode("#B0E0E6"));
         scrollPane.setBounds(50, y, 500, 400);
         add(scrollPane);
-        y += 420;
 
         listaPersoane.addMouseListener(new MouseAdapter() {
             @Override
@@ -99,16 +123,6 @@ public abstract class PersoanaListPanel<T extends Persoana> extends JPanel
             }
         });
 
-        JButton refreshButton = new JButton("Actualizează");
-        refreshButton.addActionListener(e -> incarcaPersoane());
-        refreshButton.setBounds(125, y, 150, 30);
-        add(refreshButton);
-
-        backButton = new JButton("Înapoi");
-        backButton.setBounds(325, y, 150, 30);
-        add(backButton);
-
-        incarcaPersoane();
     }
 
 
@@ -124,25 +138,29 @@ public abstract class PersoanaListPanel<T extends Persoana> extends JPanel
     }
 
 
-    private void incarcaPersoane() {
+    protected void incarcaPersoane()
+    {
         List<T> persoane = service.getPersoane();
         listaPersoane.setListData(persoane.toArray((T[]) new Persoana[0]));
     }
 
-    private void cautaPersoane(String nume, String prenume){
+
+    protected void cautaPersoane(String nume, String prenume)
+    {
         List<T> persoane = service.cautaPersoane(nume,prenume);
         listaPersoane.setListData(persoane.toArray((T[]) new Persoana[0]));
     }
 
-    // Metodă abstractă care va fi implementată în clasele copil
-    protected abstract void showPersoanaInfo(T persoana);
 
-    // Adăugăm metodele getter pentru a putea fi accesate în subclase
-    public CardLayout getCardLayout() {
+    protected CardLayout getCardLayout() {
         return cardLayout;
     }
 
-    public JPanel getParentPanel() {
+
+    protected JPanel getParentPanel() {
         return parentPanel;
     }
+
+
+    protected abstract void showPersoanaInfo(T persoana);
 }

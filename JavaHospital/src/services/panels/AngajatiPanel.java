@@ -5,9 +5,6 @@ import services.services.Services;
 import javax.swing.*;
 import java.awt.*;
 
-// panel ce va contine meniul pentru angajatii spitalului
-// angajatii sunt medici si asistene
-
 
 public class AngajatiPanel extends JPanel {
 

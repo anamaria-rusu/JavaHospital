@@ -1,7 +1,7 @@
 package entities;
 import java.time.LocalDate;
 
-public abstract class Angajat extends Persoana{
+public abstract class Angajat extends Persoana {
     private LocalDate dataAngajarii;
     private static int nrAngajati = 2000;
     private final int idAngajat;
@@ -22,10 +22,6 @@ public abstract class Angajat extends Persoana{
 
     public LocalDate getDataAngajarii() {
         return dataAngajarii;
-    }
-
-    public void setDataAngajarii(LocalDate dataAngajarii) {
-        this.dataAngajarii = dataAngajarii;
     }
 
     @Override

@@ -1,15 +1,9 @@
 package services.panels;
 
-import services.services.PacientiServices;
 import services.services.Services;
-
 import java.awt.*;
 import javax.swing.*;
 import java.time.LocalDate;
-
-// PacientiAddPanel adauga un nou pacient
-// Ea extinde clasa PersoanaAddPanel care contine campuri generale pentru un individ
-// Astfel, se ilustreaza reutilizarea codului
 
 public class PacientiAddPanel extends PersoanaAddPanel
 {
@@ -23,27 +17,26 @@ public class PacientiAddPanel extends PersoanaAddPanel
         setBackButton("PacientiPanel");
     }
 
+    // Functie pentru adaugarea unui pacient
     @Override
     protected void adaugaPersoana()
     {
-        // extragerea informatiilor din Label-uri
         String nume = numeField.getText();
         String prenume = prenumeField.getText();
         LocalDate dataNasterii = getSelectedDate(dateChooser);
         String telefon = telefonField.getText();
         String email = emailField.getText();
 
-        // verificare datelor
-        if (!nume.isEmpty() && !prenume.isEmpty() && dataNasterii != null && !telefon.isEmpty() && !email.isEmpty())
+        if (campuriValide())
         {
-            service.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, telefon, email);
-            JOptionPane.showMessageDialog(this, "Pacient adăugat cu succes!");
+            service.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, email, telefon);
+            JOptionPane.showMessageDialog(this, "Pacient adaugat cu succes!");
             clearFields();
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "Introduceți toate datele!");
+            JOptionPane.showMessageDialog(this, "Completeaza corect toate informatiile!");
         }
     }
-
 }
+

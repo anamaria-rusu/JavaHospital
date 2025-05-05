@@ -4,7 +4,6 @@ import entities.Pacient;
 import entities.SugestieProgramare;
 import entities.Consultatie;
 
-import java.sql.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,6 @@ public class ConsultatieService {
         this.mediciServices = mediciServices;
     }
 
-
-
     public List<SugestieProgramare> mediciDisponibiliConsultatie(LocalDate data, LocalTime oraDorita, String departament, int durataMinute) {
         List<Medic> totiMedicii = mediciServices.getPersoane();
         List<SugestieProgramare> sugestii = new ArrayList<>();
@@ -34,10 +31,10 @@ public class ConsultatieService {
                 continue;
             }
 
-            // 1. Adunăm toate consultațiile medicului în ziua respectivă +m inceut pogram
+            // 1. Adunam toate consultațiile medicului in ziua respectiva
 
             List<Consultatie> programari = new ArrayList<>();
-            programari.add(new Consultatie(medic, null, departament, data, LocalTime.of(8, 0), 0, "")); // Începutul zilei
+            programari.add(new Consultatie(medic, null, departament, data, LocalTime.of(8, 0), 0, ""));
 
             for (Consultatie c : consultatii) {
                 if (c.getMedic().equals(medic) && c.getData().equals(data)) {
@@ -45,16 +42,16 @@ public class ConsultatieService {
                 }
             }
 
-            // 2. Adăugăm începutul și sfârșitul programului
+            // 2. Adăugam inceputul si sfarsitul programului
             programari.add(new Consultatie(medic, null, departament, data, LocalTime.of(16, 0), 0, "")); // Sfârșitul zilei
 
-            // 3. Sortăm consultațiile după ora
+            // 3. Sortam consultațiile dupa ora
             Collections.sort(programari, Comparator.comparing(Consultatie::getOraProgramare));
 
             LocalTime oraFinala = null;
             long minDiferenta = Long.MAX_VALUE;
 
-            // 4. Verificăm spațiile între consultații
+            // 4. Verificam spațiile intre consultații
             for (int i = 0; i < programari.size() - 1; i++) {
                 Consultatie curenta = programari.get(i);
                 Consultatie urmatoare = programari.get(i + 1);
@@ -63,7 +60,7 @@ public class ConsultatieService {
                 LocalTime inceputUrmatoare = urmatoare.getOraProgramare(); // c[i+1]
 
 
-                // AICI - verificare dacă ora dorită se încadrează între două consultații
+                //  verificare dacă ora dorita se incadrează intre doua consultații
                 if (oraDorita.isAfter(sfarsitCurenta) && oraDorita.plusMinutes(durataMinute).isBefore(inceputUrmatoare)) {
                     oraFinala = oraDorita;
                     break;
@@ -79,7 +76,7 @@ public class ConsultatieService {
                 }
             }
 
-            // 5. Dacă am găsit o oră validă
+            // 5. Daca am gasit o ora valida
             if (oraFinala != null) {
                 sugestii.add(new SugestieProgramare(medic, data, oraFinala));
                 medicProgramariCount.put(medic,programari.size());
@@ -104,7 +101,5 @@ public class ConsultatieService {
     public List<Consultatie> getConsultatii() {
         return new ArrayList<>(consultatii);
     }
-
-
 
 }

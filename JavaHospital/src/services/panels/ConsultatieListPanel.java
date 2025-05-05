@@ -1,8 +1,6 @@
 package services.panels;
 
 import entities.Consultatie;
-import entities.Persoana;
-import services.services.PersoanaServices;
 import services.services.Services;
 
 import javax.swing.*;
@@ -11,30 +9,43 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-
-public class ConsultatieListPanel extends JPanel{
-    private Services services;
-    private CardLayout cardLayout;
-    private JPanel parentPanel;
+public class ConsultatieListPanel extends JPanel
+{
+    private final Services services;
+    private final CardLayout cardLayout;
+    private final JPanel parentPanel;
     private JList<Consultatie> listaConsultatie;
-    protected JButton backButton;
 
-    public ConsultatieListPanel(Services services, CardLayout cardLayout, JPanel parentPanel){
-        this.services=services;
-        this.cardLayout=cardLayout;
-        this.parentPanel=parentPanel;
+    public ConsultatieListPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    {
+        this.services = services;
+        this.cardLayout = cardLayout;
+        this.parentPanel = parentPanel;
 
         setBackground(Color.decode("#c1e6b0"));
         setLayout(null);
 
-        // Titlu
-        JLabel titleLabel = new JLabel("Consultatii");
+        int y = 20;
+        addTitle("Consultații", y);
+        y += 40;
+
+        createConsultatieList(y);
+        addButtons();
+
+        incarcaConsultatie();
+    }
+
+    private void addTitle(String text, int y) {
+        JLabel titleLabel = new JLabel(text);
         titleLabel.setForeground(Color.BLACK);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleLabel.setBounds(210, 20, 200, 30);
+        titleLabel.setBounds(210, y, 200, 30);
         add(titleLabel);
+    }
 
+    private void createConsultatieList(int y)
+    {
         listaConsultatie = new JList<>();
         listaConsultatie.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
             String textAfisat = value.getId()+ " - " + " pacienti: " + value.getPacient().getId() + " medic: " + value.getMedic().getId();
@@ -48,17 +59,15 @@ public class ConsultatieListPanel extends JPanel{
         });
 
 
-
         JScrollPane scrollPane = new JScrollPane(listaConsultatie);
-        scrollPane.setBounds(50, 60, 500, 500);
+        scrollPane.setBounds(50, y, 500, 500);
         add(scrollPane);
 
 
-        // Detectăm click-urile pe listă
         listaConsultatie.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) { // Click simplu
+                if (e.getClickCount() == 1) {
                     Consultatie consultatie = listaConsultatie.getSelectedValue();
                     if (consultatie != null) {
                         showConsultatieInfo(consultatie);
@@ -67,36 +76,31 @@ public class ConsultatieListPanel extends JPanel{
             }
         });
 
+    }
 
-        // Buton pentru actualizare
+    private void addButtons()
+    {
         JButton refreshButton = new JButton("Actualizează");
-        refreshButton.addActionListener(e -> incarcaConsultatie());
         refreshButton.setBounds(125, 570, 150, 30);
+        refreshButton.addActionListener(e -> incarcaConsultatie());
         add(refreshButton);
 
-        // Buton pentru întoarcere
-        backButton = new JButton("Înapoi");
-        backButton.addActionListener(e -> cardLayout.show(parentPanel, "ConsultatiePanel"));
+        JButton backButton = new JButton("Înapoi");
         backButton.setBounds(325, 570, 150, 30);
+        backButton.addActionListener(e -> cardLayout.show(parentPanel, "ConsultatiePanel"));
         add(backButton);
-
-        // Încărcăm  la inițializare
-        incarcaConsultatie();
     }
 
-    private void incarcaConsultatie() {
-        List<Consultatie> persoane = services.getConsultatieService().getConsultatii();
-        listaConsultatie.setListData(persoane.toArray((Consultatie[]) new Consultatie[0]));
+    private void incarcaConsultatie()
+    {
+        List<Consultatie> consultatii = services.getConsultatieService().getConsultatii();
+        listaConsultatie.setListData(consultatii.toArray(new Consultatie[0]));
     }
 
-
-    public  void showConsultatieInfo(Consultatie consultatie) {
-        ConsultatieInfoPanel consultatieInfoPanel = new ConsultatieInfoPanel(consultatie,cardLayout,parentPanel);
+    private void showConsultatieInfo(Consultatie consultatie)
+    {
+        ConsultatieInfoPanel consultatieInfoPanel = new ConsultatieInfoPanel(consultatie, cardLayout, parentPanel);
         parentPanel.add(consultatieInfoPanel, "ConsultatieInfoPanel");
         cardLayout.show(parentPanel, "ConsultatieInfoPanel");
     }
 }
-
-
-
-

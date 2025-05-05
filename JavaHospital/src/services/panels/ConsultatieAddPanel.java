@@ -9,9 +9,9 @@ import services.services.Services;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
-import java.util.Set;
+import java.time.*;
 import java.util.*;
+import java.util.List;
 
 public class ConsultatieAddPanel extends JPanel {
     private JTextField idPacient;
@@ -27,7 +27,8 @@ public class ConsultatieAddPanel extends JPanel {
     private Medic medic;
     private Pacient pacient;
 
-    public ConsultatieAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel) {
+    public ConsultatieAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    {
         this.services = services;
 
         setBackground(Color.decode("#c1e6b0"));
@@ -149,10 +150,13 @@ public class ConsultatieAddPanel extends JPanel {
 
         y += 60;
 
+
+
+
         // Listă medici disponibili
         listaMedici = new JList<>();
         listaMedici.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
-            String textAfisat = "Dr. "+ value.medic().getNume() + value.medic().getPrenume()+ " data: " + value.data()+ " ora: "+value.ora();
+            String textAfisat = "Dr. "+ value.medic().getNume() + " " + value.medic().getPrenume()+ " data: " + value.data()+ " ora: "+value.ora();
             JLabel label = new JLabel(textAfisat);
             if (isSelected) {
                 label.setBackground(list.getSelectionBackground());
@@ -185,6 +189,9 @@ public class ConsultatieAddPanel extends JPanel {
 
         y += 120;
 
+
+
+
         // Buton verificare disponibilitate
         JButton refreshButton = new JButton("Verifică Disponibilitate");
         refreshButton.addActionListener(e -> verificaDisponibilitate());
@@ -194,7 +201,7 @@ public class ConsultatieAddPanel extends JPanel {
         y += 50;
 
         // Buton de adăugare consultație
-        JButton adaugaButton = new JButton("Adaugă Consultație");
+        JButton adaugaButton = new JButton("Adauga Consultație");
         adaugaButton.setBounds(125, y, 200, 30);
         adaugaButton.addActionListener(e -> adaugaConsultatie());
 
@@ -208,62 +215,79 @@ public class ConsultatieAddPanel extends JPanel {
         add(backButton);
     }
 
-    private void verificaDisponibilitate() {
+
+    private boolean verificaDisponibilitate()
+    {
         Date dataSelectata = dateChooser.getDate();
-        if (dataSelectata == null) {
-            JOptionPane.showMessageDialog(this, "Selectează o dată!");
-            return;
+        if (dataSelectata == null)
+        {
+            JOptionPane.showMessageDialog(this, "Selecteaza o data!");
+            return false;
         }
 
-        java.time.LocalDate data = new java.sql.Date(dataSelectata.getTime()).toLocalDate();
-        java.util.Date oraSelectata = (java.util.Date) timeSpinner.getValue();
-        java.time.LocalTime ora = new java.sql.Time(oraSelectata.getTime()).toLocalTime();
+        LocalDate data = new java.sql.Date(dataSelectata.getTime()).toLocalDate();
+        Date oraSelectata = (Date) timeSpinner.getValue();
+        LocalTime ora = new java.sql.Time(oraSelectata.getTime()).toLocalTime();
 
         String departament = (String) departamentComboBox.getSelectedItem();
-        if (departament == null) {
+        if (departament == null)
+        {
             JOptionPane.showMessageDialog(this, "Selectează un departament!");
-            return;
+            return false;
         }
 
         int durataConsultatie;
-        try {
+        try
+        {
             durataConsultatie = Integer.parseInt(durataField.getText());
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Introdu o durată validă!");
-            return;
+        }
+        catch (NumberFormatException ex)
+        {
+            JOptionPane.showMessageDialog(this, "Introdu o durata validă!");
+            return false;
         }
 
         List<SugestieProgramare> disponibili = services.getConsultatieService().mediciDisponibiliConsultatie(data, ora, departament, durataConsultatie);
 
         if (disponibili.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Niciun medic disponibil pentru criteriile selectate!");
-        } else {
-            listaMedici.setListData(disponibili.toArray(new SugestieProgramare[0]));
+            return false;
         }
+        else
+        {
+            listaMedici.setListData(disponibili.toArray(new SugestieProgramare[0]));
+            return true;
+        }
+
     }
+
 
     public void adaugaConsultatie()
     {
         String departament = (String) departamentComboBox.getSelectedItem();
         Date dataSelectata = dateChooser.getDate();
-        java.time.LocalDate dataProgramare = new java.sql.Date(dataSelectata.getTime()).toLocalDate();
-        java.util.Date oraSelectata = (java.util.Date) timeSpinner.getValue();
-        java.time.LocalTime oraProgramare = new java.sql.Time(oraSelectata.getTime()).toLocalTime();
+        LocalDate dataProgramare = new java.sql.Date(dataSelectata.getTime()).toLocalDate();
+        Date oraSelectata = (java.util.Date) timeSpinner.getValue();
+        LocalTime oraProgramare = new java.sql.Time(oraSelectata.getTime()).toLocalTime();
         Integer durataConsultatie = Integer.parseInt(durataField.getText());
         String motiv = (String) motivField.getText();
 
-        if (!departament.isEmpty() && dataProgramare!=null && oraProgramare != null && durataConsultatie != null && !motiv.isEmpty()){
+        if (!departament.isEmpty() && dataProgramare!=null && oraProgramare != null && durataConsultatie != null && !motiv.isEmpty() && verificaDisponibilitate())
+        {
             services.getConsultatieService().adaugaConsultatie(medic, pacient, departament, dataProgramare,oraProgramare, durataConsultatie ,motiv);
-            JOptionPane.showMessageDialog(this, "Consultatie adăugata cu succes!");
+            JOptionPane.showMessageDialog(this, "Consultatie adaugata cu succes!");
             clearFields();
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Introduceți toate datele!");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Introduceti toate datele!");
         }
     }
 
-    public void clearFields() {
 
+    public void clearFields()
+    {
         departamentComboBox.setSelectedIndex(0);
         dateChooser.setDate(null);
         timeSpinner.setValue(new java.util.Date());
@@ -274,10 +298,13 @@ public class ConsultatieAddPanel extends JPanel {
         listaMedici.setListData(new SugestieProgramare[0]);
     }
 
-    private void getDepartamente() {
+
+    private void getDepartamente()
+    {
         Set<String> departamente = services.getDepartamente() ;
         for (String departament : departamente) {
             departamentComboBox.addItem(departament);
         }
     }
+
 }

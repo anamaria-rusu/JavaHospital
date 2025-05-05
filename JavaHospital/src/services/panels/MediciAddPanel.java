@@ -1,101 +1,109 @@
 package services.panels;
 
-import services.services.MediciServices;
-import java.awt.*;
+import services.services.Services;
 import javax.swing.*;
+import java.awt.*;
 import java.time.LocalDate;
 import com.toedter.calendar.JDateChooser;
-import services.services.Services;
+import java.util.Set;
 
-import java.util.*;
-
-// MediciAddPanel adauga un nou medic
-// Ea extinde clasa PersoanaAddPanel care contine campuri generale pentru un individ
-// Astfel, se ilustreaza reutilizarea codului
-
-public class MediciAddPanel extends PersoanaAddPanel {
+public class MediciAddPanel extends PersoanaAddPanel
+{
     private Services services;
     private JDateChooser dateAngajareChooser;
-    private JComboBox departamentComboBox;
+    private JComboBox<String> departamentComboBox;
 
-
-    public MediciAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel) {
-        super(cardLayout, parentPanel, "Adauga Medic");
-        setBackground(Color.decode("#b0e6de"));
+    public MediciAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    {
+        super(cardLayout, parentPanel, "Adaugă Medic");
         this.services = services;
+        setBackground(Color.decode("#b0e6de"));
 
-        int y=280;
-        // Campul pentru data angajarii
-        JLabel dataAngajariiLabel = new JLabel("Data angajarii:");
-        dataAngajariiLabel.setBounds(50, y, 100, 30);
-        add(dataAngajariiLabel);
-
-        dateAngajareChooser = new JDateChooser();
-        dateAngajareChooser.setDateFormatString("dd-MM-yyyy");
-        dateAngajareChooser.setBounds(150, y, 200, 30);
-        add(dateAngajareChooser);
-
-        y+=40;
-        JLabel departamentLabel = new JLabel("Departament:");
-        departamentLabel.setBounds(50, y, 100, 30);
-        add(departamentLabel);
-
-
-        departamentComboBox = new JComboBox<>();
-        departamentComboBox.setBounds(150, y, 200, 30);
-        add(departamentComboBox);
-
-        getDepartamente();
-        y+=50;
-        // Reajustam butoanele pentru a nu se suprapune
-        adaugaButton.setBounds(150, y, 150, 30);
-        y+=50;
-        backButton.setBounds(150, y, 150, 30);
-
-        // Setam butonul de back sa ne duca inapoi in MediciPanel
+        initMediciFields();
         setBackButton("MediciPanel");
     }
 
-    @Override
-    protected void adaugaPersoana() {
 
-        // extragerea informatiilor din Label-uri
+    // functie pentru adaugarea noilor campuri specifice unui medic
+    private void initMediciFields()
+    {
+        int y = 280;
+
+        // Data angajarii
+        dateAngajareChooser = super.addDateChooser("Data angajarii:", y);   y += 40;
+
+        // Departament
+        departamentComboBox = addLabeledComboBox("Departament:", y);
+        populateDepartamente();
+
+        // Repozitionare butoane
+        y += 50;
+        adaugaButton.setBounds(150, y, 150, 30);
+        y += 50;
+        backButton.setBounds(150, y, 150, 30);
+
+    }
+
+    // Functie pentru adaugarea unui ComboBox
+    protected JComboBox<String> addLabeledComboBox(String labelText, int y)
+    {
+        JLabel label = new JLabel(labelText);
+        label.setBounds(50, y, 100, 30);
+        add(label);
+
+        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.setBounds(150, y, 200, 30);
+        add(comboBox);
+
+        return comboBox;
+    }
+
+
+    // Functie pentru populara ComoBox-ului cu departamentele spitalului
+    private void populateDepartamente()
+    {
+        Set<String> departamente = services.getDepartamente();
+        if (departamente != null && !departamente.isEmpty()) {
+            for (String dep : departamente) {
+                departamentComboBox.addItem(dep);
+            }
+        } else {
+            departamentComboBox.addItem("Nedefinit");
+        }
+        departamentComboBox.setSelectedIndex(-1);
+    }
+
+
+    // Functie pentru adaugarea unui medic
+    @Override
+    protected void adaugaPersoana()
+    {
         String nume = numeField.getText();
         String prenume = prenumeField.getText();
-        LocalDate dataNasterii = getSelectedDate(dateChooser);  // Data nașterii
-        LocalDate dataAngajarii = getSelectedDate(dateAngajareChooser);  // Data angajării
+        LocalDate dataNasterii = getSelectedDate(dateChooser);
+        LocalDate dataAngajarii = getSelectedDate(dateAngajareChooser);
         String telefon = telefonField.getText();
         String email = emailField.getText();
         String departament = (String) departamentComboBox.getSelectedItem();
 
-        // verificare datelor
-        if (!nume.isEmpty() && !prenume.isEmpty() && dataNasterii != null && dataAngajarii != null && !telefon.isEmpty() && !email.isEmpty() && departament != null) {
-            services.getMediciServices().adaugaMedic(nume, prenume, dataNasterii, email,telefon, dataAngajarii ,departament);
-            JOptionPane.showMessageDialog(this, "Medic adăugat cu succes!");
+        if (campuriValide() && dataAngajarii != null && departament != null)
+        {
+            services.getMediciServices().adaugaMedic(nume, prenume, dataNasterii, email, telefon, dataAngajarii, departament);
+            JOptionPane.showMessageDialog(this, "Medic adaugat cu succes!");
             clearFields();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Introduceți toate datele!");
         }
-    }
-
-    private void getDepartamente() {
-
-        // Inițializăm un Set cu departamente predefinite
-        Set<String> departamente = services.getDepartamente();
-
-        // Adăugăm toate departamentele unice în JComboBox
-        for (String departament : departamente) {
-            departamentComboBox.addItem(departament);
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Completeaza corect toate informatiile!");
         }
     }
 
 
     @Override
-    protected void clearFields(){
+    protected void clearFields()
+    {
         super.clearFields();
         dateAngajareChooser.setDate(null);
         departamentComboBox.setSelectedIndex(-1);
     }
-
 }

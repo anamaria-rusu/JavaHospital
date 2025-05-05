@@ -1,8 +1,6 @@
 package services.panels;
 
-import entities.Pacient;
 import entities.Internare;
-import services.services.InternareServices;
 import services.services.Services;
 
 import javax.swing.*;

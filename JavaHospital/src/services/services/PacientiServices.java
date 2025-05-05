@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.ServiciuMedical;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 //https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/similarity/LevenshteinDistance.html
 
@@ -53,7 +52,7 @@ public class PacientiServices implements PersoanaServices<Pacient> {
             if(!nume.isEmpty())
                 distantaLevenshteinNume =  motorCautare.apply(nume,pacinet.getNume());
             if(!prenume.isEmpty())
-                distantaLevenshteinPrenume =  motorCautare.apply(nume,pacinet.getPrenume());
+                distantaLevenshteinPrenume =  motorCautare.apply(prenume,pacinet.getPrenume());
 
             if (distantaLevenshteinPrenume <=2 && distantaLevenshteinNume<=2)
                 pacientiCautati.add(pacinet);
@@ -62,11 +61,6 @@ public class PacientiServices implements PersoanaServices<Pacient> {
             distantaLevenshteinPrenume = 0;
         }
         return pacientiCautati;
-    }
-
-    public void adaugaIstoric(ServiciuMedical serviciuMedical)
-    {
-
     }
 }
 

@@ -1,53 +1,63 @@
 package services.panels;
 
 import services.services.Services;
-
 import javax.swing.*;
 import java.awt.*;
 
-// PacientiPanel ofera functionalitatile pentru gestiunea pacientilor
-
-public class PacientiPanel extends JPanel
-{
-    private CardLayout cardLayout;
-    private JPanel mainPanel;
-    private Services service;
+public class PacientiPanel extends JPanel {
+    private final CardLayout cardLayout;
+    private final JPanel mainPanel;
+    private final Services service;
 
     public PacientiPanel(Services service, CardLayout cardLayout, JPanel mainPanel)
     {
-        int y = 30;
-
-        this.service = service;
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
+        this.service = service;
 
         setBackground(Color.decode("#b0e1e6"));
         setLayout(null);
 
-        JLabel menuLabel = new JLabel("Administrare Pacienți");
-        menuLabel.setForeground(Color.BLACK);
-        menuLabel.setFont(new Font("AvantGarde", Font.PLAIN, 38));
-        menuLabel.setBounds(140, y, 400, 40);
-        add(menuLabel);
+        initUI();
+        initPanels();
+    }
 
-        y+=70;
-        JButton veziPacientiButton = new JButton("Vezi Pacienti");
-        veziPacientiButton.setBounds(175, y, 250, 40);
-        veziPacientiButton.addActionListener(e -> cardLayout.show(mainPanel, "AfiseazaPacienti"));
-        add(veziPacientiButton);
+    private void initUI()
+    {
+        int y = 30;
 
-        y+=60;
-        JButton adaugaPacientButton = new JButton("Adauga Pacient");
-        adaugaPacientButton.setBounds(175, y, 250, 40);
-        adaugaPacientButton.addActionListener(e -> cardLayout.show(mainPanel, "AdaugaPacienti"));
-        add(adaugaPacientButton);
+        JLabel titleLabel = createTitleLabel("Administrare Pacienti", y);
+        add(titleLabel);
 
-        y+=60;
-        JButton homePanelButton = new JButton("Inapoi");
-        homePanelButton.setBounds(175, y, 250, 40);
-        homePanelButton.addActionListener(e -> cardLayout.show(mainPanel, "Home"));
-        add(homePanelButton);
+        y += 70;
+        addButton("Vezi Pacienti", y, "AfiseazaPacienti");
 
+        y += 60;
+        addButton("Adauga Pacient", y, "AdaugaPacienti");
+
+        y += 60;
+        addButton("Inapoi", y, "Home");
+    }
+
+    private JLabel createTitleLabel(String text, int y)
+    {
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.BLACK);
+        label.setFont(new Font("AvantGarde", Font.PLAIN, 38));
+        label.setBounds(140, y, 400, 40);
+        return label;
+    }
+
+    private void addButton(String text, int y, String targetPanel)
+    {
+        JButton button = new JButton(text);
+        button.setBounds(175, y, 250, 40);
+        button.addActionListener(e -> cardLayout.show(mainPanel, targetPanel));
+        add(button);
+    }
+
+    private void initPanels()
+    {
         mainPanel.add(new PacientiAddPanel(service, cardLayout, mainPanel), "AdaugaPacienti");
         mainPanel.add(new PacientiListPanel(service, cardLayout, mainPanel), "AfiseazaPacienti");
     }

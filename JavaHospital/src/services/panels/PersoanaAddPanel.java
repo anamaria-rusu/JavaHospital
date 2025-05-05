@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.Date;
 
 // Clasa abstracta ce va fi extinsa pentru diversele tipuri de indivizi pe care ii gestionam (medici, pacienti, etc)
@@ -26,77 +26,73 @@ public abstract class PersoanaAddPanel extends JPanel
 
     public PersoanaAddPanel(CardLayout cardLayout, JPanel parentPanel, String titlu)
     {
-        int y = 30;
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
-
         setLayout(null);
 
+        int y = 30;
+
+        // Titlu
         JLabel titleLabel = new JLabel(titlu);
         titleLabel.setForeground(Color.BLACK);
         titleLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        titleLabel.setBounds(150, y, 200, 30);
+        titleLabel.setBounds(150, y, 300, 30);
         add(titleLabel);
 
-        y+=50;
-        JLabel numeLabel = new JLabel("Nume:");
-        numeLabel.setBounds(50, y, 100, 30);
-        add(numeLabel);
 
-        numeField = new JTextField();
-        numeField.setBounds(150, y, 200, 30);
-        add(numeField);
+        // Fields
+        y += 50;
+        numeField = addLabeledTextField("Nume:", y); y += 40;
+        prenumeField = addLabeledTextField("Prenume:", y); y += 40;
+        dateChooser = addDateChooser("Data nasterii:", y); y += 40;
+        telefonField = addLabeledTextField("Telefon:", y); y += 40;
+        emailField = addLabeledTextField("Email:", y); y += 50;
 
-        y+=40;
-        JLabel prenumeLabel = new JLabel("Prenume:");
-        prenumeLabel.setBounds(50, y, 100, 30);
-        add(prenumeLabel);
-
-        prenumeField = new JTextField();
-        prenumeField.setBounds(150, y, 200, 30);
-        add(prenumeField);
-
-        y+=40;
-        JLabel dataNasteriiLabel = new JLabel("Data nasterii:");
-        dataNasteriiLabel.setBounds(50, y, 100, 30);
-        add(dataNasteriiLabel);
-
-        dateChooser = new JDateChooser();
-        dateChooser.setDateFormatString("dd-MM-yyyy");
-        dateChooser.setBounds(150, y, 200, 30);
-        add(dateChooser);
-
-        y+=40;
-        JLabel telefonLabel = new JLabel("Telefon:");
-        telefonLabel.setBounds(50, y, 100, 30);
-        add(telefonLabel);
-
-        telefonField = new JTextField();
-        telefonField.setBounds(150, y, 200, 30);
-        add(telefonField);
-
-        y+=40;
-        JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setBounds(50, y, 100, 30);
-        add(emailLabel);
-
-        emailField = new JTextField();
-        emailField.setBounds(150, y, 200, 30);
-        add(emailField);
-
-        y+=50;
+        // Buton pentru adaugarea unei persoane
         adaugaButton = new JButton("Adaugă");
         adaugaButton.setBounds(150, y, 150, 30);
-        adaugaButton.addActionListener(e -> adaugaPersoana());
+        adaugaButton.addActionListener(_ ->  adaugaPersoana());
         add(adaugaButton);
 
-        y+=40;
-        backButton = new JButton("Înapoi");
+        y += 40;
+        // Buton pentru intoarcerea la card-ul anterior
+        backButton = new JButton("Inapoi");
         backButton.setBounds(150, y, 150, 30);
         add(backButton);
     }
 
-    // formatarea datei calendaristice
+
+    // Functie pentru adaugarea unui field nou
+    protected JTextField addLabeledTextField(String label, int y)
+    {
+        JLabel jLabel = new JLabel(label);
+        jLabel.setBounds(50, y, 100, 30);
+        add(jLabel);
+
+        JTextField textField = new JTextField();
+        textField.setBounds(150, y, 200, 30);
+        add(textField);
+
+        return textField;
+    }
+
+
+    // Functie pentru adaugarea unui DateChooser
+    protected JDateChooser addDateChooser(String label, int y)
+    {
+        JLabel jLabel = new JLabel(label);
+        jLabel.setBounds(50, y, 100, 30);
+        add(jLabel);
+
+        JDateChooser chooser = new JDateChooser();
+        chooser.setDateFormatString("dd-MM-yyyy");
+        chooser.setBounds(150, y, 200, 30);
+        add(chooser);
+
+        return chooser;
+    }
+
+    // Functie pentru formatarea datei calendaristice
     protected LocalDate getSelectedDate(JDateChooser dateChooser)
     {
         Date dataSelectata = dateChooser.getDate();
@@ -109,7 +105,24 @@ public abstract class PersoanaAddPanel extends JPanel
         return null;
     }
 
-    // curatarea campurilor dupa completarea detelor
+    // Functie pentru verificare corectitudinii datelor introduse
+    protected boolean campuriValide()
+    {
+        String nume = numeField.getText().trim();
+        String prenume = prenumeField.getText().trim();
+        Date dataNasterii = dateChooser.getDate();
+        String telefon = telefonField.getText().trim();
+        String email = emailField.getText().trim();
+
+        boolean telefonValid = telefon.matches("\\d{10}");
+        boolean emailValid = email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
+
+        return !nume.isEmpty() && !prenume.isEmpty() && dataNasterii != null && telefonValid && emailValid;
+    }
+
+
+
+    // Functie pentru curatarea campurilor dupa adaugarea persoanei
     protected void clearFields()
     {
         numeField.setText("");
@@ -119,10 +132,10 @@ public abstract class PersoanaAddPanel extends JPanel
         emailField.setText("");
     }
 
-    // configurarea corecta a butonului de back
+    // Functie pentru configurarea butonului de back
     protected void setBackButton(String panelName)
     {
-        backButton.addActionListener(e -> cardLayout.show(parentPanel, panelName));
+        backButton.addActionListener(_ -> cardLayout.show(parentPanel, panelName));
     }
 
     protected abstract void adaugaPersoana();

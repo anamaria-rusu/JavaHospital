@@ -28,7 +28,7 @@ public class PacientiInfoPanel extends PersoanaInfoPanel {
     protected void afiseazaInformatiiSpecifice()
     {
         istoricButton = new JButton("Istoric Medical");
-        istoricButton.setBounds(50, 320, 200, 30);
+        istoricButton.setBounds(50, 330, 200, 30);
         istoricButton.addActionListener(e->cardLayout.show(parentPanel, "IstoricPacient") );
         add(istoricButton);
         parentPanel.add(new IstoricPacientPanel(pacient,cardLayout,parentPanel,services), "IstoricPacient");
