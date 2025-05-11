@@ -1,67 +1,117 @@
 package services.services;
 import entities.Pacient;
+
+import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 //https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/similarity/LevenshteinDistance.html
 
 
-public class PacientiServices implements PersoanaServices<Pacient> {
+public class PacientiServices implements PersoanaServices<Pacient>, DatabaseService<Pacient>
+{
+    private static PacientiServices pacientiServices;
 
-    private List<Pacient> pacienti = new ArrayList<>();
-    private LevenshteinDistance motorCautare = new LevenshteinDistance();
+    private PacientiServices() {}
 
-
-    public PacientiServices() {
-        // Adăugăm un pacient inițial în listă
-        Pacient pacient = new Pacient("Popescu", "Ion", LocalDate.of(1980, 5, 15), "0721123456", "ion.popescu@email.com");
-        pacienti.add(pacient);
-
-        Pacient pacient2 = new Pacient("Rusu", "Ana", LocalDate.of(1980, 5, 15), "0721123456", "ion.popescu@email.com");
-        pacienti.add(pacient2);
+    public static PacientiServices getPacientiServices() {
+        if (pacientiServices == null)
+            pacientiServices = new PacientiServices();
+        return pacientiServices;
     }
 
+    @Override
+    public String getTableName() {
+        return "pacienti";
+    }
 
+    @Override
+    public String getIdColumnName() {
+        return "idPacient";
+    }
 
-    public void adaugaPacient(String nume, String prenume, LocalDate dataNasterii, String email, String telefon) {
-        pacienti.add(new Pacient(nume,prenume,dataNasterii,telefon,email));
+    @Override
+    public Pacient mapResultSetToEntity(ResultSet rs) throws SQLException {
+        int idPacient = rs.getInt("idPacient");
+        String nume = rs.getString("nume");
+        String prenume = rs.getString("prenume");
+        LocalDate dataNasterii = rs.getDate("dataNasterii").toLocalDate();
+        String telefon = rs.getString("telefon");
+        String email = rs.getString("email");
+
+        return new Pacient(idPacient, nume, prenume, dataNasterii, telefon, email);
+    }
+
+    @Override
+    public void setParameters(PreparedStatement stmt, Pacient pacient, String operatie) throws SQLException {
+        if(operatie.equals("delete"))
+            stmt.setInt(1,pacient.getId());
+        else
+        {
+            stmt.setString(1, pacient.getNume());
+            stmt.setString(2, pacient.getPrenume());
+            stmt.setDate(3, java.sql.Date.valueOf(pacient.getDataNasterii()));
+            stmt.setString(4, pacient.getTelefon());
+            stmt.setString(5, pacient.getEmail());
+            if (operatie.equals("update"))
+                stmt.setInt(6, pacient.getId());
+        }
+
     }
 
     public List<Pacient> getPersoane() {
-        return new ArrayList<>(pacienti);
+        return read();
     }
 
-    public Pacient cautaPacient(int id) {
-        for (Pacient p : pacienti) {
-            if (p.getId() == id) {
-                return p;
-            }
-        }
-        return null;
+    @Override
+    public String getInsertQuery() {
+        return "INSERT INTO " + getTableName() + " (nume, prenume, dataNasterii, telefon, email) VALUES (?, ?, ?, ?, ?)";
     }
 
-    public List<Pacient> cautaPersoane(String nume, String prenume){
-        List<Pacient> pacientiCautati = new ArrayList<>();
-        int distantaLevenshteinNume = 0;
-        int distantaLevenshteinPrenume = 0;
-
-        for(Pacient pacinet : pacienti){
-
-            if(!nume.isEmpty())
-                distantaLevenshteinNume =  motorCautare.apply(nume,pacinet.getNume());
-            if(!prenume.isEmpty())
-                distantaLevenshteinPrenume =  motorCautare.apply(prenume,pacinet.getPrenume());
-
-            if (distantaLevenshteinPrenume <=2 && distantaLevenshteinNume<=2)
-                pacientiCautati.add(pacinet);
-
-            distantaLevenshteinNume = 0;
-            distantaLevenshteinPrenume = 0;
+    public void adaugaPacient(String nume, String prenume, LocalDate dataNasterii, String telefon, String email) {
+        try {
+            Pacient pacient = new Pacient(-1, nume, prenume, dataNasterii, telefon, email);
+            create(pacient);
         }
-        return pacientiCautati;
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String getUpdateQuery() {
+        return "UPDATE " + getTableName() + " SET nume = ?, prenume = ?, dataNasterii = ?, telefon = ?, email = ? WHERE idPacient = ?";
+    }
+
+    public void actualizeazaPacient(int id,String nume, String prenume, LocalDate dataNasterii, String telefon, String email)
+    {
+        Pacient pacientUpdate = cautaEntitate(id);
+        pacientUpdate.setNume(nume);
+        pacientUpdate.setPrenume(prenume);
+        pacientUpdate.setDataNasterii(dataNasterii);
+        pacientUpdate.setTelefon(telefon);
+        pacientUpdate.setEmail(email);
+        update(pacientUpdate);
+
+    }
+
+    @Override
+    public String getDeleteQuery() {
+        return "DELETE FROM " + getTableName() + " WHERE idPacient = ?";
+    }
+
+    public void stergePacient(int id) {
+        Pacient pacientDelete = cautaEntitate(id);
+        delete(pacientDelete);
     }
 }
+
+
+
+
 
 

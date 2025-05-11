@@ -2,25 +2,29 @@ package services.services;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import entities.DatabaseConnection;
+import entities.Medic;
 
 // Clasa ce contine servicii specifice fiecarei entitati si functionalitati comune in aplicatie
 public class Services
 {
     private final MediciServices mediciServices;
     private final PacientiServices pacientiServices;
-    private final ConsultatieService consultatieService;
+    private final ConsultatieServices consultatieServices;
     private final SalonServices salonServices;
     private final InternareServices internareServices;
     private final IstoricMedicalService istoricMedicalService;
+    //private final DatabaseService databaseService;
 
     public Services()
     {
-        this.mediciServices = new MediciServices();
-        this.pacientiServices = new PacientiServices();
-        this.consultatieService = new ConsultatieService(this.mediciServices);
+        this.mediciServices = MediciServices.getMediciServices();
+        this.pacientiServices = PacientiServices.getPacientiServices();
+        this.consultatieServices = ConsultatieServices.getConsultatieServices();
         this.salonServices = new SalonServices();
         this.internareServices = new InternareServices();
         this.istoricMedicalService= new IstoricMedicalService();
+
     }
 
     // Servicii petru clasa Medic
@@ -34,8 +38,8 @@ public class Services
     }
 
     // Servicii petru clasa Consultatie
-    public ConsultatieService getConsultatieService() {
-        return consultatieService;
+    public ConsultatieServices getConsultatieServices() {
+        return consultatieServices;
     }
 
     // Servicii petru clasa Salon

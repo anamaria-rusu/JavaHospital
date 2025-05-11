@@ -67,7 +67,7 @@ public class ConsultatieAddPanel extends JPanel {
         cautaButton.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(idPacient.getText()); // Citește ID-ul
-                pacient = services.getPacientiServices().cautaPacient(id); // Caută pacientul
+                pacient = services.getPacientiServices().cautaEntitate(id); // Caută pacientul
 
                 if (pacient != null)
                     pacientInfoLabel.setText("Pacient: " + pacient.getNume() + " " + pacient.getPrenume());
@@ -109,7 +109,7 @@ public class ConsultatieAddPanel extends JPanel {
 
         dateChooser = new JDateChooser();
         dateChooser.setBounds(230, y, 200, 30);
-        dateChooser.setDateFormatString("dd-MM-yyyy");
+        dateChooser.setDateFormatString("yyyy-MM-dd");
         add(dateChooser);
 
         y += 40;
@@ -247,7 +247,7 @@ public class ConsultatieAddPanel extends JPanel {
             return false;
         }
 
-        List<SugestieProgramare> disponibili = services.getConsultatieService().mediciDisponibiliConsultatie(data, ora, departament, durataConsultatie);
+        List<SugestieProgramare> disponibili = services.getConsultatieServices().mediciDisponibiliConsultatie(data, ora, departament, durataConsultatie);
 
         if (disponibili.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Niciun medic disponibil pentru criteriile selectate!");
@@ -274,7 +274,7 @@ public class ConsultatieAddPanel extends JPanel {
 
         if (!departament.isEmpty() && dataProgramare!=null && oraProgramare != null && durataConsultatie != null && !motiv.isEmpty() && verificaDisponibilitate())
         {
-            services.getConsultatieService().adaugaConsultatie(medic, pacient, departament, dataProgramare,oraProgramare, durataConsultatie ,motiv);
+            services.getConsultatieServices().adaugaConsultatie(medic, pacient, departament, dataProgramare,oraProgramare, durataConsultatie ,motiv);
             JOptionPane.showMessageDialog(this, "Consultatie adaugata cu succes!");
             clearFields();
 

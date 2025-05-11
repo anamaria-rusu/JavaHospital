@@ -21,15 +21,15 @@ public class Internare implements ServiciuMedical{
 
     }
 
-    public Internare() {
-
-        this.diagnostic = "";
-        this.dataInternare = LocalDate.now();
-        this.pacient = new Pacient();
-        this.idInternare = ++ nrInternari;
-        this.departamentMedical = "";
-        this.salon= new Salon();
-    }
+//    public Internare() {
+//
+//        this.diagnostic = "";
+//        this.dataInternare = LocalDate.now();
+//        this.pacient = new Pacient();
+//        this.idInternare = ++ nrInternari;
+//        this.departamentMedical = "";
+//        this.salon= new Salon();
+//    }
 
     public Pacient getPacient() {
         return pacient;

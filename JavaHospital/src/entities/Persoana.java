@@ -3,8 +3,6 @@ package entities;
 import java.time.LocalDate;
 
 public abstract class Persoana {
-    private static int nrPersoana = 0;
-    private final int idPersoana;
     private String nume;
     private String prenume;
     private LocalDate dataNasterii;
@@ -12,7 +10,6 @@ public abstract class Persoana {
     private String email;
 
     public Persoana() {
-        this.idPersoana = nrPersoana++;
         this.nume = "";
         this.prenume = "";
         this.dataNasterii = LocalDate.of(1970,1,1);
@@ -26,7 +23,6 @@ public abstract class Persoana {
         this.dataNasterii = dataNasterii;
         this.email = email;
         this.telefon = telefon;
-        this.idPersoana = nrPersoana++;
     }
 
     public String getNume() {

@@ -1,21 +1,16 @@
 package entities;
 import java.time.LocalDate;
 
-public class Pacient extends Persoana {
-    private static int nrPacienti = 1000;
+public class Pacient extends Persoana
+{
     private final int idPacient;
     private IstoricPacient istoricMedical;
 
-    public Pacient() {
-        super();
-        this.idPacient = ++nrPacienti;
-        this.istoricMedical = new IstoricPacient();
 
-    }
-
-    public Pacient(String nume, String prenume, LocalDate dataNasterii, String email, String telefon) {
+    public Pacient(int idPacient,String nume, String prenume, LocalDate dataNasterii, String email, String telefon) {
         super(nume, prenume, dataNasterii, email, telefon);
-        this.idPacient = ++nrPacienti;
+        this.idPacient = idPacient;
+        this.istoricMedical = new IstoricPacient();
         this.istoricMedical = new IstoricPacient();
     }
 
@@ -23,7 +18,6 @@ public class Pacient extends Persoana {
     public int getId() {
         return idPacient;
     }
-
 
     public IstoricPacient getIstoricMedical() {
         return istoricMedical;

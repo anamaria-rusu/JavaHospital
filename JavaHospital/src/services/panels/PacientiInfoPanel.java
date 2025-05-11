@@ -1,10 +1,14 @@
 package services.panels;
 
 import entities.Pacient;
-import services.services.Services;
+import entities.Persoana;
+import services.services.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class PacientiInfoPanel extends PersoanaInfoPanel {
     private Pacient pacient;
@@ -33,5 +37,48 @@ public class PacientiInfoPanel extends PersoanaInfoPanel {
         add(istoricButton);
         parentPanel.add(new IstoricPacientPanel(pacient,cardLayout,parentPanel,services), "IstoricPacient");
 
+    }
+
+    @Override
+    protected void setDeleteButton(int id){
+        PacientiServices.getPacientiServices().stergePacient(id);
+    }
+
+    @Override
+    protected void setSaveButton(Persoana persoana)
+    {
+        for (int i = 0; i < valueLabels.size(); i++) {
+            String newText = textFields.get(i).getText();
+            valueLabels.get(i).setText(newText);
+            textFields.get(i).setVisible(false);
+            valueLabels.get(i).setVisible(true);
+        }
+
+        try
+        {
+            int id = persoana.getId();
+            String nume  = textFields.get(0).getText();
+            String prenume = textFields.get(1).getText();
+            String textData = textFields.get(2).getText();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate dataNasterii = LocalDate.parse(textData, formatter);
+            String telefon = textFields.get(3).getText();
+            String email = textFields.get(4).getText();
+            PacientiServices.getPacientiServices().actualizeazaPacient(id,nume,prenume,dataNasterii,telefon,email);
+
+        }
+        catch (DateTimeParseException ex)
+        {
+            System.out.println("Data introdusă nu este validă");
+            ex.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Eroare");
+            ex.printStackTrace();
+        }
+
+        editButton.setVisible(true);
+        saveButton.setVisible(false);
     }
 }

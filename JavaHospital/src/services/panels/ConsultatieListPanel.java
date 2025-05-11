@@ -1,6 +1,7 @@
 package services.panels;
 
 import entities.Consultatie;
+import services.services.ConsultatieServices;
 import services.services.Services;
 
 import javax.swing.*;
@@ -93,7 +94,7 @@ public class ConsultatieListPanel extends JPanel
 
     private void incarcaConsultatie()
     {
-        List<Consultatie> consultatii = services.getConsultatieService().getConsultatii();
+        List<Consultatie> consultatii = ConsultatieServices.getConsultatieServices().getConsultatii();
         listaConsultatie.setListData(consultatii.toArray(new Consultatie[0]));
     }
 

@@ -66,7 +66,7 @@ public class InternareAddPanel extends JPanel {
         cautaButton.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(idPacient.getText()); // Citește ID-ul
-                pacient = services.getPacientiServices().cautaPacient(id); // Caută pacientul
+                pacient = services.getPacientiServices().cautaEntitate(id); // Caută pacientul
 
                 if (pacient != null)
                     pacientInfoLabel.setText("Pacient: " + pacient.getNume() + " " + pacient.getPrenume());

@@ -85,7 +85,7 @@ public abstract class PersoanaAddPanel extends JPanel
         add(jLabel);
 
         JDateChooser chooser = new JDateChooser();
-        chooser.setDateFormatString("dd-MM-yyyy");
+        chooser.setDateFormatString("yyyy-MM-dd");
         chooser.setBounds(150, y, 200, 30);
         add(chooser);
 
@@ -97,9 +97,9 @@ public abstract class PersoanaAddPanel extends JPanel
     {
         Date dataSelectata = dateChooser.getDate();
         if (dataSelectata != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String dataFormatata = dateFormat.format(dataSelectata);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return LocalDate.parse(dataFormatata, formatter);
         }
         return null;

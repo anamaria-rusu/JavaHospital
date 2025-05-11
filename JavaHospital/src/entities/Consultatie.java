@@ -1,10 +1,8 @@
 package entities;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Consultatie implements ServiciuMedical {
-    private static int nrConsultatie = 0;
     private final int idConsultatie;
     private Medic medic;
     private Pacient pacient;
@@ -14,7 +12,7 @@ public class Consultatie implements ServiciuMedical {
     private int durataConsultatie;
     private String motiv;
 
-    public Consultatie(Medic medic, Pacient pacient, String departament, LocalDate dataProgramare, LocalTime oraProgramare, int durataConsultatie, String motiv) {
+    public Consultatie(int idConsultatie,Medic medic, Pacient pacient, String departament, LocalDate dataProgramare, LocalTime oraProgramare, int durataConsultatie, String motiv) {
         this.medic = medic;
         this.pacient = pacient;
         this.departament = departament;
@@ -22,19 +20,21 @@ public class Consultatie implements ServiciuMedical {
         this.oraProgramare = oraProgramare;
         this.durataConsultatie = durataConsultatie;
         this.motiv = motiv;
-        this.idConsultatie = ++nrConsultatie;
+        this.idConsultatie = idConsultatie;
     }
 
-    public Consultatie() {
-        this.medic = new Medic();
-        this.pacient = new Pacient();
-        this.dataProgramare = LocalDate.of(0,0,0);
-        this.oraProgramare= LocalTime.of(0,0);
-        this.motiv = motiv;
-        this.durataConsultatie = 0;
-        this.departament = "";
-        this.idConsultatie = ++nrConsultatie;
+    public LocalDate getData() {
+        return dataProgramare;
     }
+
+    public String getDepartament() {
+        return departament;
+    }
+
+    public String getMotiv() {
+        return motiv;
+    }
+
 
     public Medic getMedic() {
         return medic;
@@ -52,9 +52,6 @@ public class Consultatie implements ServiciuMedical {
         this.pacient = pacient;
     }
 
-    public LocalDate getData() {
-        return dataProgramare;
-    }
 
     public void setDataProgramare(LocalDate dataProgramare) {
         this.dataProgramare = dataProgramare;

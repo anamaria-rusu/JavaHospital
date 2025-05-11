@@ -29,6 +29,7 @@ public class PacientiAddPanel extends PersoanaAddPanel
 
         if (campuriValide())
         {
+            //service.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, email, telefon);
             service.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, email, telefon);
             JOptionPane.showMessageDialog(this, "Pacient adaugat cu succes!");
             clearFields();
