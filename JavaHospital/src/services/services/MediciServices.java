@@ -66,6 +66,7 @@ public class MediciServices implements PersoanaServices<Medic>, DatabaseService<
     }
 
     public List<Medic> getPersoane() {
+        CvsServices.log("READ - Medic");
         return read();
     }
 
@@ -78,6 +79,8 @@ public class MediciServices implements PersoanaServices<Medic>, DatabaseService<
         try {
             Medic medic = new Medic(-1, nume, prenume, dataNasterii, telefon, email, dataAngajarii, departamentMedical);
             create(medic);
+            CvsServices.log("CREATE - Medic");
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -89,18 +92,30 @@ public class MediciServices implements PersoanaServices<Medic>, DatabaseService<
         return "UPDATE " + getTableName() + " SET nume = ?, prenume = ?, dataNasterii = ?, telefon = ?, email = ?, dataAngajarii = ?, departamentMedical = ? WHERE idMedic = ?";
     }
 
-    public void actualizeazaMedic(int id,String nume, String prenume, LocalDate dataNasterii, String telefon, String email, LocalDate dataAngajarii, String departamentMedical)
-    {
-        Medic medicUpdate = cautaEntitate(id);
-        medicUpdate.setNume(nume);
-        medicUpdate.setPrenume(prenume);
-        medicUpdate.setDataNasterii(dataNasterii);
-        medicUpdate.setTelefon(telefon);
-        medicUpdate.setEmail(email);
-        medicUpdate.setDataAngajarii(dataAngajarii);
-        medicUpdate.setDepartamentMedical(departamentMedical);
-        update(medicUpdate);
+    public void actualizeazaMedic(int id, String nume, String prenume, LocalDate dataNasterii, String telefon, String email, LocalDate dataAngajarii, String departamentMedical) {
+        try {
+            Medic medicUpdate = cautaEntitate(id);
+            if (medicUpdate == null) {
+                throw new IllegalArgumentException("Medicul cu ID-ul specificat nu există.");
+            }
+
+            medicUpdate.setNume(nume);
+            medicUpdate.setPrenume(prenume);
+            medicUpdate.setDataNasterii(dataNasterii);
+            medicUpdate.setTelefon(telefon);
+            medicUpdate.setEmail(email);
+            medicUpdate.setDataAngajarii(dataAngajarii);
+            medicUpdate.setDepartamentMedical(departamentMedical);
+
+            update(medicUpdate);
+            CvsServices.log("UPDATE - Medic");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Eroare: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Eroare neașteptată la actualizare: " + e.getMessage());
+        }
     }
+
 
     @Override
     public String getDeleteQuery() {
@@ -108,9 +123,20 @@ public class MediciServices implements PersoanaServices<Medic>, DatabaseService<
     }
 
     public void stergeMedic(int id) {
-        Medic medicDelete = cautaEntitate(id);
-        delete(medicDelete);
-        CvsServices.log("Salvare internare");
+        try {
+            Medic medicDelete = cautaEntitate(id);
+            if (medicDelete == null) {
+                throw new IllegalArgumentException("Medicul nu a fost găsit pentru ștergere.");
+            }
+
+            delete(medicDelete);
+            CvsServices.log("DELETE - Medic");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Eroare: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Eroare neașteptată la ștergere: " + e.getMessage());
+        }
     }
+
 
 }

@@ -1,17 +1,15 @@
 package services.panels;
-import services.services.Services;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class InternarePanel extends JPanel {
 
-    Services services;
     CardLayout cardLayout;
     JPanel parentPanel;
 
-    public InternarePanel(Services services, CardLayout cardLayout, JPanel parentPanel) {
-        this.services=services;
+    public InternarePanel(CardLayout cardLayout, JPanel parentPanel) {
+
         this.cardLayout=cardLayout;
         this.parentPanel=parentPanel;
 
@@ -40,8 +38,8 @@ public class InternarePanel extends JPanel {
         homePanelButton.addActionListener(e -> cardLayout.show(parentPanel, "Home"));
         add(homePanelButton);
 
-        parentPanel.add(new SalonPanel(services, cardLayout, parentPanel), "SaloanePanel");
-        parentPanel.add(new InternareAddPanel(services, cardLayout, parentPanel), "AdaugaInternare");
+        parentPanel.add(new SalonPanel(cardLayout, parentPanel), "SaloanePanel");
+        parentPanel.add(new InternareAddPanel(cardLayout, parentPanel), "AdaugaInternare");
 
     }
 }

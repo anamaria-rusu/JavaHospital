@@ -4,7 +4,6 @@ import services.panels.InternarePanel;
 import services.panels.PacientiPanel;
 import services.panels.AngajatiPanel;
 import services.panels.ConsultatiePanel;
-import services.services.Services;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +20,6 @@ public class Home extends JFrame
 {
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private Services services;
 
     public Home()
     {
@@ -36,7 +34,6 @@ public class Home extends JFrame
         // panoul se va organiza folosind card-uri ( la un momennt, doar un card e vizibil in panel)
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        services = new Services();
 
         //panoul Home
         JPanel homePanel = createHomePanel();
@@ -44,19 +41,19 @@ public class Home extends JFrame
         mainPanel.add(homePanel, "Home");
 
         //panoul pentru administrarea pacientilor
-        PacientiPanel pacientiPanel = new PacientiPanel(services, cardLayout, mainPanel);
+        PacientiPanel pacientiPanel = new PacientiPanel(cardLayout, mainPanel);
         mainPanel.add(pacientiPanel, "PacientiPanel");
 
         //panoul pentru administrarea angajatilor
-        AngajatiPanel angajatiPanel = new AngajatiPanel(services, cardLayout,mainPanel);
+        AngajatiPanel angajatiPanel = new AngajatiPanel(cardLayout,mainPanel);
         mainPanel.add(angajatiPanel, "AngajatiPanel");
 
         // panoul pentru consulatii
-        ConsultatiePanel consultatiePanel = new ConsultatiePanel(cardLayout,mainPanel,services);
+        ConsultatiePanel consultatiePanel = new ConsultatiePanel(cardLayout,mainPanel);
         mainPanel.add(consultatiePanel, "ConsultatiePanel");
 
         // panoul pentru internari
-        InternarePanel internarePanel = new InternarePanel(services, cardLayout, mainPanel);
+        InternarePanel internarePanel = new InternarePanel(cardLayout, mainPanel);
         mainPanel.add(internarePanel, "InternarePanel");
 
 
@@ -112,9 +109,9 @@ public class Home extends JFrame
         return panel;
     }
 
-    public static void main(String[] args) {
-        new Home();
-    }
+    //public static void main(String[] args) {
+//        new Home();
+//    }
 }
 
 

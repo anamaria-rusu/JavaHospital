@@ -1,19 +1,16 @@
 package services.panels;
 
-import services.services.Services;
 import javax.swing.*;
 import java.awt.*;
 
 public class PacientiPanel extends JPanel {
     private final CardLayout cardLayout;
     private final JPanel mainPanel;
-    private final Services service;
 
-    public PacientiPanel(Services service, CardLayout cardLayout, JPanel mainPanel)
+    public PacientiPanel(CardLayout cardLayout, JPanel mainPanel)
     {
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
-        this.service = service;
 
         setBackground(Color.decode("#b0e1e6"));
         setLayout(null);
@@ -58,7 +55,7 @@ public class PacientiPanel extends JPanel {
 
     private void initPanels()
     {
-        mainPanel.add(new PacientiAddPanel(service, cardLayout, mainPanel), "AdaugaPacienti");
-        mainPanel.add(new PacientiListPanel(service, cardLayout, mainPanel), "AfiseazaPacienti");
+        mainPanel.add(new PacientiAddPanel(cardLayout, mainPanel), "AdaugaPacienti");
+        mainPanel.add(new PacientiListPanel(cardLayout, mainPanel), "AfiseazaPacienti");
     }
 }

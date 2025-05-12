@@ -5,7 +5,6 @@ import java.time.LocalDate;
 public class Medic extends Angajat
 {
     private final int idMedic;
-
     private String departamentMedical;
 
     public Medic(int idMedic,String nume, String prenume, LocalDate dataNasterii, String email, String telefon, LocalDate dataAngajarii, String departamentMedical) {

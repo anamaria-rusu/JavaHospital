@@ -2,9 +2,8 @@ package services.panels;
 
 import entities.Medic;
 import entities.Persoana;
-import services.services.MediciServices;
+import services.services.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -59,7 +58,7 @@ public class MediciInfoPanel extends PersoanaInfoPanel {
         try
         {
             int id = persoana.getId();
-            System.out.println(id);
+
             String nume  = textFields.get(0).getText();
             String prenume = textFields.get(1).getText();
             String textData = textFields.get(2).getText();
@@ -79,12 +78,12 @@ public class MediciInfoPanel extends PersoanaInfoPanel {
         }
         catch (DateTimeParseException ex)
         {
-            System.out.println("Data introdusă nu este validă");
+
             ex.printStackTrace();
         }
         catch(Exception ex)
         {
-            System.out.println("Eroare");
+
             ex.printStackTrace();
         }
 

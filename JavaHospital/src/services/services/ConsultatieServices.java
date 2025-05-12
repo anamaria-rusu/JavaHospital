@@ -79,6 +79,7 @@ public class ConsultatieServices implements DatabaseService<Consultatie> {
     }
 
     public List<Consultatie> getConsultatii() {
+        CvsServices.log("READ - Consultatii");
         return read();
     }
 
@@ -91,12 +92,12 @@ public class ConsultatieServices implements DatabaseService<Consultatie> {
         try {
             Consultatie consultatie = new Consultatie(-1, medic, pacient, departament, dataProgramare, oraProgramare, durataConsultatie, motiv);
             create(consultatie);
+            CvsServices.log("CREATE - Consultatii");
+
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-
-        //TODO : pacient.adaugaIstoric(consultatie);
     }
 
     @Override
@@ -104,15 +105,45 @@ public class ConsultatieServices implements DatabaseService<Consultatie> {
         return "UPDATE " + getTableName() + " SET dataProgramare = ?, oraProgramare = ?, durataConsultatie = ?, motiv = ? WHERE idConsultatie = ?";
     }
 
-    public void actualizeazaConsultatie(int id, LocalDate dataProgramare, LocalTime oraProgramare, int durataConsultatie , String motiv)
-    {
-        Consultatie  consultatieUpdate = cautaEntitate(id);
-        consultatieUpdate.setDataProgramare(dataProgramare);
-        consultatieUpdate.setOraProgramare(oraProgramare);
-        consultatieUpdate.setDurataConsultatie(durataConsultatie);
-        consultatieUpdate.setMotiv(motiv);
-        update(consultatieUpdate);
+    public void actualizeazaConsultatie(int id, LocalDate dataProgramare, LocalTime oraProgramare, int durataConsultatie, String motiv) {
+        try {
+            Consultatie consultatieUpdate = cautaEntitate(id);
+
+            if (consultatieUpdate == null) {
+                throw new IllegalArgumentException("Consultația nu a fost găsită.");
+            }
+
+            if (dataProgramare == null || oraProgramare == null) {
+                throw new IllegalArgumentException("Data și ora programării trebuie completate.");
+            }
+
+            if (dataProgramare.isBefore(LocalDate.now()) ||
+                    (dataProgramare.isEqual(LocalDate.now()) && oraProgramare.isBefore(LocalTime.now()))) {
+                throw new IllegalArgumentException("Nu poți programa o consultație în trecut.");
+            }
+
+            if (durataConsultatie <= 0) {
+                throw new IllegalArgumentException("Durata consultației trebuie să fie mai mare decât 0.");
+            }
+
+            if (motiv == null || motiv.trim().isEmpty()) {
+                throw new IllegalArgumentException("Trebuie să specifici un motiv pentru consultație.");
+            }
+
+            consultatieUpdate.setDataProgramare(dataProgramare);
+            consultatieUpdate.setOraProgramare(oraProgramare);
+            consultatieUpdate.setDurataConsultatie(durataConsultatie);
+            consultatieUpdate.setMotiv(motiv);
+
+            update(consultatieUpdate);
+            CvsServices.log("UPDATE - Consultatii");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Eroare: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Eroare neașteptată: " + e.getMessage());
+        }
     }
+
 
     @Override
     public String getDeleteQuery() {
@@ -120,9 +151,21 @@ public class ConsultatieServices implements DatabaseService<Consultatie> {
     }
 
     public void stergeConsultatie(int id) {
-        Consultatie consultatieDelete = cautaEntitate(id);
-        delete(consultatieDelete);
+        try {
+            Consultatie consultatieDelete = cautaEntitate(id);
+            if (consultatieDelete == null) {
+                throw new IllegalArgumentException("Consultația nu a fost găsită.");
+            }
+
+            delete(consultatieDelete);
+            CvsServices.log("DELETE - Consultatii");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Eroare: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Eroare neașteptată: " + e.getMessage());
+        }
     }
+
 
 
     public boolean esteDisponibil(int id,Medic medic, LocalDate data, LocalTime oraInceput, int durataMinute) {

@@ -139,12 +139,12 @@ public class ConsultatieInfoPanel extends JPanel {
             }
             catch (DateTimeParseException ex)
             {
-                System.out.println("Data introdusă nu este validă");
+
                 ex.printStackTrace();
             }
             catch(Exception ex)
             {
-                System.out.println("Eroare");
+
                 ex.printStackTrace();
             }
 

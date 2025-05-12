@@ -11,7 +11,7 @@ public class CvsServices {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static void log(String actiune) {
-        try (FileWriter writer = new FileWriter(FILE_NAME, true)) { // true = append mode
+        try (FileWriter writer = new FileWriter(FILE_NAME, true)) {
             String timestamp = LocalDateTime.now().format(FORMATTER);
             writer.write(actiune + "," + timestamp + "\n");
         } catch (IOException e) {

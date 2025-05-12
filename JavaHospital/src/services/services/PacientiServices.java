@@ -8,10 +8,6 @@ import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.apache.commons.text.similarity.LevenshteinDistance;
-//https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/similarity/LevenshteinDistance.html
-
-
 public class PacientiServices implements PersoanaServices<Pacient>, DatabaseService<Pacient>
 {
     private static PacientiServices pacientiServices;
@@ -64,6 +60,7 @@ public class PacientiServices implements PersoanaServices<Pacient>, DatabaseServ
     }
 
     public List<Pacient> getPersoane() {
+        CvsServices.log("READ - Pacient");
         return read();
     }
 
@@ -76,6 +73,8 @@ public class PacientiServices implements PersoanaServices<Pacient>, DatabaseServ
         try {
             Pacient pacient = new Pacient(-1, nume, prenume, dataNasterii, telefon, email);
             create(pacient);
+            CvsServices.log("CREATE - Pacient");
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -87,17 +86,27 @@ public class PacientiServices implements PersoanaServices<Pacient>, DatabaseServ
         return "UPDATE " + getTableName() + " SET nume = ?, prenume = ?, dataNasterii = ?, telefon = ?, email = ? WHERE idPacient = ?";
     }
 
-    public void actualizeazaPacient(int id,String nume, String prenume, LocalDate dataNasterii, String telefon, String email)
-    {
-        Pacient pacientUpdate = cautaEntitate(id);
-        pacientUpdate.setNume(nume);
-        pacientUpdate.setPrenume(prenume);
-        pacientUpdate.setDataNasterii(dataNasterii);
-        pacientUpdate.setTelefon(telefon);
-        pacientUpdate.setEmail(email);
-        update(pacientUpdate);
+    public void actualizeazaPacient(int id, String nume, String prenume, LocalDate dataNasterii, String telefon, String email) {
+        try {
+            Pacient pacientUpdate = cautaEntitate(id);
+            if (pacientUpdate == null) {
+                throw new IllegalArgumentException("Pacientul cu ID-ul " + id + " nu a fost găsit.");
+            }
 
+            pacientUpdate.setNume(nume);
+            pacientUpdate.setPrenume(prenume);
+            pacientUpdate.setDataNasterii(dataNasterii);
+            pacientUpdate.setTelefon(telefon);
+            pacientUpdate.setEmail(email);
+            update(pacientUpdate);
+            CvsServices.log("UPDATE - Pacient");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Eroare: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Eroare la actualizarea pacientului: " + e.getMessage());
+        }
     }
+
 
     @Override
     public String getDeleteQuery() {
@@ -105,9 +114,21 @@ public class PacientiServices implements PersoanaServices<Pacient>, DatabaseServ
     }
 
     public void stergePacient(int id) {
-        Pacient pacientDelete = cautaEntitate(id);
-        delete(pacientDelete);
+        try {
+            Pacient pacientDelete = cautaEntitate(id);
+            if (pacientDelete == null) {
+                throw new IllegalArgumentException("Pacientul cu ID-ul " + id + " nu există.");
+            }
+
+            delete(pacientDelete);
+            CvsServices.log("DELETE - Pacient");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Eroare: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Eroare la ștergerea pacientului: " + e.getMessage());
+        }
     }
+
 }
 
 

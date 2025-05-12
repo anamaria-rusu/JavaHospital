@@ -1,18 +1,16 @@
 package services.panels;
 
-import services.services.Services;
+import services.services.*;
 import java.awt.*;
 import javax.swing.*;
 import java.time.LocalDate;
 
 public class PacientiAddPanel extends PersoanaAddPanel
 {
-    private Services service;
 
-    public PacientiAddPanel(Services service, CardLayout cardLayout, JPanel parentPanel)
+    public PacientiAddPanel(CardLayout cardLayout, JPanel parentPanel)
     {
         super(cardLayout, parentPanel, "Adaugă Pacient");
-        this.service = service;
         setBackground(Color.decode("#b0e1e6"));
         setBackButton("PacientiPanel");
     }
@@ -29,8 +27,7 @@ public class PacientiAddPanel extends PersoanaAddPanel
 
         if (campuriValide())
         {
-            //service.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, email, telefon);
-            service.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, email, telefon);
+            PacientiServices.getPacientiServices().adaugaPacient(nume, prenume, dataNasterii, email, telefon);
             JOptionPane.showMessageDialog(this, "Pacient adaugat cu succes!");
             clearFields();
         }

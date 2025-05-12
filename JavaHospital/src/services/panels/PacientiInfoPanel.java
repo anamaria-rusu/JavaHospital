@@ -15,14 +15,12 @@ public class PacientiInfoPanel extends PersoanaInfoPanel {
     protected JButton istoricButton;
     private CardLayout cardLayout;
     private JPanel parentPanel;
-    private Services services;
 
-    public PacientiInfoPanel(Pacient pacient, String backPanel, CardLayout cardLayout, JPanel parentPanel, Services service) {
+    public PacientiInfoPanel(Pacient pacient, String backPanel, CardLayout cardLayout, JPanel parentPanel) {
         super(pacient, "Informații Pacient");
         this.pacient = pacient;
         this.cardLayout =cardLayout;
         this.parentPanel = parentPanel;
-        this.services=service;
         setBackground(Color.decode("#b0e1e6"));
         afiseazaInformatiiSpecifice();
         setBackButton(backPanel);
@@ -35,7 +33,7 @@ public class PacientiInfoPanel extends PersoanaInfoPanel {
         istoricButton.setBounds(50, 330, 200, 30);
         istoricButton.addActionListener(e->cardLayout.show(parentPanel, "IstoricPacient") );
         add(istoricButton);
-        parentPanel.add(new IstoricPacientPanel(pacient,cardLayout,parentPanel,services), "IstoricPacient");
+        parentPanel.add(new IstoricPacientPanel(pacient,cardLayout,parentPanel), "IstoricPacient");
 
     }
 
@@ -69,12 +67,11 @@ public class PacientiInfoPanel extends PersoanaInfoPanel {
         }
         catch (DateTimeParseException ex)
         {
-            System.out.println("Data introdusă nu este validă");
             ex.printStackTrace();
         }
         catch(Exception ex)
         {
-            System.out.println("Eroare");
+
             ex.printStackTrace();
         }
 

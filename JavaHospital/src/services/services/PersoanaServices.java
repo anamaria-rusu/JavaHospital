@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface PersoanaServices<T extends Persoana>
 {
+
     LevenshteinDistance motorCautare = new LevenshteinDistance();
 
     List<T> getPersoane();

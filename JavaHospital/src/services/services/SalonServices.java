@@ -1,4 +1,5 @@
 package services.services;
+import entities.Internare;
 import entities.Salon;
 
 import java.sql.PreparedStatement;
@@ -41,6 +42,8 @@ public class SalonServices implements DatabaseService<Salon>
     }
 
     public List<Salon> getSaloane() {
+        CvsServices.log("READ - Salon");
+
         return read();
     }
 
@@ -52,16 +55,34 @@ public class SalonServices implements DatabaseService<Salon>
         if (saloane == null || saloane.isEmpty())
             return null;
 
+        Salon salonOptim = null;
+        int maxLocuriLibere = -1;
 
-        Salon salonCuCeiMaiPutiniPacienti = saloane.get(0);
-//        for (Salon salon : saloane) {
-//            if (salon.getCapacitateCurenta() < salonCuCeiMaiPutiniPacienti.getCapacitateCurenta() && salon.getCapacitateCurenta()<salon.getCapacitateMaxima()) {
-//                salonCuCeiMaiPutiniPacienti = salon;
-//            }
-//        }
-//        if (salonCuCeiMaiPutiniPacienti.getCapacitateCurenta() == salonCuCeiMaiPutiniPacienti.getCapacitateMaxima()-1)
-//            return null;
-        return salonCuCeiMaiPutiniPacienti;
+        for (Salon salon : saloane) {
+            int capacitateCurenta = getCapacitateCurenta(salon);
+            int locuriLibere = salon.getCapacitateMaxima() - capacitateCurenta;
+
+            if (locuriLibere <= 0)
+                continue;
+
+            if (locuriLibere > maxLocuriLibere) {
+                maxLocuriLibere = locuriLibere;
+                salonOptim = salon;
+            }
+        }
+
+        return salonOptim; // va fi null dacă toate saloanele sunt pline
+    }
+
+
+    public int getCapacitateCurenta(Salon salon)
+    {
+       List<Internare> internari = InternareServices.getInternareServices().read();
+       int cnt  = 0;
+       for (Internare internare : internari)
+           if(internare.getSalon().getId() == salon.getId())
+               ++cnt;
+       return cnt;
     }
 
 

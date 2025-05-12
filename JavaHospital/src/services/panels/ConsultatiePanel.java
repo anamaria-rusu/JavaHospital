@@ -1,7 +1,5 @@
 package services.panels;
 
-import services.services.Services;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,13 +7,11 @@ public class ConsultatiePanel extends JPanel {
 
     private CardLayout cardLayout;
     private JPanel parentPanel;
-    private Services services;
 
-    public ConsultatiePanel(CardLayout cardLayout, JPanel parentPanel, Services services)
+    public ConsultatiePanel(CardLayout cardLayout, JPanel parentPanel)
     {
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
-        this.services = services;
 
         setBackground(Color.decode("#c1e6b0"));
         setLayout(null);
@@ -28,8 +24,8 @@ public class ConsultatiePanel extends JPanel {
         y = addButton("Adaugă Consultație", "AdaugaConsultatie", y);
         addButton("Înapoi", "Home", y);
 
-        parentPanel.add(new ConsultatieAddPanel(services, cardLayout, parentPanel), "AdaugaConsultatie");
-        parentPanel.add(new ConsultatieListPanel(services, cardLayout, parentPanel), "AfiseazaConsultatie");
+        parentPanel.add(new ConsultatieAddPanel(cardLayout, parentPanel), "AdaugaConsultatie");
+        parentPanel.add(new ConsultatieListPanel(cardLayout, parentPanel), "AfiseazaConsultatie");
     }
 
     private void addTitle(String title, int y)

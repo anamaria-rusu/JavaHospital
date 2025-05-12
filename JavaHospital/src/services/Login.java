@@ -19,6 +19,13 @@ public class Login extends JFrame implements ActionListener
     private JPasswordField passwordField;
     private JButton loginBtn, exitBtn;
 
+    public static Login getInstance()
+    {
+        if(instance==null)
+            instance = new Login();
+        return instance;
+    }
+
     private Login()
     {
         //constructorul superclasei (JFrame)
@@ -102,12 +109,6 @@ public class Login extends JFrame implements ActionListener
         setVisible(true); //incarca fereastra
     }
 
-    public static Login getInstance()
-    {
-        if(instance==null)
-            instance = new Login();
-        return instance;
-    }
 
     @Override
     public void actionPerformed(ActionEvent e)
@@ -120,10 +121,9 @@ public class Login extends JFrame implements ActionListener
                 char[] passwordChars = passwordField.getPassword();
                 String password = new String(passwordChars);
 
-                // urmeaza modificarea la integrarea bazei de date --> Etapa 2
+
                 if (username.equals("admin") && password.equals("admin"))
                 {
-                    //JOptionPane.showMessageDialog(this, "Logarea a fost realizata!");
                     this.dispose();
                     new Home();
                 }
@@ -132,7 +132,6 @@ public class Login extends JFrame implements ActionListener
                     JOptionPane.showMessageDialog(this, "Username sau parola incorecte!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
-                // Curațare date dupa login esuat
                 usernameField.setText("");
                 passwordField.setText("");
             }
@@ -145,9 +144,4 @@ public class Login extends JFrame implements ActionListener
             ex.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        new Login();
-    }
-
 }

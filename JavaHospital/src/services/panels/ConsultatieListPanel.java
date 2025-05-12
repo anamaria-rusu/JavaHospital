@@ -2,7 +2,6 @@ package services.panels;
 
 import entities.Consultatie;
 import services.services.ConsultatieServices;
-import services.services.Services;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,14 +11,12 @@ import java.util.List;
 
 public class ConsultatieListPanel extends JPanel
 {
-    private final Services services;
     private final CardLayout cardLayout;
     private final JPanel parentPanel;
     private JList<Consultatie> listaConsultatie;
 
-    public ConsultatieListPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    public ConsultatieListPanel(CardLayout cardLayout, JPanel parentPanel)
     {
-        this.services = services;
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
 

@@ -2,7 +2,8 @@ package entities;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Consultatie implements ServiciuMedical {
+public class Consultatie implements ServiciuMedical
+{
     private final int idConsultatie;
     private Medic medic;
     private Pacient pacient;
@@ -27,14 +28,9 @@ public class Consultatie implements ServiciuMedical {
         return dataProgramare;
     }
 
-    public String getDepartament() {
-        return departament;
-    }
-
     public String getMotiv() {
         return motiv;
     }
-
 
     public Medic getMedic() {
         return medic;
@@ -51,7 +47,6 @@ public class Consultatie implements ServiciuMedical {
     public void setPacient(Pacient pacient) {
         this.pacient = pacient;
     }
-
 
     public void setDataProgramare(LocalDate dataProgramare) {
         this.dataProgramare = dataProgramare;
@@ -91,7 +86,4 @@ public class Consultatie implements ServiciuMedical {
         return idConsultatie;
     }
 
-    public void setDepartamentMedical(String departament) {
-        this.departament = departament;
-    }
 }

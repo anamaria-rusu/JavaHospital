@@ -1,6 +1,7 @@
 package services.panels;
 
-import services.services.Services;
+import services.services.DepartamenteServices;
+import services.services.MediciServices;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
@@ -9,14 +10,13 @@ import java.util.Set;
 
 public class MediciAddPanel extends PersoanaAddPanel
 {
-    private Services services;
     private JDateChooser dateAngajareChooser;
     private JComboBox<String> departamentComboBox;
 
-    public MediciAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    public MediciAddPanel(CardLayout cardLayout, JPanel parentPanel)
     {
         super(cardLayout, parentPanel, "Adaugă Medic");
-        this.services = services;
+
         setBackground(Color.decode("#b0e6de"));
 
         initMediciFields();
@@ -62,7 +62,7 @@ public class MediciAddPanel extends PersoanaAddPanel
     // Functie pentru populara ComoBox-ului cu departamentele spitalului
     private void populateDepartamente()
     {
-        Set<String> departamente = services.getDepartamente();
+        Set<String> departamente = DepartamenteServices.getDepartamenteServices().getDepartamente();
         if (departamente != null && !departamente.isEmpty()) {
             for (String dep : departamente) {
                 departamentComboBox.addItem(dep);
@@ -88,7 +88,7 @@ public class MediciAddPanel extends PersoanaAddPanel
 
         if (campuriValide() && dataAngajarii != null && departament != null)
         {
-            services.getMediciServices().adaugaMedic(nume, prenume, dataNasterii, email, telefon, dataAngajarii, departament);
+            MediciServices.getMediciServices().adaugaMedic(nume, prenume, dataNasterii, email, telefon, dataAngajarii, departament);
             JOptionPane.showMessageDialog(this, "Medic adaugat cu succes!");
             clearFields();
         }

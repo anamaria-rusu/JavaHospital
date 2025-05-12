@@ -1,47 +1,40 @@
 package services.panels;
 
-import services.services.Services;
-
 import javax.swing.*;
 import java.awt.*;
 
-
-public class AngajatiPanel extends JPanel {
-
+public class AngajatiPanel extends JPanel
+{
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private Services services;
 
-    public AngajatiPanel(Services services,CardLayout cardLayout, JPanel mainPanel){
+    public AngajatiPanel(CardLayout cardLayout, JPanel mainPanel)
+    {
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
-        this.services=services;
 
         setBackground(Color.decode("#b0e6de"));
         setLayout(null);
 
+        int y = 30;
+
         JLabel menuLabel = new JLabel("Administrare Angajati");
         menuLabel.setFont(new Font("AvantGarde", Font.PLAIN, 38));
-        menuLabel.setBounds(100, 30, 400, 40);
+        menuLabel.setBounds(100, y, 400, 40); y+=80;
         add(menuLabel);
 
-        JButton mediciButton = new JButton("Medici");
-        mediciButton.setBounds(175, 110, 250, 40);
-        mediciButton.addActionListener(e->cardLayout.show(mainPanel, "MediciPanel"));
-        add(mediciButton);
+        adaugareButon("Medici", y, "MediciPanel");y+=60;
+        adaugareButon("Asistente", y, "AsistentePanel");y+=60;
+        adaugareButon("Inapoi", y, "Home");
 
-        JButton asistenteButton = new JButton("Asistente");
-        asistenteButton.setBounds(175, 170, 250, 40);
-        asistenteButton.addActionListener(e->cardLayout.show(mainPanel, "AsistentePanel"));
-        add(asistenteButton);
-
-        JButton homePanelButton = new JButton("Inapoi");
-        homePanelButton.setBounds(175,230,250,40);
-        homePanelButton.addActionListener(e->cardLayout.show(mainPanel,"Home"));
-        add(homePanelButton);
-
-        mainPanel.add(new MediciPanel(services,cardLayout,mainPanel),"MediciPanel");
-//      mainPanel.add(new AsistentePanel(cardLayout,mainPanel),"MediciPanel");
+        mainPanel.add(new MediciPanel(cardLayout, mainPanel), "MediciPanel");
     }
 
+    private void adaugareButon(String text, int y, String cardName)
+    {
+        JButton button = new JButton(text);
+        button.setBounds(175, y, 250, 40);
+        button.addActionListener(e -> cardLayout.show(mainPanel, cardName));
+        add(button);
+    }
 }

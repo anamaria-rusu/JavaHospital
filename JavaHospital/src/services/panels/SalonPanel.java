@@ -1,8 +1,7 @@
 package services.panels;
-import entities.Pacient;
-import entities.Persoana;
+
 import entities.Salon;
-import services.services.Services;
+import services.services.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -10,13 +9,11 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class SalonPanel extends JPanel{
-    Services services;
     CardLayout cardLayout;
     JPanel parentPanel;
     JList<Salon> listaSaloane;
 
-    public SalonPanel(Services services, CardLayout cardLayout, JPanel parentPanel) {
-        this.services=services;
+    public SalonPanel( CardLayout cardLayout, JPanel parentPanel) {
         this.cardLayout=cardLayout;
         this.parentPanel=parentPanel;
 
@@ -84,12 +81,12 @@ public class SalonPanel extends JPanel{
     }
 
     private void incarcaSaloane() {
-        List<Salon> persoane = services.getSalonServices().getSaloane();
+        List<Salon> persoane = SalonServices.getSalonServices().getSaloane();
         listaSaloane.setListData(persoane.toArray((Salon[]) new Salon[0]));
     }
 
     protected void showSalonInfo(Salon salon) {
-        SalonInfoPanel salonInfoPanel = new SalonInfoPanel(salon,cardLayout,parentPanel,services);
+        SalonInfoPanel salonInfoPanel = new SalonInfoPanel(salon,cardLayout,parentPanel);
         parentPanel.add(salonInfoPanel, "SalonInfoPanel");
         cardLayout.show(parentPanel, "SalonInfoPanel");
     }

@@ -3,9 +3,13 @@ package services.panels;
 import entities.Medic;
 import entities.SugestieProgramare;
 import entities.Pacient;
+
+import services.services.PacientiServices;
+import services.services.ConsultatieServices;
+import services.services.DepartamenteServices;
+
 import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
-import services.services.Services;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,13 +27,11 @@ public class ConsultatieAddPanel extends JPanel {
     private JComboBox<String> departamentComboBox;
     private JList<SugestieProgramare> listaMedici;
     private JScrollPane scrollPane;
-    private Services services;
     private Medic medic;
     private Pacient pacient;
 
-    public ConsultatieAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    public ConsultatieAddPanel(CardLayout cardLayout, JPanel parentPanel)
     {
-        this.services = services;
 
         setBackground(Color.decode("#c1e6b0"));
         setLayout(null);
@@ -63,11 +65,11 @@ public class ConsultatieAddPanel extends JPanel {
         detaliiPacient.setBounds(450,y,100,30);
         add(detaliiPacient);
 
-        // Eveniment pentru butonul „Caută”
+
         cautaButton.addActionListener(e -> {
             try {
-                int id = Integer.parseInt(idPacient.getText()); // Citește ID-ul
-                pacient = services.getPacientiServices().cautaEntitate(id); // Caută pacientul
+                int id = Integer.parseInt(idPacient.getText());
+                pacient = PacientiServices.getPacientiServices().cautaEntitate(id);
 
                 if (pacient != null)
                     pacientInfoLabel.setText("Pacient: " + pacient.getNume() + " " + pacient.getPrenume());
@@ -80,7 +82,7 @@ public class ConsultatieAddPanel extends JPanel {
 
 
         detaliiPacient.addActionListener(e->{
-            PacientiInfoPanel pacientInfoPanel = new PacientiInfoPanel(pacient, "ConsultatieAddPanel", cardLayout, parentPanel, services);
+            PacientiInfoPanel pacientInfoPanel = new PacientiInfoPanel(pacient, "ConsultatieAddPanel", cardLayout, parentPanel);
             pacientInfoPanel.setBackButton("AdaugaConsultatie");
             parentPanel.add(pacientInfoPanel, "PacientiInfoPanel");
             cardLayout.show(parentPanel, "PacientiInfoPanel");
@@ -247,7 +249,7 @@ public class ConsultatieAddPanel extends JPanel {
             return false;
         }
 
-        List<SugestieProgramare> disponibili = services.getConsultatieServices().mediciDisponibiliConsultatie(data, ora, departament, durataConsultatie);
+        List<SugestieProgramare> disponibili = ConsultatieServices.getConsultatieServices().mediciDisponibiliConsultatie(data, ora, departament, durataConsultatie);
 
         if (disponibili.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Niciun medic disponibil pentru criteriile selectate!");
@@ -274,7 +276,7 @@ public class ConsultatieAddPanel extends JPanel {
 
         if (!departament.isEmpty() && dataProgramare!=null && oraProgramare != null && durataConsultatie != null && !motiv.isEmpty() && verificaDisponibilitate())
         {
-            services.getConsultatieServices().adaugaConsultatie(medic, pacient, departament, dataProgramare,oraProgramare, durataConsultatie ,motiv);
+            ConsultatieServices.getConsultatieServices().adaugaConsultatie(medic, pacient, departament, dataProgramare,oraProgramare, durataConsultatie ,motiv);
             JOptionPane.showMessageDialog(this, "Consultatie adaugata cu succes!");
             clearFields();
 
@@ -301,7 +303,7 @@ public class ConsultatieAddPanel extends JPanel {
 
     private void getDepartamente()
     {
-        Set<String> departamente = services.getDepartamente() ;
+        Set<String> departamente = DepartamenteServices.getDepartamenteServices().getDepartamente();
         for (String departament : departamente) {
             departamentComboBox.addItem(departament);
         }

@@ -1,16 +1,19 @@
 package services.panels;
 
 import com.toedter.calendar.JDateChooser;
-import services.services.Services;
+import services.services.DepartamenteServices;
+import services.services.PacientiServices;
+import services.services.InternareServices;
+import services.services.SalonServices;
+
 import entities.*;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
 import java.util.Set;
 
 
 public class InternareAddPanel extends JPanel {
-    private Services services;
+
     private CardLayout cardLayout;
     private JPanel parentPanel;
     private Pacient pacient;
@@ -22,9 +25,8 @@ public class InternareAddPanel extends JPanel {
     private JDateChooser dateAngajareChooser;
     private JComboBox departamentComboBox;
 
-    public InternareAddPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    public InternareAddPanel(CardLayout cardLayout, JPanel parentPanel)
     {
-        this.services = services;
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
 
@@ -66,7 +68,7 @@ public class InternareAddPanel extends JPanel {
         cautaButton.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(idPacient.getText()); // Citește ID-ul
-                pacient = services.getPacientiServices().cautaEntitate(id); // Caută pacientul
+                pacient = PacientiServices.getPacientiServices().cautaEntitate(id); // Caută pacientul
 
                 if (pacient != null)
                     pacientInfoLabel.setText("Pacient: " + pacient.getNume() + " " + pacient.getPrenume());
@@ -149,7 +151,7 @@ public class InternareAddPanel extends JPanel {
 
     private void verificaDisponibilitate() {
         // salonul disponibil care are cei mai puțini pacienți
-        salon = services.getSalonServices().verificaDisponibilitate();
+        salon = SalonServices.getSalonServices().verificaDisponibilitate();
         salonField.setText(String.valueOf(salon.getId()));
     }
 
@@ -158,7 +160,7 @@ public class InternareAddPanel extends JPanel {
         String departament = (String) departamentComboBox.getSelectedItem();
 
         if (!diagnostic.isEmpty() && !idPacient.getText().isEmpty() && salon != null && departament != null) {
-            Internare internareNoua = services.getInternareServices().internarePacient(pacient, salon, diagnostic, departament);
+            Internare internareNoua = InternareServices.getInternareServices().internarePacient(pacient, salon, diagnostic, departament);
             JOptionPane.showMessageDialog(this, "Internare adăugată cu succes!");
             clearFields();
         } else {
@@ -176,7 +178,7 @@ public class InternareAddPanel extends JPanel {
 
     private void getDepartamente() {
 
-        Set<String> departamente = services.getDepartamente();
+        Set<String> departamente = DepartamenteServices.getDepartamenteServices().getDepartamente();
         for (String departament : departamente) {
             departamentComboBox.addItem(departament);
         }

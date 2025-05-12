@@ -1,20 +1,22 @@
 package services.panels;
 
+import entities.IstoricPacient;
 import entities.Pacient;
-import services.services.Services;
+import services.services.*;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class IstoricPacientPanel extends JPanel {
-    private Services services;
+public class IstoricPacientPanel extends JPanel
+{
     private CardLayout cardLayout;
     private JPanel parentPanel;
+    private IstoricPacient istoricMedical;
 
-    public IstoricPacientPanel(Pacient pacient, CardLayout cardLayout, JPanel parentPanel, Services service) {
-        this.services = service;
+    public IstoricPacientPanel(Pacient pacient, CardLayout cardLayout, JPanel parentPanel) {
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
+        this.istoricMedical = IstoricMedicalServices.getIstoricMedicalServices().incarcaDateIstoricMedical(pacient.getId());
 
         setBackground(Color.decode("#ccdee3"));
         setLayout(null);
@@ -37,7 +39,7 @@ public class IstoricPacientPanel extends JPanel {
 
         // Numar servicii medicale
         JLabel numarServicii = new JLabel("Numar servicii medicale: " +
-                service.getIstoricMedicalService().getNrServicii(pacient.getIstoricMedical()));
+                IstoricMedicalServices.getIstoricMedicalServices().getNrServicii(istoricMedical));
         numarServicii.setForeground(Color.BLACK);
         numarServicii.setBounds(paddingX, y, labelWidth, labelHeight);
         add(numarServicii);
@@ -46,30 +48,27 @@ public class IstoricPacientPanel extends JPanel {
 
         // Durata medie între consultatii
         JLabel durataMedieServicii = new JLabel("Durata medie intre consultatii: " +
-                service.getIstoricMedicalService().timpMediuIntreConsultatii(pacient.getIstoricMedical()));
+                IstoricMedicalServices.getIstoricMedicalServices().timpMediuIntreConsultatii(istoricMedical));
         durataMedieServicii.setForeground(Color.BLACK);
         durataMedieServicii.setBounds(paddingX, y, labelWidth, labelHeight);
         add(durataMedieServicii);
 
         y += labelHeight + 10;
 
-        // Afectiuni frecvente
         JLabel afectiuniFrecvente = new JLabel(
                 "Afectiuni frecvente: " +
-                        service.getIstoricMedicalService().celeMaiFrecventeAfectiuni(pacient.getIstoricMedical()));
+                        IstoricMedicalServices.getIstoricMedicalServices().celeMaiFrecventeAfectiuni(istoricMedical));
         afectiuniFrecvente.setForeground(Color.BLACK);
         afectiuniFrecvente.setBounds(paddingX, y, labelWidth, labelHeight);
         add(afectiuniFrecvente);
 
         y += labelHeight + 20;
 
-        // Tabel cu istoric servicii
-        JTable tabel = new JTable(service.getIstoricMedicalService().istoricServicii(pacient.getIstoricMedical()));
+        JTable tabel = new JTable(IstoricMedicalServices.getIstoricMedicalServices().istoricServicii(istoricMedical));
         JScrollPane scrollPane = new JScrollPane(tabel);
-        scrollPane.setBounds(paddingX, y, labelWidth, 250); // înălțime ajustată să nu iasă din panou
+        scrollPane.setBounds(paddingX, y, labelWidth, 250);
         add(scrollPane);
 
-        // Buton înapoi
         JButton backButton = new JButton("Inapoi");
         backButton.setBounds(paddingX, 500, 100, 30);
         backButton.addActionListener(e -> cardLayout.show(parentPanel, "PacientiInfoPanel"));

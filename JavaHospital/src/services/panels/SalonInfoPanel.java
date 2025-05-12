@@ -1,10 +1,10 @@
 package services.panels;
 
 import entities.Internare;
-import entities.Pacient;
 import entities.Salon;
 import services.services.InternareServices;
-import services.services.Services;
+import services.services.SalonServices;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -12,13 +12,11 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class SalonInfoPanel extends JPanel {
-    Services services;
     CardLayout cardLayout;
     JPanel parentPanel;
     JList<Internare> listaPacienti;
 
-    public SalonInfoPanel(Salon salon, CardLayout cardLayout, JPanel parentPanel, Services services) {
-        this.services = services;
+    public SalonInfoPanel(Salon salon, CardLayout cardLayout, JPanel parentPanel) {
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
 
@@ -46,7 +44,7 @@ public class SalonInfoPanel extends JPanel {
         capacitateLabel.setBounds(50, 120, 100, 25);
         add(capacitateLabel);
 
-        JLabel capacitate = new JLabel(salon.getCapacitateMaxima() + " / " + salon.getCapacitateMaxima());
+        JLabel capacitate = new JLabel(salon.getCapacitateMaxima() + " / " + SalonServices.getSalonServices().getCapacitateCurenta(salon));
         capacitate.setBounds(160, 120, 200, 25);
         add(capacitate);
 
@@ -103,12 +101,12 @@ public class SalonInfoPanel extends JPanel {
 
 
     private void incarcaPacienti(Salon salon) {
-        List<Internare> persoane = services.getInternareServices().getPacientiInternati(salon);
+        List<Internare> persoane = InternareServices.getInternareServices().getPacientiInternati(salon);
         listaPacienti.setListData(persoane.toArray((Internare[]) new Internare[0]));
     }
 
     protected void showFisaInternareInfo(Internare internare) {
-        InternareInfoPanel intInfoPanel = new InternareInfoPanel(internare,"SalonInfoPanel", cardLayout, parentPanel,services);
+        InternareInfoPanel intInfoPanel = new InternareInfoPanel(internare,"SalonInfoPanel", cardLayout, parentPanel);
         parentPanel.add(intInfoPanel, "InternareInfoPanel");
         cardLayout.show(parentPanel, "InternareInfoPanel");
     }

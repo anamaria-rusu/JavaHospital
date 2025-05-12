@@ -1,30 +1,26 @@
 package services.panels;
 
 import entities.Internare;
-import entities.Persoana;
 import services.services.InternareServices;
-import services.services.PacientiServices;
-import services.services.Services;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InternareInfoPanel extends PacientiInfoPanel {
+public class InternareInfoPanel extends PacientiInfoPanel
+{
     private Internare internare;
-    JButton editButtonInternare;
-    JButton saveButtonInternare;
-    JButton deleteButtonInternare;
+    private JButton editButtonInternare;
+    private JButton saveButtonInternare;
+    private JButton deleteButtonInternare;
 
 
-
-    public InternareInfoPanel(Internare internare, String backPanel, CardLayout cardLayout, JPanel parentPanel, Services services) {
-        super(internare.getPacient() ,"Informații Pacient Internat",cardLayout,parentPanel,services);
+    public InternareInfoPanel(Internare internare, String backPanel, CardLayout cardLayout, JPanel parentPanel)
+    {
+        super(internare.getPacient() ,"Informații Pacient Internat",cardLayout,parentPanel);
         this.internare = internare;
 
         editButton.setVisible(false);
@@ -36,7 +32,8 @@ public class InternareInfoPanel extends PacientiInfoPanel {
 
 
     protected void afiseazaInformatiiInternare()
-    {   int y= 270;
+    {
+        int y= 270;
         addEditableField("Data internarii:", String.valueOf(internare.getData()),y); y+=40;
         addEditableField("Diagnostic:", internare.getDiagnostic(),y); y+=40;
         addEditableField("Departament :", internare.getDepartamentMedical(),y); y+=60;
@@ -71,8 +68,8 @@ public class InternareInfoPanel extends PacientiInfoPanel {
         istoricButton.setBounds(380,y,100,30);
     }
 
-    protected void setEditButtonInternare() {
-        // Creezi copii independente pentru a evita ConcurrentModificationException
+    protected void setEditButtonInternare()
+    {
         List<JLabel> lastLabels = new ArrayList<>(valueLabels.subList(valueLabels.size() - 3, valueLabels.size()));
         List<JTextField> lastTextFields = new ArrayList<>(textFields.subList(textFields.size() - 3, textFields.size()));
 
@@ -109,28 +106,23 @@ public class InternareInfoPanel extends PacientiInfoPanel {
             valueLabels.get(i).setVisible(true);
         }
 
-        try
-        {
+        try {
             int id = internare.getId();
             String diagnostic  = textFields.get(0).getText();
             String departament = textFields.get(1).getText();
             int idSalon = Integer.parseInt(textFields.get(2).getText());
             InternareServices.getInternareServices().actualizeazaInternare(id,idSalon,departament,diagnostic);
 
-        }
-        catch (DateTimeParseException ex)
-        {
-            System.out.println("Data introdusă nu este validă");
+        } catch (DateTimeParseException ex) {
+
             ex.printStackTrace();
-        }
-        catch(Exception ex)
-        {
-            System.out.println("Eroare");
+        } catch(Exception ex) {
+
             ex.printStackTrace();
         }
 
-        editButton.setVisible(true);
-        saveButton.setVisible(false);
+        editButtonInternare.setVisible(true);
+        saveButtonInternare.setVisible(false);
     }
 
 }

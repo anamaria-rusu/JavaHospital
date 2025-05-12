@@ -3,26 +3,19 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IstoricPacient {
-    private static int nrIstoric = 0;
-    private final int idIstoric;
+public class IstoricPacient
+{
     private List<ServiciuMedical>serviciiMedicale;
 
-    public IstoricPacient() {
-        this.idIstoric = ++ nrIstoric;
-        this.serviciiMedicale = new ArrayList<>();
-    }
-
-    public IstoricPacient(Pacient pacient) {
-        this.idIstoric = ++ nrIstoric;
+    public IstoricPacient(){
+        serviciiMedicale = new ArrayList<>();
     }
 
     public List<ServiciuMedical> getServiciiMedicale() {
         return serviciiMedicale;
     }
 
-    public int getIdIstoric() {
-        return idIstoric;
+    public void adaugaServiciu(ServiciuMedical serviciuMedical) {
+        serviciiMedicale.add(serviciuMedical);
     }
-
 }

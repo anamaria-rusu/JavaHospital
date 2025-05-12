@@ -1,6 +1,5 @@
 package services.panels;
 
-import services.services.Services;
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,13 +7,11 @@ public class MediciPanel extends JPanel
 {
     private final CardLayout cardLayout;
     private final JPanel parentPanel;
-    private final Services services;
 
-    public MediciPanel(Services services, CardLayout cardLayout, JPanel parentPanel)
+    public MediciPanel(CardLayout cardLayout, JPanel parentPanel)
     {
         this.cardLayout = cardLayout;
         this.parentPanel = parentPanel;
-        this.services = services;
 
         setBackground(Color.decode("#b0e6de"));
         setLayout(null);
@@ -58,7 +55,7 @@ public class MediciPanel extends JPanel
 
     private void initPanels()
     {
-        parentPanel.add(new MediciAddPanel(services, cardLayout, parentPanel), "AdaugaMedici");
-        parentPanel.add(new MediciListPanel(services, cardLayout, parentPanel), "AfiseazaMedici");
+        parentPanel.add(new MediciAddPanel(cardLayout, parentPanel), "AdaugaMedici");
+        parentPanel.add(new MediciListPanel(cardLayout, parentPanel), "AfiseazaMedici");
     }
 }

@@ -2,7 +2,8 @@ package entities;
 
 import java.time.LocalDate;
 
-public class Internare implements ServiciuMedical{
+public class Internare implements ServiciuMedical
+{
     private final int idInternare;
     private Pacient pacient;
     private LocalDate dataInternare;
@@ -40,10 +41,6 @@ public class Internare implements ServiciuMedical{
         return dataInternare;
     }
 
-    public void setDataInternare(LocalDate dataInternare) {
-        this.dataInternare = dataInternare;
-    }
-
     public String getDescriere() {
         return diagnostic;
     }
@@ -66,18 +63,12 @@ public class Internare implements ServiciuMedical{
         return idInternare;
     }
 
-
     public Salon getSalon() {
         return salon;
     }
 
     public void setSalon(Salon salon) {
         this.salon = salon;
-    }
-
-
-    public LocalDate getDataInternare() {
-        return dataInternare;
     }
 
     public String getDiagnostic() {

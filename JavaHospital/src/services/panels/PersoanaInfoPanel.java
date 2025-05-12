@@ -5,13 +5,8 @@ import entities.Persoana;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-
-import services.services.PacientiServices;
 
 public abstract class PersoanaInfoPanel extends JPanel {
 

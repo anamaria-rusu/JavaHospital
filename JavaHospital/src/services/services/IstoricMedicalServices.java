@@ -11,11 +11,30 @@ import java.time.LocalDate;
 public class IstoricMedicalServices {
 
     private static IstoricMedicalServices istoricMedicalServices;
+
     private IstoricMedicalServices(){}
     public static IstoricMedicalServices getIstoricMedicalServices() {
         if(istoricMedicalServices == null)
             istoricMedicalServices = new IstoricMedicalServices();
         return istoricMedicalServices;
+    }
+
+    public IstoricPacient incarcaDateIstoricMedical(int idPacient)
+    {
+        List<Consultatie> consultatii = ConsultatieServices.getConsultatieServices().read();
+        List<Internare> internari = InternareServices.getInternareServices().read();
+        IstoricPacient istoricPacient = new IstoricPacient();
+
+        for(Consultatie c : consultatii) {
+            if (c.getPacient().getId() == idPacient)
+                istoricPacient.adaugaServiciu(c);
+        }
+        for(Internare i :internari) {
+            if (i.getPacient().getId() == idPacient)
+                istoricPacient.adaugaServiciu(i);
+        }
+        CvsServices.log("READ - Istoric Medical");
+        return istoricPacient;
     }
 
     public int getNrServicii(IstoricPacient istoricPacient ){
