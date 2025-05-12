@@ -110,6 +110,7 @@ public class MediciServices implements PersoanaServices<Medic>, DatabaseService<
     public void stergeMedic(int id) {
         Medic medicDelete = cautaEntitate(id);
         delete(medicDelete);
+        CvsServices.log("Salvare internare");
     }
 
 }

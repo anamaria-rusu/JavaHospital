@@ -5,11 +5,18 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import entities.*;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
 
-public class IstoricMedicalService {
+public class IstoricMedicalServices {
+
+    private static IstoricMedicalServices istoricMedicalServices;
+    private IstoricMedicalServices(){}
+    public static IstoricMedicalServices getIstoricMedicalServices() {
+        if(istoricMedicalServices == null)
+            istoricMedicalServices = new IstoricMedicalServices();
+        return istoricMedicalServices;
+    }
 
     public int getNrServicii(IstoricPacient istoricPacient ){
         return istoricPacient.getServiciiMedicale().size();

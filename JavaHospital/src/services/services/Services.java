@@ -2,8 +2,6 @@ package services.services;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import entities.DatabaseConnection;
-import entities.Medic;
 
 // Clasa ce contine servicii specifice fiecarei entitati si functionalitati comune in aplicatie
 public class Services
@@ -13,7 +11,7 @@ public class Services
     private final ConsultatieServices consultatieServices;
     private final SalonServices salonServices;
     private final InternareServices internareServices;
-    private final IstoricMedicalService istoricMedicalService;
+    private final IstoricMedicalServices istoricMedicalServices;
     //private final DatabaseService databaseService;
 
     public Services()
@@ -21,9 +19,9 @@ public class Services
         this.mediciServices = MediciServices.getMediciServices();
         this.pacientiServices = PacientiServices.getPacientiServices();
         this.consultatieServices = ConsultatieServices.getConsultatieServices();
-        this.salonServices = new SalonServices();
-        this.internareServices = new InternareServices();
-        this.istoricMedicalService= new IstoricMedicalService();
+        this.salonServices = SalonServices.getSalonServices();
+        this.internareServices = InternareServices.getInternareServices();
+        this.istoricMedicalServices = IstoricMedicalServices.getIstoricMedicalServices();
 
     }
 
@@ -53,8 +51,8 @@ public class Services
     }
 
     // Servicii petru clasa IstorcPacient
-    public IstoricMedicalService getIstoricMedicalService() {
-        return istoricMedicalService;
+    public IstoricMedicalServices getIstoricMedicalService() {
+        return istoricMedicalServices;
     }
 
     // functie ce returneaza departamentele mediale ale spitalului

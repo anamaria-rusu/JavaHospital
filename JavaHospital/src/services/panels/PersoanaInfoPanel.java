@@ -62,15 +62,7 @@ public abstract class PersoanaInfoPanel extends JPanel {
 
         // Acțiune pentru editare
         editButton.addActionListener(e -> {
-            for (int i = 0; i < valueLabels.size(); i++) {
-                JTextField tf = textFields.get(i);
-                JLabel lbl = valueLabels.get(i);
-                tf.setText(lbl.getText());
-                lbl.setVisible(false);
-                tf.setVisible(true);
-            }
-            editButton.setVisible(false);
-            saveButton.setVisible(true);
+            setEditButton();
         });
 
         saveButton.addActionListener(e -> {
@@ -108,6 +100,18 @@ public abstract class PersoanaInfoPanel extends JPanel {
                 ((CardLayout) parent.getLayout()).show(parent, panelName);
             }
         });
+    }
+
+    protected void setEditButton(){
+        for (int i = 0; i < valueLabels.size(); i++) {
+            JTextField tf = textFields.get(i);
+            JLabel lbl = valueLabels.get(i);
+            tf.setText(lbl.getText());
+            lbl.setVisible(false);
+            tf.setVisible(true);
+        }
+        editButton.setVisible(false);
+        saveButton.setVisible(true);
     }
 
     protected abstract void setSaveButton(Persoana persoana);

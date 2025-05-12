@@ -3,7 +3,6 @@ package entities;
 import java.time.LocalDate;
 
 public class Internare implements ServiciuMedical{
-    private static int nrInternari = 0;
     private final int idInternare;
     private Pacient pacient;
     private LocalDate dataInternare;
@@ -11,25 +10,23 @@ public class Internare implements ServiciuMedical{
     private String departamentMedical;
     private Salon salon;
 
-    public Internare(Pacient pacient,Salon salon,String diagnostic, String departamentMedical) {
+    public Internare(int idInternare,Pacient pacient,Salon salon,String diagnostic, String departamentMedical) {
         this.pacient = pacient;
         this.dataInternare = LocalDate.now();
         this.diagnostic = diagnostic;
-        idInternare = ++ nrInternari;
+        this.idInternare = idInternare;
         this.departamentMedical=departamentMedical;
         this.salon=salon;
-
     }
 
-//    public Internare() {
-//
-//        this.diagnostic = "";
-//        this.dataInternare = LocalDate.now();
-//        this.pacient = new Pacient();
-//        this.idInternare = ++ nrInternari;
-//        this.departamentMedical = "";
-//        this.salon= new Salon();
-//    }
+    public Internare(int idInternare,Pacient pacient,Salon salon,String diagnostic, String departamentMedical, LocalDate dataInternare) {
+        this.pacient = pacient;
+        this.diagnostic = diagnostic;
+        this.idInternare = idInternare;
+        this.departamentMedical=departamentMedical;
+        this.salon=salon;
+        this.dataInternare=dataInternare;
+    }
 
     public Pacient getPacient() {
         return pacient;
@@ -76,5 +73,14 @@ public class Internare implements ServiciuMedical{
 
     public void setSalon(Salon salon) {
         this.salon = salon;
+    }
+
+
+    public LocalDate getDataInternare() {
+        return dataInternare;
+    }
+
+    public String getDiagnostic() {
+        return diagnostic;
     }
 }

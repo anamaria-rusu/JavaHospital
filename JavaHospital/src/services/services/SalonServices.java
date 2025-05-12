@@ -1,48 +1,78 @@
 package services.services;
-
 import entities.Salon;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 // Servicii (functionalitati) pentru entitatea Salon
-public class SalonServices
+public class SalonServices implements DatabaseService<Salon>
 {
-    // Lista saloanelor din spital
-    private List<Salon> saloane = new ArrayList<>();
+    private static SalonServices salonServices;
 
-    public SalonServices()
-    {
-        // Se considera ca saloanele sunt locatii fizice, preexistente
-        Salon salon;
-        salon = new Salon("Etaj 1", 3); saloane.add(salon);
-        salon = new Salon("Etaj 1", 5); saloane.add(salon);
-        salon = new Salon("Etaj 2", 6); saloane.add(salon);
-        salon = new Salon("Etaj 2", 2); saloane.add(salon);
+    private SalonServices() {}
+
+    public static SalonServices getSalonServices(){
+        if(salonServices==null)
+            salonServices = new SalonServices();
+        return salonServices;
+    }
+
+
+    @Override
+    public String getTableName(){
+        return "saloane";
+    }
+
+    @Override
+    public String getIdColumnName() {
+        return "idSalon";
+    }
+
+    @Override
+    public Salon mapResultSetToEntity(ResultSet rs) throws SQLException{
+        int idSalon = rs.getInt("idSalon");
+        String locatie = rs.getString("locatie");
+        int capacitateMaxima = rs.getInt("capacitateMaxima");
+        return new Salon(idSalon,locatie,capacitateMaxima);
 
     }
 
-    // preluarea listei de saloane
     public List<Salon> getSaloane() {
-        return new ArrayList<>(saloane);
+        return read();
     }
+
 
     // se verifica cel mai bun salon disponibil pentru internarea unui pacient
     public Salon verificaDisponibilitate()
     {
-        if (saloane == null || saloane.isEmpty()) {
+        List<Salon> saloane = read();
+        if (saloane == null || saloane.isEmpty())
             return null;
-        }
+
 
         Salon salonCuCeiMaiPutiniPacienti = saloane.get(0);
-        for (Salon salon : saloane) {
-            if (salon.getCapacitateCurenta() < salonCuCeiMaiPutiniPacienti.getCapacitateCurenta() && salon.getCapacitateCurenta()<salon.getCapacitateMaxima()) {
-                salonCuCeiMaiPutiniPacienti = salon;
-            }
-        }
-        if (salonCuCeiMaiPutiniPacienti.getCapacitateCurenta() == salonCuCeiMaiPutiniPacienti.getCapacitateMaxima()-1)
-            return null;
+//        for (Salon salon : saloane) {
+//            if (salon.getCapacitateCurenta() < salonCuCeiMaiPutiniPacienti.getCapacitateCurenta() && salon.getCapacitateCurenta()<salon.getCapacitateMaxima()) {
+//                salonCuCeiMaiPutiniPacienti = salon;
+//            }
+//        }
+//        if (salonCuCeiMaiPutiniPacienti.getCapacitateCurenta() == salonCuCeiMaiPutiniPacienti.getCapacitateMaxima()-1)
+//            return null;
         return salonCuCeiMaiPutiniPacienti;
     }
+
+
+    // Pentru saloane avem doar operatie READ din CRUD
+    @Override
+    public void setParameters(PreparedStatement stmt, Salon salon, String operatie) throws SQLException {}
+    @Override
+    public String getInsertQuery() {return null;}
+    @Override
+    public String getUpdateQuery() {return null;}
+    @Override
+    public String getDeleteQuery() {return null;}
 
 }

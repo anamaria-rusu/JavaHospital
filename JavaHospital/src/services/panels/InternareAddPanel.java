@@ -150,7 +150,7 @@ public class InternareAddPanel extends JPanel {
     private void verificaDisponibilitate() {
         // salonul disponibil care are cei mai puțini pacienți
         salon = services.getSalonServices().verificaDisponibilitate();
-        salonField.setText(String.valueOf(salon.getIdSalon()));
+        salonField.setText(String.valueOf(salon.getId()));
     }
 
     public void adaugaInternare() {

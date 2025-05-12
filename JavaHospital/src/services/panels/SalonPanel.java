@@ -32,7 +32,7 @@ public class SalonPanel extends JPanel{
 
         listaSaloane = new JList<>();
         listaSaloane.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
-            String textAfisat = value.getIdSalon()+ " - " + " locatie: " + value.getLocatie();
+            String textAfisat = value.getId()+ " - " + " locatie: " + value.getLocatie();
             JLabel label = new JLabel(textAfisat);
             if (isSelected) {
                 label.setBackground(list.getSelectionBackground());

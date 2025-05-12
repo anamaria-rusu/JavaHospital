@@ -46,7 +46,7 @@ public class SalonInfoPanel extends JPanel {
         capacitateLabel.setBounds(50, 120, 100, 25);
         add(capacitateLabel);
 
-        JLabel capacitate = new JLabel(salon.getCapacitateCurenta() + " / " + salon.getCapacitateMaxima());
+        JLabel capacitate = new JLabel(salon.getCapacitateMaxima() + " / " + salon.getCapacitateMaxima());
         capacitate.setBounds(160, 120, 200, 25);
         add(capacitate);
 
